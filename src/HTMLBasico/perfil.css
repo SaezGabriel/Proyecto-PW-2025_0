@@ -1,0 +1,16 @@
+.usuario-foto{
+    width: 125px;
+    height: 125px;
+}
+
+.nom-usuario{
+    font-size: 25px;
+}
+
+.lado-derecho {
+    border: 8px;
+}
+
+.lado-izquierdo {
+    border: 8px;
+}
