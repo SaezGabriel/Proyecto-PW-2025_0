@@ -14,3 +14,7 @@
 .lado-izquierdo {
     border: 8px;
 }
+
+.cabecera-cuadro{
+    background-color: blue !important;
+}
