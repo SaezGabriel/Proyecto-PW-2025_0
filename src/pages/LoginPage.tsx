@@ -1,5 +1,15 @@
-const LoginPage = () => {
+import { useNavigate } from "react-router-dom";
 
+
+const LoginPage = () => {
+    const navigate = useNavigate();
+    const handleForgotPassword = () => {
+        navigate("/nueva-contraseña")
+    };
+
+    const handleMain = () => {
+        navigate("/mainpage")
+    }
    
     return  <div
             className="d-flex justify-content-center align-items-center bg-body-secondary"
@@ -34,7 +44,7 @@ const LoginPage = () => {
                     </div>
                     <div className="row mb-3">
                         <div className="col-12 text-center">
-                            <a href="#" className="text-decoration-underline">
+                            <a href="" onClick={handleForgotPassword} className="text-decoration-underline">
                                 ¿Olvidaste tu contraseña?
                             </a>
                         </div>
@@ -42,7 +52,7 @@ const LoginPage = () => {
                     <div className="row mb-2">
                         <div className="col-12">
                             <div className="d-grid gap-2">
-                                <button className="btn btn-primary" type="submit">
+                                <button  onClick={handleMain} className="btn btn-primary" type="submit">
                                     Ingresar
                                 </button>
                             </div>
