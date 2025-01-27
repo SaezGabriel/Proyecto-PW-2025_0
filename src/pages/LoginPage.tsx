@@ -1,7 +1,7 @@
 const LoginPage = () => {
 
    
-    return  <div
+ return     <div
             className="d-flex justify-content-center align-items-center bg-body-secondary"
             style={{ height: "100vh" }}
         >
