@@ -21,13 +21,12 @@ var main = function () {
         var recurrente = document.getElementById("recuBool");
         console.log("recurrente: ", recurrente);
         var textoRec;
-        
         if (recurrente.checked) {
             textoRec = "Si";
-        }else{
+        }
+        else {
             textoRec = "No";
         }
-
         console.log("Texto recurrente: ", textoRec);
         var monto = document.getElementById("monto");
         console.log("Monto: ", monto);
@@ -39,7 +38,7 @@ var main = function () {
         var tbody = document.getElementById("TBody");
         console.log("TBody 1: ", tbody);
         var tr = document.createElement("tr");
-        // Introducir en el mismo orden en que se crea o causara errores visuales
+        // Introducir en el mismo orden en que se crea o causara discrepancias visuales
         var tableFecha = document.createElement("td");
         var tableCat = document.createElement("td");
         var tableDes = document.createElement("td");
@@ -51,7 +50,21 @@ var main = function () {
         tableDes.innerText = textoDes;
         tableRec.innerText = textoRec;
         tableMon.innerText = textoMon;
-        tableAcc.innerHTML = "<i class=\"lapiz\">Editar</i> <i class=\"basura\">Borrar</i>";
+        var editar = document.createElement("i");
+        editar.className = "lapiz";
+        editar.innerText = "Editar";
+        editar.addEventListener("click", function () {
+            var modalEditar = document.getElementById("modalEditar");
+            modalEditar.classList.add("");
+        });
+        var eliminar = document.createElement("i");
+        eliminar.className = "basura";
+        eliminar.innerText = "Borrar";
+        eliminar.addEventListener("click", function () {
+            tbody === null || tbody === void 0 ? void 0 : tbody.removeChild(tr);
+        });
+        tableAcc.appendChild(editar);
+        tableAcc.appendChild(eliminar);
         console.log("TableFecha: ", tableFecha);
         console.log("TableCat: ", tableCat);
         console.log("tableDes: ", tableDes);
@@ -73,5 +86,26 @@ var main = function () {
         recurrente.checked = false;
         monto.value = "";
     });
+    // Eliminar para version final, esto solo es para demonstracion
+    var ejemplo = document.getElementById("ejemploTabla");
+    var tbody = document.getElementById("TBody");
+    console.log("TBody 1: ", tbody);
+    var editar = document.createElement("i");
+    editar.className = "lapiz";
+    editar.innerText = "Editar";
+    editar.addEventListener("click", function () {
+        var modalEditar = document.getElementById("modalEditar");
+        modalEditar.classList.add("");
+    });
+    var eliminar = document.createElement("i");
+    eliminar.className = "basura";
+    eliminar.innerText = "Borrar";
+    eliminar.addEventListener("click", function () {
+        tbody === null || tbody === void 0 ? void 0 : tbody.removeChild(ejemplo);
+    });
+    var tableAcc = document.createElement("td");
+    tableAcc.appendChild(editar);
+    tableAcc.appendChild(eliminar);
+    ejemplo.appendChild(tableAcc);
 };
 main();

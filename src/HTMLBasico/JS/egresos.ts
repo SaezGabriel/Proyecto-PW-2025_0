@@ -45,7 +45,7 @@ const main = () => {
 
         const tr = document.createElement("tr");
 
-        // Introducir en el mismo orden en que se crea o causara errores visuales
+        // Introducir en el mismo orden en que se crea o causara discrepancias visuales
         const tableFecha = document.createElement("td")
         const tableCat = document.createElement("td")
         const tableDes = document.createElement("td")
@@ -58,7 +58,24 @@ const main = () => {
         tableDes.innerText = textoDes
         tableRec.innerText = textoRec
         tableMon.innerText = textoMon
-        tableAcc.innerHTML = `<i class="lapiz">Editar</i> <i class="basura">Borrar</i>`
+
+        const editar = document.createElement("i")
+        editar.className = "lapiz"
+        editar.innerText = "Editar"
+        editar.addEventListener("click", () => {
+            const modalEditar = document.getElementById("modalEditar")!
+            modalEditar.classList.add("")
+        })
+
+        const eliminar = document.createElement("i")
+        eliminar.className = "basura"
+        eliminar.innerText = "Borrar"
+        eliminar.addEventListener("click", () => {
+            tbody?.removeChild(tr)
+        })
+
+        tableAcc.appendChild(editar)
+        tableAcc.appendChild(eliminar)
 
         console.log("TableFecha: ", tableFecha)
         console.log("TableCat: ", tableCat)
@@ -66,6 +83,8 @@ const main = () => {
         console.log("tableRec: ", tableRec)
         console.log("tableMon: ", tableMon)
         console.log("TableAcc: ", tableAcc)
+
+        
 
         tr.appendChild(tableFecha)
         tr.appendChild(tableCat)
@@ -86,6 +105,34 @@ const main = () => {
         (recurrente as HTMLInputElement).checked = false;
         (monto as HTMLInputElement).value = "";
     })
+
+    // Eliminar para version final, esto solo es para demonstracion
+    const ejemplo = document.getElementById("ejemploTabla")!
+
+    const tbody = document.getElementById("TBody")
+
+    console.log("TBody 1: ", tbody)
+
+    const editar = document.createElement("i")
+    editar.className = "lapiz"
+    editar.innerText = "Editar"
+    editar.addEventListener("click", () => {
+        const modalEditar = document.getElementById("modalEditar")!
+        modalEditar.classList.add("")
+    })
+
+    const eliminar = document.createElement("i")
+    eliminar.className = "basura"
+    eliminar.innerText = "Borrar"
+    eliminar.addEventListener("click", () => {
+        tbody?.removeChild(ejemplo)
+    })
+
+    const tableAcc = document.createElement("td")
+    tableAcc.appendChild(editar)
+    tableAcc.appendChild(eliminar)
+
+    ejemplo.appendChild(tableAcc)
 }
 
 main()
