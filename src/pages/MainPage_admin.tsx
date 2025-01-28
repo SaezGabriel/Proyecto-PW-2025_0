@@ -1,25 +1,23 @@
 import { useState } from "react";
-import Presupuesto from "./Presupuesto";
-import Dashboard from "./Dashboard";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-
+import Usuarios_admin from "./Usuarios_admin";
 // Registrar los componentes necesarios de Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const MainPage=() => {
+const MainPage_admin=() => {
   const [activeSection, setActiveSection] = useState("dashboard"); // Estado para controlar la sección activa
 
   // Contenido dinámico que se mostrará en el main content
   const Opciones = () => {
     switch (activeSection) {
       case "dashboard":
-        return <Dashboard/>;
-      case "gastos":
-        return <h1>Gastos</h1>;
-      case "presupuestos":
-        return <Presupuesto/>
+        return <h1>Dashboard</h1>;
+      case "Usuarios":
+        return <Usuarios_admin/>;
+      case "historial":
+        return <h1>historial</h1>;
       case "configuracion":
-        return <h1>Configuración</h1>;
+        return <h1>Configuracion</h1>;
       case "salir":
         return <h1>Salir</h1>;
       
@@ -50,21 +48,21 @@ const MainPage=() => {
           <li>
             <button
               className={`btn w-100 text-start ${
-                activeSection === "gastos" ? "btn-white text-primary" : ""
+                activeSection === "Usuarios" ? "btn-white text-primary" : ""
               }`}
-              onClick={() => setActiveSection("gastos")}
+              onClick={() => setActiveSection("Usuarios")}
             >
-              Gastos
+              Usuarios
             </button>
           </li>
           <li>
             <button
               className={`btn w-100 text-start ${
-                activeSection === "presupuestos" ? "btn-white text-primary " : ""
+                activeSection === "historial" ? "btn-white text-primary" : ""
               }`}
-              onClick={() => setActiveSection("presupuestos")}
+              onClick={() => setActiveSection("historial")}
             >
-              Presupuestos
+              historial
             </button>
           </li>
           <li>
@@ -96,4 +94,4 @@ const MainPage=() => {
   );
 }
 
-export default MainPage;
+export default MainPage_admin;
