@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Presupuesto from "./Presupuesto";
+import Dashboard from "./Dashboard";
 
 const MainPage=() => {
   const [activeSection, setActiveSection] = useState("dashboard"); // Estado para controlar la sección activa
@@ -8,7 +9,7 @@ const MainPage=() => {
   const Opciones = () => {
     switch (activeSection) {
       case "dashboard":
-        return <h1>Dashboard</h1>;
+        return <Dashboard/>;
       case "gastos":
         return <h1>Gastos</h1>;
       case "presupuestos":
