@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Presupuesto from "./Presupuesto";
 import Dashboard from "./Dashboard_user";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import PaginaEgresos from "./PaginaEgresos";
 
 // Registrar los componentes necesarios de Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -17,7 +17,7 @@ const MainPage_usuario=() => {
       case "gastos":
         return <h1>Gastos</h1>;
       case "presupuestos":
-        return <Presupuesto/>
+        return <PaginaEgresos/>
       case "configuracion":
         return <h1>Configuración</h1>;
       case "salir":
