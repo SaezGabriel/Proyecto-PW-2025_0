@@ -28,4 +28,3 @@ const Confirmacion_correo = () => {
 }
 
 export default Confirmacion_correo;
-
