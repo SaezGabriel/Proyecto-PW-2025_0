@@ -8,14 +8,20 @@ const UsuariosAdmin = () => {
   return (
     <>
       {/* Botón fijo en la parte derecha */}
-      <Button 
-        variant="primary" 
-        onClick={() => setShow(true)} 
-        className="position-fixed top-50 end-0 me-3"
-      >
-        Filtrar
-      </Button>
-
+      <div className="container">
+        <div className="d-flex flex-row-reverse">
+          <div className="p-3 col-12 row ">
+            <div className="col-8"></div>
+            <button
+              type="button"  
+              onClick={() => setShow(true)} 
+              className="col-1 btn btn-primary"
+            >
+              Filtrar
+            </button>
+          </div>
+        </div>
+      </div>
       {/* Modal alineado a la derecha usando Bootstrap */}
       <Modal 
         show={show} 
@@ -24,12 +30,12 @@ const UsuariosAdmin = () => {
         dialogClassName="modal-dialog modal-dialog-end"
       >
         <Modal.Header closeButton>
-          <Modal.Title className="text-center w-100">Filtrar por rol de usuario</Modal.Title>
+          <Modal.Title className="ps-3 text-center w-100">Filtrar por rol de usuario</Modal.Title>
         </Modal.Header>
         <Modal.Body className="p-4">
           <Form>
             <div className="row mb-4 mt-3 justify-content-center">
-              <div className="col-md-3 text-end">
+              <div className="col-md-2 text-end">
                 <Form.Label className="fw-bold fs-5">Rol</Form.Label>
               </div>
               <div className="col-md-7">
