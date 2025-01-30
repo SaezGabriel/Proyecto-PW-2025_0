@@ -20,22 +20,10 @@ const Registrar_nuevo = () => {
     
         // Aquí podrías enviar los datos al servidor o hacer algo más
         console.log('Registro exitoso', { usuario, password });
-        setUsuario('');
-        setPassword('');
-        setConfirmPassword('');
-        setError('');
+        navigate("/confirmacion-correo")
       };
 
-    const loginHandler = (usuario : string, password:string) => {
-       
-        if (usuario === "usuario@gmail.com" && password === "123") {
-            navigate("/MainPage_usuario");
-        } else if (usuario === "admin@gmail.com" && password === "123") {
-            navigate("/MainPage_admin");
-        } else {
-            //Incorrecto Login
-        }
-    };
+    
     const handleUsuarioChange = (e : React.ChangeEvent<HTMLInputElement>) => {
             setUsuario(e.currentTarget.value)
     }
