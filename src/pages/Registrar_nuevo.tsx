@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Registrar_nuevo = () => {
     const navigate = useNavigate();
     const [usuario, setUsuario] = useState<string>("");
+    const [correo, setCorreo] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [confirmPassword, setConfirmPassword] = useState<string>("");
     const [error, setError] = useState<string>('');
@@ -26,6 +27,9 @@ const Registrar_nuevo = () => {
     
     const handleUsuarioChange = (e : React.ChangeEvent<HTMLInputElement>) => {
             setUsuario(e.currentTarget.value)
+    }
+    const handleCorreoChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        setCorreo(e.currentTarget.value)
     }
     const handlePasswordChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.currentTarget.value)
@@ -50,10 +54,22 @@ const Registrar_nuevo = () => {
                     <input
                         
                         className="form-control"
-                        type="email"
-                        placeholder="Ingresar correo"
+                        placeholder="Nombre de usuario:"
                         value={usuario}
                         onChange={handleUsuarioChange}
+                        required
+                    />
+                </div>
+            </div>
+            <div className="row mb-3">
+                <div className="col-12">
+                    <input
+                        
+                        className="form-control"
+                        type="email"
+                        placeholder="Correo:"
+                        value={correo}
+                        onChange={handleCorreoChange}
                         required
                     />
                 </div>
@@ -63,7 +79,7 @@ const Registrar_nuevo = () => {
                     <input    
                         className="form-control"
                         type="password"
-                        placeholder="Ingresar contraseña"
+                        placeholder="Contraseña:"
                         value={password}
                         onChange={handlePasswordChange}
                         required
