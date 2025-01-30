@@ -7,7 +7,7 @@ interface Gasto{
     monto:number
 }
 
-let Lista_gastos:Gasto[]
+const Lista_gasto:Gasto[] = []
 
 import Agregar_egreso_user from "./Agregar_egreso_user";
 import Exportar_egresos_usuario from "./Exportar_egresos_usuario";

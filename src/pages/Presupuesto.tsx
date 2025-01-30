@@ -3,6 +3,8 @@ interface presupuesto{
   monto: number
 }
 
+const Lista_presupuesto:presupuesto[] = []
+
 const Presupuesto = () => {
 
     return (
