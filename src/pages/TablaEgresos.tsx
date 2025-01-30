@@ -1,4 +1,4 @@
-import "./CSS/presupuesto.css"
+import "./CSS/Egresos.css"
 
 interface elementosTabla {
   fecha : string;

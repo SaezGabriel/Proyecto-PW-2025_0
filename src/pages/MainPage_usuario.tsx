@@ -15,9 +15,9 @@ const MainPage_usuario=() => {
       case "dashboard":
         return <Dashboard/>;
       case "gastos":
-        return <h1>Gastos</h1>;
+        return <PaginaEgresos/>;
       case "presupuestos":
-        return <PaginaEgresos/>
+        return <h1>Gastos</h1>;
       case "configuracion":
         return <h1>Configuración</h1>;
       case "salir":
