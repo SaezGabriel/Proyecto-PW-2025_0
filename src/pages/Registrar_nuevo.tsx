@@ -20,6 +20,9 @@ const Registrar_nuevo = () => {
     
         // Aquí podrías enviar los datos al servidor o hacer algo más
         console.log('Registro exitoso', { usuario, password });
+        setUsuario('');
+        setPassword('');
+        setConfirmPassword('');
         setError('');
       };
 
