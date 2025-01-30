@@ -9,7 +9,6 @@ import Filtrar_rol from './pages/Filtrar_rol'
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <LoginPage />
-    <Register />
     <Confirmacion_correo />
     <Filtrar_rol />
   </StrictMode>,
