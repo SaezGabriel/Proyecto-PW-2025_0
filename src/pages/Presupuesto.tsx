@@ -1,4 +1,7 @@
-
+interface presupuesto{
+  categoria: string,
+  monto: number
+}
 
 const Presupuesto = () => {
 

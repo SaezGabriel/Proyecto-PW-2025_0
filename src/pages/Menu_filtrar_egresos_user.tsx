@@ -1,7 +1,7 @@
-const Menu_filtro_usuario = () =>{
+const Menu_filtrar_egresos_usuario = () =>{
     return 
  
 }
 
 
-export default Menu_filtro_usuario
+export default Menu_filtrar_egresos_usuario

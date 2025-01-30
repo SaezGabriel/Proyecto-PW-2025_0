@@ -9,16 +9,18 @@ interface Gasto{
 
 let Lista_gastos:Gasto[]
 
-import Menu_filtro_usuario from "./Menu_filtrar_egresos_user";
+import Agregar_egreso_user from "./Agregar_egreso_user";
+import Exportar_egresos_usuario from "./Exportar_egresos_usuario";
+import Menu_filtrar_egresos_usuario from "./Menu_filtrar_egresos_user";
 
 const Gastos = () =>{
     return (
         <div className="container mt-5 bg-light">
     <div className="d-flex justify-content-between align-items-center mb-3">
       <h2 className="fw-bold">Mis Gastos</h2>
-      <button className="btn btn-primary" onClick={Menu_filtro_usuario}>Filtrar</button>
-      <button className="btn btn-primary">Exportar</button>
-      <button className="btn btn-primary">Agregar</button>
+      <button className="btn btn-primary" onClick={Menu_filtrar_egresos_usuario}>Filtrar</button>
+      <button className="btn btn-primary" onClick={Exportar_egresos_usuario}>Exportar</button>
+      <button className="btn btn-primary" onClick={Agregar_egreso_user}>Agregar</button>
     
     </div>
     <div className="card">
