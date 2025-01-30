@@ -5,6 +5,7 @@ interface FiltrarRolProps {
 
 
 const FiltrarRol = (props : FiltrarRolProps) => {
+   
 
   return <div className={ props.showModal == true ? "modal fade show d-block" : "modal fade"}>
                 <div className="modal-dialog">
@@ -19,7 +20,13 @@ const FiltrarRol = (props : FiltrarRolProps) => {
                                     <label className="form-label">Fecha: </label>
                                     <input type="date" className="form-control" id="fecha" required/>
                                 </div>
-                                
+                                <select className="form-select" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                                </select>
+                                                                
                                     <div className="form-group">
                                     <label className="form-label">Categoria: </label>
                                     <input type="text" className="form-control" id="categoriaText" required/>
