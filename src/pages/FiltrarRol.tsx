@@ -8,7 +8,7 @@ const FiltrarRol = (props : FiltrarRolProps) => {
    
 
   
-             return <div className={props.showModal === true ? "modal fade show d-block" : "modal fade"}>
+             return <div className={props.showModal === true ? "modal fade show d-block bg-dark bg-opacity-50" : "modal fade"}>
              <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: '400px' }}> 
                <div className="modal-content" style={{ borderRadius: '20px' }}>
                  <div className="modal-header">
