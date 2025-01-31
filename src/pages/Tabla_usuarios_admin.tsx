@@ -12,13 +12,16 @@ interface usuarioProps {
   openModal : () => void
 }
 
-const Usuario = (props : usuarioProps) => {
+const TablaUsuario = (props : usuarioProps) => {
 
   return (
       <div className="container mt-5 bg-light">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h2 className="fw-bold">Mis egresos</h2>
-          <button className="btn btn-primary" onClick={() => {props.openModal()}}>Agregar</button>
+        <div className="d-flex align-items-center gap-2 mb-3">
+        <h2 className="fw-bold">Mis usuarios</h2>
+        <button className="btn btn-primary ms-auto" onClick={() => {props.openModal()}}>
+            <i className="bi bi-funnel"></i> Filtrar
+        </button>
+        <button className="btn btn-secondary">Agregar</button>
         </div>
         <div className="card">
           <table className="table table-hover mb-0">
@@ -51,4 +54,4 @@ const Usuario = (props : usuarioProps) => {
   )
 }
 
-export default Usuario
+export default TablaUsuario

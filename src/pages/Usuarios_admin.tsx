@@ -1,4 +1,4 @@
-import Usuario from "./Tabla_usuarios_admin"
+import TablaUsuario from "./Tabla_usuarios_admin"
 
 import FiltrarRol from "./FiltrarRol"
 import { useState } from "react"
@@ -16,7 +16,7 @@ const UsuariosAdmin = () => {
       tabla.push(elem)
   }
   return <>
-        <Usuario listaElementos={tabla} openModal={() => {setShowModal(true)}} />
+        <TablaUsuario listaElementos={tabla} openModal={() => {setShowModal(true)}} />
         <FiltrarRol showModal={showModal} closeModal={() => {setShowModal(false)}} />
     </>
 };
