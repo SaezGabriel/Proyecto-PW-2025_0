@@ -89,7 +89,9 @@ const LoginPage = () => {
                     <div className="row mb-2">
                         <div className="col-12">
                             <div className="d-grid gap-2">
-                                <button className="btn btn-secondary" type="button">
+
+                                <button className="btn btn-secondary" onClick={handleRegister} type="button">
+
                                     Registrarse
                                 </button>
                             </div>

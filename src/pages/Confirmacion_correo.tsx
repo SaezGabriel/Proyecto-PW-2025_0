@@ -1,7 +1,7 @@
-
+import { useNavigate } from "react-router-dom";
 const Confirmacion_correo = () => {
 
-
+    const navigate = useNavigate();
      
     return        <div className="bg-body-secondary">
             <div className="container vh-100 d-flex justify-content-center align-items-center">
@@ -16,7 +16,9 @@ const Confirmacion_correo = () => {
                             <p className="text-left">Gracias.</p>
                             <div className="row justify-content-center">
                                 <div className="col-6">
-                                    <button className="btn btn-primary w-100">Confirmar</button>
+
+                                    <button onClick={ () =>{navigate("/")}} className="btn btn-primary w-100">Confirmar</button>
+
                                 </div>
                             </div>
                         </div>

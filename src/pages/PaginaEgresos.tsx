@@ -3,6 +3,7 @@ import AgregarEgresoModal from "./AgregarEgresoModal"
 import { useState } from "react"
 import EditarGastoModal from "./EditarGastoModal";
 import EliminarEgresoModal from "./EliminarEgresoModal";
+import FiltrarEgresoModal from "./FiltrarEgresoModal";
 
 interface elementosTabla {
   fecha : string;
@@ -14,11 +15,11 @@ interface elementosTabla {
 
 const PaginaEgresos = () => {
     const [showModalAgregar, setShowModalAgregar] = useState<boolean>(false)
+    const [showModalEliminar, setShowModalEliminar] = useState<boolean>(false)
+    const [showModalFiltrar, setShowModalFiltrar] = useState<boolean>(false)
 
     const [showModalEditar, setShowModalEditar] = useState<boolean>(false)
     const [elementoEditar, setElementoEditar] = useState<elementosTabla>({fecha : "", categoria : "", descripcion : "", monto : "", recursivo : false})
-
-    const [showModalEliminar, setShowModalEliminar] = useState<boolean>(false)
 
     const tabla : elementosTabla[] = [
         { fecha : "12/12/2024", categoria : "Ocio", descripcion : "La Niebla, libro de Steven King", monto : "S/. 29.99", recursivo : false },
@@ -38,10 +39,11 @@ const PaginaEgresos = () => {
     }
 
     return <>
-        <TablaEgresos listaElementos={tabla} openModalAgregar={() => { setShowModalAgregar(true); } } openModalEditar={(index: number) => { editarElementoTabla(index); } } openModalEliminar={(index : number) => {setShowModalEliminar(true)}}/>
+        <TablaEgresos listaElementos={tabla} openModalFiltrar={() => {setShowModalFiltrar(true)}} openModalAgregar={() => { setShowModalAgregar(true); } } openModalEditar={(index: number) => { editarElementoTabla(index); } } openModalEliminar={(index : number) => {setShowModalEliminar(true)}} />
         <AgregarEgresoModal showModal={showModalAgregar} closeModal={() => {setShowModalAgregar(false)}} />
         <EditarGastoModal showModal={showModalEditar} closeModal={() => {setShowModalEditar(false)}} elemento={elementoEditar} />
         <EliminarEgresoModal showModal={showModalEliminar} closeModal={() => {setShowModalEliminar(false)}} />
+        <FiltrarEgresoModal showModal={showModalFiltrar} closeModal={() => {setShowModalFiltrar(false)}}/>
     </>
 }
 

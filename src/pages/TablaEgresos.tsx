@@ -12,7 +12,8 @@ interface egresosProps {
   listaElementos : elementosTabla[];
   openModalAgregar : () => void;
   openModalEditar : (index : number) => void;
-  openModalEliminar : (index : number) => void
+  openModalEliminar : (index : number) => void;
+  openModalFiltrar : () => void
 }
 
 const TablaEgresos = (props : egresosProps) => {
@@ -23,7 +24,7 @@ const TablaEgresos = (props : egresosProps) => {
             <h2 className="fw-bold">Mis gastos</h2>
           </div>
           <div className="flex-row-reverse">
-            <button className="btn btn-primary me-2">
+            <button className="btn btn-primary me-2" onClick={() => {props.openModalFiltrar()}}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-filter" viewBox="0 0 16 16">
                 <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
               </svg> Filtrar
@@ -33,15 +34,15 @@ const TablaEgresos = (props : egresosProps) => {
           </div>
         </div>
         <div className="card">
-          <table className="table table-hover mb-0">
+          <table className="table">
             <thead className="table-primary text-center">
               <tr>
-                <th scope="col">Fecha</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Descripcion</th>
-                <th scope="col">Recurrente</th>
-                <th scope="col">Monto</th>
-                <th scope="col">Accion</th>
+                <th scope="col" className="text-start">Fecha</th>
+                <th scope="col" className="text-start">Categoria</th>
+                <th scope="col" className="text-start">Descripcion</th>
+                <th scope="col" className="text-start">Recurrente</th>
+                <th scope="col" className="text-start">Monto</th>
+                <th scope="col" className="text-start">Accion</th>
               </tr>
             </thead>
             <tbody id="TBody">

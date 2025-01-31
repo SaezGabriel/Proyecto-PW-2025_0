@@ -1,0 +1,12 @@
+th {
+    background-color: rgba(85,133,231,255) !important;
+    color: rgba(239,243,252,255) !important;
+} 
+
+table th:first-child{
+    border-radius:10px 0 0 10px;
+}
+  
+table th:last-child{
+    border-radius:0 10px 10px 0;
+}

@@ -15,11 +15,11 @@ const MainPage_usuario=() => {
       case "dashboard":
         return <Dashboard/>;
       case "gastos":
-        return <PaginaEgresos/>
+        return <PaginaEgresos/>;
       case "presupuestos":
-        return <h1>Presupuestos</h1>
+        return <h1>Presupuestos</h1>;
       case "configuracion":
-        return <h1>Configuración</h1>
+        return <h1>Configuración</h1>;
       case "salir":
         return <h1>Salir</h1>;
       

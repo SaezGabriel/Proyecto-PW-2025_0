@@ -53,9 +53,9 @@ const AgregarEgresoModal = (props : AgregarEgresoModalProps) => {
                                     </div>
                                 </div>
                                 <br />
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" id="but_agregar" onClick={() => {props.closeModal()}}>Guardar</button>
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => {props.closeModal()}} >Cerrar sin guardar</button>
+                                <div className="modal-footer d-flex justify-content-center gap-2">
+                                    <button type="button" className="btn btn-primary w-25" data-bs-dismiss="modal" id="but_agregar" onClick={() => {props.closeModal()}}>Cancelar</button>
+                                    <button type="button" className="btn btn-secondary w-25" data-bs-dismiss="modal" onClick={() => {props.closeModal()}}>Aceptar</button>
                                 </div>
                             </form>
                         </div>
