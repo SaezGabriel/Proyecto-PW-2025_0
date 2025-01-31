@@ -15,7 +15,7 @@ const FiltrarEgresoModal = (props : FiltrarEgresoModalProps) => {
                         <div className="modal-body">
                             <form id="formu">
                                 <div className="form-group row position-relative">
-                                    <label className="col-sm-3 col-form-label position-absolute start-0">Fecha</label>
+                                    <label className="col-sm-3 col-form-label position-absolute start-0">Desde</label>
                                     <div className="col-sm-9 offset-sm-3">
                                         <input type="date" className="form-control" id="fecha" required />
                                     </div>
@@ -33,15 +33,14 @@ const FiltrarEgresoModal = (props : FiltrarEgresoModalProps) => {
                                 </div>
                                 <br />
                                 <div className="form-group row position-relative">
-                                    <label className="col-sm-3 col-form-label position-absolute start-0">Descripción</label>
-                                    <div className="col-sm-9 offset-sm-3">
-                                        <input type="text" className="form-control input-lg" id="descripcionText" required />
-                                    </div>
-                                </div>
-                                <br />
-                                <div className="form-group row position-relative">
                                     <label className="col-sm-3 col-form-label position-absolute start-0">Monto</label>
-                                    <div className="col-sm-9 offset-sm-3">
+                                    <div className="col-sm-3 offset-sm-3">
+                                        <input type="number" className="form-control" id="monto" step="0.01" min="0" placeholder="0.00" required />
+                                    </div>
+                                    <div className="col-sm-3 text-center justify-content-center">
+                                        a
+                                    </div>
+                                    <div className="col-sm-3">
                                         <input type="number" className="form-control" id="monto" step="0.01" min="0" placeholder="0.00" required />
                                     </div>
                                 </div>
@@ -53,9 +52,9 @@ const FiltrarEgresoModal = (props : FiltrarEgresoModalProps) => {
                                     </div>
                                 </div>
                                 <br />
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" id="but_filtrar" onClick={() => {props.closeModal()}}>Guardar</button>
-                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => {props.closeModal()}} >Cerrar sin guardar</button>
+                                <div className="modal-footer d-flex justify-content-center gap-2">
+                                    <button type="button" className="btn btn-secondary w-25" data-bs-dismiss="modal" onClick={() => {props.closeModal()}} >Cancelar</button>
+                                    <button type="button" className="btn btn-primary w-25" data-bs-dismiss="modal" id="but_filtrar" onClick={() => {props.closeModal()}}>Filtrar</button>
                                 </div>
                             </form>
                         </div>
