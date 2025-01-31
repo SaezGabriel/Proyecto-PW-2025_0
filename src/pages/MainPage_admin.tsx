@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import Usuarios_admin from "./Usuarios_admin";
 import Dashboard_admin from "./Dashboard_admin";
+
 // Registrar los componentes necesarios de Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
