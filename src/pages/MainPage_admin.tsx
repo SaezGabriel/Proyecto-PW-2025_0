@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import Usuarios_admin from "./Usuarios_admin";
 import Dashboard_admin from "./Dashboard_admin";
+import Configuracion from "./Configuracion";
+import Historial from "./Historial_Admin";
 
 // Registrar los componentes necesarios de Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
@@ -17,9 +19,9 @@ const MainPage_admin=() => {
       case "Usuarios":
         return <Usuarios_admin/>;
       case "historial":
-        return <h1>historial</h1>;
+        return <Historial/>;
       case "configuracion":
-        return <h1>Configuracion</h1>;
+        return <Configuracion/>;
       case "salir":
         return <h1>Salir</h1>;
       

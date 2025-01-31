@@ -34,10 +34,10 @@ const TablaHistorial = (props : egresosProps) => {
               <th scope="col">Accion</th>
             </tr>
           </thead>
-          <tbody id="TBody">
+          <tbody id="TBody" className="text-center">
               {
                 props.listaElementos.map((historia : elementosTabla) => {
-                  return <tr>
+                  return <tr> 
                       <td>{historia.id}</td>
                       <td>{historia.nombre}</td>
                       <td>{historia.correo}</td>
