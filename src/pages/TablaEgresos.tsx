@@ -14,6 +14,7 @@ interface egresosProps {
   openModalEditar : (index : number) => void;
   openModalEliminar : (index : number) => void;
   openModalFiltrar : () => void
+  openModalExportar: () => void;
 }
 
 const TablaEgresos = (props : egresosProps) => {
@@ -29,7 +30,7 @@ const TablaEgresos = (props : egresosProps) => {
                 <path d="M6 10.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5"/>
               </svg> Filtrar
             </button>
-            <button className="btn btn-primary me-2">Exportar</button>
+            <button className="btn btn-primary me-2" onClick={()=> {props.openModalExportar()}}>Exportar</button>
             <button className="btn btn-primary" onClick={() => {props.openModalAgregar()}}>Agregar</button>
           </div>
         </div>

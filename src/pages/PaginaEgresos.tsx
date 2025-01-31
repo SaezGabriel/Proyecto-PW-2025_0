@@ -4,6 +4,7 @@ import { useState } from "react"
 import EditarGastoModal from "./EditarGastoModal";
 import EliminarEgresoModal from "./EliminarEgresoModal";
 import FiltrarEgresoModal from "./FiltrarEgresoModal";
+import ExportarEgresoModal from "./ExportarEgresoModal";
 
 interface elementosTabla {
   fecha : string;
@@ -17,7 +18,8 @@ const PaginaEgresos = () => {
     const [showModalAgregar, setShowModalAgregar] = useState<boolean>(false)
     const [showModalEliminar, setShowModalEliminar] = useState<boolean>(false)
     const [showModalFiltrar, setShowModalFiltrar] = useState<boolean>(false)
-
+    const [showModalExportar, setShowModalExportar] = useState<boolean>(false)
+ 
     const [showModalEditar, setShowModalEditar] = useState<boolean>(false)
     const [elementoEditar, setElementoEditar] = useState<elementosTabla>({fecha : "", categoria : "", descripcion : "", monto : "", recursivo : false})
 
@@ -39,11 +41,12 @@ const PaginaEgresos = () => {
     }
 
     return <>
-        <TablaEgresos listaElementos={tabla} openModalFiltrar={() => {setShowModalFiltrar(true)}} openModalAgregar={() => { setShowModalAgregar(true); } } openModalEditar={(index: number) => { editarElementoTabla(index); } } openModalEliminar={(index : number) => {setShowModalEliminar(true)}} />
+        <TablaEgresos listaElementos={tabla} openModalFiltrar={() => {setShowModalFiltrar(true)}} openModalAgregar={() => { setShowModalAgregar(true); } } openModalEditar={(index: number) => { editarElementoTabla(index); } } openModalEliminar={(index : number) => {setShowModalEliminar(true)}} openModalExportar={() => { setShowModalExportar(true); } } />
         <AgregarEgresoModal showModal={showModalAgregar} closeModal={() => {setShowModalAgregar(false)}} />
         <EditarGastoModal showModal={showModalEditar} closeModal={() => {setShowModalEditar(false)}} elemento={elementoEditar} />
         <EliminarEgresoModal showModal={showModalEliminar} closeModal={() => {setShowModalEliminar(false)}} />
         <FiltrarEgresoModal showModal={showModalFiltrar} closeModal={() => {setShowModalFiltrar(false)}}/>
+        <ExportarEgresoModal showModal ={showModalExportar} closeModal={()=>{setShowModalExportar(false)}}/> 
     </>
 }
 
