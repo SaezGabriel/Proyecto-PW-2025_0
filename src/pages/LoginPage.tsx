@@ -11,6 +11,10 @@ const LoginPage = () => {
         navigate("/nueva-contraseña");
     };
 
+    const handleRegister = () => {
+        navigate("/registrar-nuevo");
+    };
+
     const loginHandler = (usuario : string, password:string) => {
        
         if (usuario === "usuario@gmail.com" && password === "123") {
@@ -27,7 +31,6 @@ const LoginPage = () => {
     const handlePasswordChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.currentTarget.value)
     }
-
  return     <div
             className="d-flex justify-content-center align-items-center bg-body-secondary"
             style={{ height: "100vh" }}

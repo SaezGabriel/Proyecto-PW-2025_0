@@ -104,7 +104,6 @@ const Registrar_nuevo = () => {
                 <div className="col-12">
                     <div className="d-grid gap-2">
                         <button  onClick={ () =>{
-                            loginHandler(usuario,password)
                         }} className="btn btn-primary" type="submit">
                             Registrar
                         </button>

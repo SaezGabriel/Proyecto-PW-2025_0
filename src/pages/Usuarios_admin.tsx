@@ -2,17 +2,19 @@ import TablaUsuario from "./Tabla_usuarios_admin"
 
 import FiltrarRol from "./FiltrarRol"
 import { useState } from "react"
-interface elementosTabla {
-  fecha : string;
-  categoria : string;
-  descripcion : string;
-  monto : string;
+interface Usuarios {
+  nombre : string;
+  correo : string;
+  rol : 'Admin' | 'User';
 }
 const UsuariosAdmin = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
-  const tabla : elementosTabla[] = [{fecha : "2024-12-12", categoria : "Ocio", descripcion : "La niebla", monto : "S/. 29.99"}]
+  const tabla : Usuarios[] = [
+    { nombre : "A", correo : "a@gmail.com", rol : 'Admin'},
+    { nombre : "B", correo : "b@gmail.com", rol : 'Admin'},
+    { nombre : "C", correo : "c@gmail.com", rol : 'Admin'}]
 
-  const agregarElementoTabla = (elem : elementosTabla) => {
+  const agregarElementoTabla = (elem : Usuarios) => {
       tabla.push(elem)
   }
   return <>
