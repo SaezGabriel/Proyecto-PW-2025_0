@@ -1,16 +1,15 @@
 import "./CSS/Tabla_Usuario.css"
 
-interface elementosTabla {
-  fecha : string;
-  categoria : string;
-  descripcion : string;
-  monto : string;
-}
-
-interface usuarioProps {
-  listaElementos : elementosTabla[];
-  openModal : () => void
-}
+interface Usuarios {
+    nombre : string;
+    correo : string;
+    rol : 'Admin' | 'User'; // El rol puede ser 'Admin' o 'User'
+  }
+  
+  interface usuarioProps {
+    listaElementos : Usuarios[];
+    openModal : () => void
+  }
 
 const TablaUsuario = (props : usuarioProps) => {
 
@@ -34,21 +33,35 @@ const TablaUsuario = (props : usuarioProps) => {
           <table className="table table-hover mb-0">
             <thead className="table-primary text-center">
               <tr>
-                <th scope="col">Fecha</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Descripcion</th>
-                <th scope="col">Recurrente</th>
-                <th scope="col">Monto</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Rol</th>
                 <th scope="col">Accion</th>
               </tr>
             </thead>
             <tbody id="TBody">
               <tr>
-                <td scope="row">12/12/2024</td>
-                <td>Ocio</td>
-                <td>La niebla, libro de Stephen King</td>
-                <td>No</td>
-                <td>S/. 29.99</td>
+                <td scope="row">Renzo</td>
+                <td>renzo@gmail.com</td>
+                <td>Admin</td>
+                <td>
+                    <i className="lapiz">Editar</i> 
+                    <i className="basura">Borrar</i>
+                </td>
+              </tr>
+              <tr>
+                <td scope="row">Sebastian</td>
+                <td>sebastian@gmail.com</td>
+                <td>User</td>
+                <td>
+                    <i className="lapiz">Editar</i> 
+                    <i className="basura">Borrar</i>
+                </td>
+              </tr>
+              <tr>
+                <td scope="row">Kevin</td>
+                <td>kevin@gmail.com</td>
+                <td>Admin</td>
                 <td>
                     <i className="lapiz">Editar</i> 
                     <i className="basura">Borrar</i>

@@ -11,6 +11,10 @@ const LoginPage = () => {
         navigate("/nueva-contraseña");
     };
 
+    const handleRegister = () => {
+        navigate("/registrar-nuevo");
+    };
+
     const loginHandler = (usuario : string, password:string) => {
        
         if (usuario === "usuario@gmail.com" && password === "123") {
@@ -92,7 +96,7 @@ const LoginPage = () => {
                     <div className="row mb-2">
                         <div className="col-12">
                             <div className="d-grid gap-2">
-                                <button className="btn btn-secondary" type="button">
+                                <button className="btn btn-secondary" onClick={handleRegister} type="button">
                                     Registrarse
                                 </button>
                             </div>
