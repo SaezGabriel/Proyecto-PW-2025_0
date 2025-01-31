@@ -27,7 +27,7 @@ const LoginPage = () => {
     const handlePasswordChange = (e : React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.currentTarget.value)
     }
-    
+
  return     <div
             className="d-flex justify-content-center align-items-center bg-body-secondary"
             style={{ height: "100vh" }}
@@ -89,7 +89,9 @@ const LoginPage = () => {
                     <div className="row mb-2">
                         <div className="col-12">
                             <div className="d-grid gap-2">
+
                                 <button className="btn btn-secondary" onClick={handleRegister} type="button">
+
                                     Registrarse
                                 </button>
                             </div>

@@ -17,7 +17,7 @@ const MainPage_usuario=() => {
       case "gastos":
         return <PaginaEgresos/>;
       case "presupuestos":
-        return <h1>Gastos</h1>;
+        return <h1>Presupuestos</h1>;
       case "configuracion":
         return <h1>Configuración</h1>;
       case "salir":

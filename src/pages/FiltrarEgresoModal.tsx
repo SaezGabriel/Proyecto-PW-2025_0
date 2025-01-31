@@ -1,15 +1,15 @@
-interface AgregarEgresoModalProps {
+interface FiltrarEgresoModalProps {
     showModal : boolean;
     closeModal : () => void
 }
 
-const AgregarEgresoModal = (props : AgregarEgresoModalProps) => {
+const FiltrarEgresoModal = (props : FiltrarEgresoModalProps) => {
     return <>{props.showModal && <div className="modal-backdrop fade show"></div>}
             <div className={ props.showModal == true ? "modal fade show d-block" : "modal fade"} tabIndex={-1}>
                 <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title w-100 text-center" id="exampleModalLabel">Agregar gasto</h5>
+                            <h5 className="modal-title w-100 text-center" id="exampleModalLabel">Filtrar gastos</h5>
                             <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => {props.closeModal()}}></button>
                         </div>
                         <div className="modal-body">
@@ -53,9 +53,9 @@ const AgregarEgresoModal = (props : AgregarEgresoModalProps) => {
                                     </div>
                                 </div>
                                 <br />
-                                <div className="modal-footer d-flex justify-content-center gap-2">
-                                    <button type="button" className="btn btn-primary w-25" data-bs-dismiss="modal" id="but_agregar" onClick={() => {props.closeModal()}}>Cancelar</button>
-                                    <button type="button" className="btn btn-secondary w-25" data-bs-dismiss="modal" onClick={() => {props.closeModal()}}>Aceptar</button>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" id="but_filtrar" onClick={() => {props.closeModal()}}>Guardar</button>
+                                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => {props.closeModal()}} >Cerrar sin guardar</button>
                                 </div>
                             </form>
                         </div>
@@ -64,4 +64,4 @@ const AgregarEgresoModal = (props : AgregarEgresoModalProps) => {
             </div></>
 }
 
-export default AgregarEgresoModal
+export default FiltrarEgresoModal

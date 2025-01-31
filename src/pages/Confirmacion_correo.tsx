@@ -16,7 +16,9 @@ const Confirmacion_correo = () => {
                             <p className="text-left">Gracias.</p>
                             <div className="row justify-content-center">
                                 <div className="col-6">
+
                                     <button onClick={ () =>{navigate("/")}} className="btn btn-primary w-100">Confirmar</button>
+
                                 </div>
                             </div>
                         </div>
@@ -28,4 +30,3 @@ const Confirmacion_correo = () => {
 }
 
 export default Confirmacion_correo;
-
