@@ -7,9 +7,6 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import MainPage_usuario from './pages/MainPage_usuario';
 import MainPage_admin from './pages/MainPage_admin';
 
-
-
-
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Router>
@@ -22,4 +19,3 @@ createRoot(document.getElementById('root')!).render(
     </Router>
   </StrictMode>,
 )
-/*hh*/
