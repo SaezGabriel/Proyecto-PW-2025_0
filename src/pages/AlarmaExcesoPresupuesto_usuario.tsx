@@ -25,4 +25,3 @@ const AlarmaPresupuesto = (props : AlarmaExcesoPresupuesto_usuario) => {
 }
 
 export default AlarmaPresupuesto
-
