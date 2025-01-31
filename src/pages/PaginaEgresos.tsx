@@ -5,6 +5,7 @@ import EditarGastoModal from "./EditarGastoModal";
 import EliminarEgresoModal from "./EliminarEgresoModal";
 import FiltrarEgresoModal from "./FiltrarEgresoModal";
 import ExportarEgresoModal from "./ExportarEgresoModal";
+import AlarmaPresupuesto from "./AlarmaExcesoPresupuesto_usuario"
 
 interface elementosTabla {
   fecha : string;
@@ -19,7 +20,7 @@ const PaginaEgresos = () => {
     const [showModalEliminar, setShowModalEliminar] = useState<boolean>(false)
     const [showModalFiltrar, setShowModalFiltrar] = useState<boolean>(false)
     const [showModalExportar, setShowModalExportar] = useState<boolean>(false)
- 
+    const [showModalAlarma, setShowModalAlarma] = useState<boolean>(false)
     const [showModalEditar, setShowModalEditar] = useState<boolean>(false)
     const [elementoEditar, setElementoEditar] = useState<elementosTabla>({fecha : "", categoria : "", descripcion : "", monto : "", recursivo : false})
 
@@ -47,6 +48,14 @@ const PaginaEgresos = () => {
         <EliminarEgresoModal showModal={showModalEliminar} closeModal={() => {setShowModalEliminar(false)}} />
         <FiltrarEgresoModal showModal={showModalFiltrar} closeModal={() => {setShowModalFiltrar(false)}}/>
         <ExportarEgresoModal showModal ={showModalExportar} closeModal={()=>{setShowModalExportar(false)}}/> 
+        
+        <button className="btn btn-primary m-4" onClick={()=>{
+                                setShowModalAlarma(true)
+                            }}>Alarma</button>
+        <AlarmaPresupuesto showModal={ showModalAlarma } 
+            closeModal={ () => {
+            setShowModalAlarma(false)
+            } }/>
     </>
 }
 

@@ -3,10 +3,12 @@ import { useState } from "react"
 import EditarPresupuesto from "./EditarPresupuesto"
 import BorrarPresupuesto from "./Borrarpresupuesto"
 
+
 const Presupuesto = () => {
     const [showModalA, setShowModalA] = useState<boolean>(false)
     const [showModalE, setShowModalE] = useState<boolean>(false)
     const [showModalB, setShowModalB] = useState<boolean>(false)
+    
     return (
         <div className="container mt-5 bg-light">
     <div className="d-flex justify-content-between align-items-center mb-3">
