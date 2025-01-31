@@ -20,6 +20,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/nueva-contraseña" element={<NuevaContraseña />} />
         <Route path="/mainpage_usuario" element={<MainPage_usuario />} />
         <Route path="/mainpage_admin" element={<MainPage_admin />} />
+        <Route path="/confirmacion-correo" element={<Confirmacion_correo />} />
       </Routes>
     </Router>
   </StrictMode>,
