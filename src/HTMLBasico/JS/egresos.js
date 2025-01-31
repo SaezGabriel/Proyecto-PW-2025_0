@@ -21,12 +21,22 @@ var main = function () {
         var recurrente = document.getElementById("recuBool");
         console.log("recurrente: ", recurrente);
         var textoRec;
+<<<<<<< HEAD
         if (recurrente.checked) {
             textoRec = "Si";
         }
         else {
             textoRec = "No";
         }
+=======
+        
+        if (recurrente.checked) {
+            textoRec = "Si";
+        }else{
+            textoRec = "No";
+        }
+
+>>>>>>> 975ca65f59ad802c15200822f905a9f7123debb5
         console.log("Texto recurrente: ", textoRec);
         var monto = document.getElementById("monto");
         console.log("Monto: ", monto);
@@ -38,7 +48,11 @@ var main = function () {
         var tbody = document.getElementById("TBody");
         console.log("TBody 1: ", tbody);
         var tr = document.createElement("tr");
+<<<<<<< HEAD
         // Introducir en el mismo orden en que se crea o causara discrepancias visuales
+=======
+        // Introducir en el mismo orden en que se crea o causara errores visuales
+>>>>>>> 975ca65f59ad802c15200822f905a9f7123debb5
         var tableFecha = document.createElement("td");
         var tableCat = document.createElement("td");
         var tableDes = document.createElement("td");
@@ -50,6 +64,7 @@ var main = function () {
         tableDes.innerText = textoDes;
         tableRec.innerText = textoRec;
         tableMon.innerText = textoMon;
+<<<<<<< HEAD
         var editar = document.createElement("i");
         editar.className = "lapiz";
         editar.innerText = "Editar";
@@ -65,6 +80,9 @@ var main = function () {
         });
         tableAcc.appendChild(editar);
         tableAcc.appendChild(eliminar);
+=======
+        tableAcc.innerHTML = "<i class=\"lapiz\">Editar</i> <i class=\"basura\">Borrar</i>";
+>>>>>>> 975ca65f59ad802c15200822f905a9f7123debb5
         console.log("TableFecha: ", tableFecha);
         console.log("TableCat: ", tableCat);
         console.log("tableDes: ", tableDes);
@@ -86,6 +104,7 @@ var main = function () {
         recurrente.checked = false;
         monto.value = "";
     });
+<<<<<<< HEAD
     // Eliminar para version final, esto solo es para demonstracion
     var ejemplo = document.getElementById("ejemploTabla");
     var tbody = document.getElementById("TBody");
@@ -107,5 +126,7 @@ var main = function () {
     tableAcc.appendChild(editar);
     tableAcc.appendChild(eliminar);
     ejemplo.appendChild(tableAcc);
+=======
+>>>>>>> 975ca65f59ad802c15200822f905a9f7123debb5
 };
 main();

@@ -84,8 +84,6 @@ const main = () => {
         console.log("tableMon: ", tableMon)
         console.log("TableAcc: ", tableAcc)
 
-        
-
         tr.appendChild(tableFecha)
         tr.appendChild(tableCat)
         tr.appendChild(tableDes)
