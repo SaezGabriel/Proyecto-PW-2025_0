@@ -4,40 +4,55 @@ interface AgregarEgresoModalProps {
 }
 
 const AgregarEgresoModal = (props : AgregarEgresoModalProps) => {
-    return <div className={ props.showModal == true ? "modal fade show d-block" : "modal fade"}>
-                <div className="modal-dialog">
+    return <>{props.showModal && <div className="modal-backdrop fade show"></div>}
+            <div className={ props.showModal == true ? "modal fade show d-block" : "modal fade"} tabIndex={-1}>
+                <div className="modal-dialog modal-dialog-centered">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Agregar gasto</h5>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => {props.closeModal()}}></button>
+                            <h5 className="modal-title w-100 text-center" id="exampleModalLabel">Agregar gasto</h5>
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" onClick={() => {props.closeModal()}}></button>
                         </div>
                         <div className="modal-body">
                             <form id="formu">
-                                <div className="form-group">
-                                    <label className="form-label">Fecha: </label>
-                                    <input type="date" className="form-control" id="fecha" required/>
+                                <div className="form-group row position-relative">
+                                    <label className="col-sm-3 col-form-label position-absolute start-0">Fecha</label>
+                                    <div className="col-sm-9 offset-sm-3">
+                                        <input type="date" className="form-control" id="fecha" required />
+                                    </div>
                                 </div>
-                                
-                                    <div className="form-group">
-                                    <label className="form-label">Categoria: </label>
-                                    <input type="text" className="form-control" id="categoriaText" required/>
+                                <br />
+                                <div className="form-group row position-relative">
+                                    <label className="col-sm-3 col-form-label position-absolute start-0">Categoría</label>
+                                    <div className="col-sm-9 offset-sm-3">
+                                        <select className="form-select" required>
+                                            <option value="1">Ocio</option>
+                                            <option value="2">Servicios</option>
+                                            <option value="3">Alimentación</option>
+                                        </select>
+                                    </div>
                                 </div>
-                        
-                                    <div className="form-group">
-                                    <label className="form-label">Descripcion: </label>
-                                    <input type="text" className="form-control" id="descripcionText" required/>
+                                <br />
+                                <div className="form-group row position-relative">
+                                    <label className="col-sm-3 col-form-label position-absolute start-0">Descripción</label>
+                                    <div className="col-sm-9 offset-sm-3">
+                                        <input type="text" className="form-control input-lg" id="descripcionText" required />
+                                    </div>
                                 </div>
-                                
-                                <div className="form-group">
-                                    <label className="form-label">Monto: </label>
-                                    <input type="number" className="form-control" id="monto" step="0.01" min="0" placeholder="0.00" required/>
+                                <br />
+                                <div className="form-group row position-relative">
+                                    <label className="col-sm-3 col-form-label position-absolute start-0">Monto</label>
+                                    <div className="col-sm-9 offset-sm-3">
+                                        <input type="number" className="form-control" id="monto" step="0.01" min="0" placeholder="0.00" required />
+                                    </div>
                                 </div>
-                        
-                                <div className="form-check">
-                                    <label className="form-label">Recurrente?: </label>
-                                    <input type="checkbox" className="checkbox-inline " id="recuBool"/>
+                                <br />
+                                <div className="form-group row position-relative align-items-center">
+                                    <label className="col-sm-3 col-form-label position-absolute start-0">Recurrente</label>
+                                    <div className="col-sm-9 offset-sm-3">
+                                        <input type="checkbox" className="form-check-input" id="recuBool" />
+                                    </div>
                                 </div>
-                        
+                                <br />
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-primary" data-bs-dismiss="modal" id="but_agregar" onClick={() => {props.closeModal()}}>Guardar</button>
                                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => {props.closeModal()}} >Cerrar sin guardar</button>
@@ -46,7 +61,7 @@ const AgregarEgresoModal = (props : AgregarEgresoModalProps) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div></>
 }
 
 export default AgregarEgresoModal
