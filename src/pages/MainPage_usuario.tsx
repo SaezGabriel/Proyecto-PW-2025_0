@@ -42,7 +42,7 @@ const MainPage_usuario=() => {
           <li>
             <button
               className={`btn w-100 text-start ${
-                activeSection === "dashboard" ? "btn-white text-primary" : ""
+                activeSection === "dashboard" ? "btn-white text-primary bg-primary bg-opacity-25" : ""
               }`}
               onClick={() => setActiveSection("dashboard")}
             >
@@ -55,7 +55,7 @@ const MainPage_usuario=() => {
           <li>
             <button
               className={`btn w-100 text-start ${
-                activeSection === "gastos" ? "btn-white text-primary" : ""
+                activeSection === "gastos" ? "btn-white text-primary bg-primary bg-opacity-25" : ""
               }`}
               onClick={() => setActiveSection("gastos")}
             >
@@ -69,7 +69,7 @@ const MainPage_usuario=() => {
           <li>
             <button
               className={`btn w-100 text-start ${
-                activeSection === "presupuestos" ? "btn-white text-primary " : ""
+                activeSection === "presupuestos" ? "btn-white text-primary bg-primary bg-opacity-25" : ""
               }`}
               onClick={() => setActiveSection("presupuestos")}
             >
@@ -84,7 +84,7 @@ const MainPage_usuario=() => {
           <li>
             <button
               className={`btn w-100 text-start ${
-                activeSection === "configuracion" ? "btn-white text-primary" : ""
+                activeSection === "configuracion" ? "btn-white text-primary bg-primary bg-opacity-25" : ""
               }`}
               onClick={() => setActiveSection("configuracion")}
             >
@@ -98,7 +98,7 @@ const MainPage_usuario=() => {
           <li>
             <button
               className={`btn w-100 text-start mt-4 ${
-                activeSection === "salir" ? "btn-white text-primary" : ""
+                activeSection === "salir" ? "btn-white text-primary bg-primary bg-opacity-25" : ""
               }`}
               onClick={() => setActiveSection("salir")}
             >

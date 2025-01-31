@@ -42,8 +42,8 @@ const MainPage_admin=() => {
         <div className="list-unstyled ps-0 ul">
           <li className="row col-12 row">
             <button
-              className={`btn col-10 text-start mb-2 ${
-                activeSection === "dashboard" ? "btn-white text-primary" : ""
+              className={`btn col-10 text-start mb-2 ms-4 ${
+                activeSection === "dashboard" ? "btn-white text-primary bg-primary bg-opacity-25 " : ""
               }`}
               onClick={() => setActiveSection("dashboard")}
             > 
@@ -55,8 +55,8 @@ const MainPage_admin=() => {
           </li>
           <li className="row col-12">
             <button
-              className={`btn col-10 text-start mb-2 ${
-                activeSection === "Usuarios" ? "btn-white text-primary" : ""
+              className={`btn col-10 text-start mb-2 ms-4 ${
+                activeSection === "Usuarios" ? "btn-white text-primary bg-primary bg-opacity-25" : ""
               }`}
               onClick={() => setActiveSection("Usuarios")}
             >
@@ -68,8 +68,8 @@ const MainPage_admin=() => {
           </li>
           <li className="row col-12 ">
             <button
-              className={`btn col-10 text-start mb-2 ${
-                activeSection === "historial" ? "btn-white text-primary" : ""
+              className={`btn col-10 text-start mb-2 ms-4 ${
+                activeSection === "historial" ? "btn-white text-primary bg-primary bg-opacity-25" : ""
               }`}
               onClick={() => setActiveSection("historial")}
             >
@@ -82,8 +82,8 @@ const MainPage_admin=() => {
           </li>
           <li className="row col-12">
             <button
-              className={`btn col-10 text-start mb-2 ${
-                activeSection === "configuracion" ? "btn-white text-primary" : ""
+              className={`btn col-10 text-start mb-2 ms-4 ${
+                activeSection === "configuracion" ? "btn-white text-primary bg-primary bg-opacity-25" : ""
               }`}
               onClick={() => setActiveSection("configuracion")}
             >
@@ -98,7 +98,7 @@ const MainPage_admin=() => {
           <li className="row col-12">
             <button
               className={`btn col-10 text-start mt-5 ms-4${
-                activeSection === "salir" ? "btn-white text-primary" : ""
+                activeSection === "salir" ? "btn-white text-primary bg-primary bg-opacity-25" : ""
               }`}
               onClick={() => setActiveSection("salir")}
             >
