@@ -4,11 +4,13 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import PaginaEgresos from "./PaginaEgresos";
 import Configuracion from "./Configuracion";
 import Presupuesto from "./Presupuesto";
+import { useNavigate} from "react-router-dom";
 
 // Registrar los componentes necesarios de Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const MainPage_usuario=() => {
+  let navigate = useNavigate()
   const [activeSection, setActiveSection] = useState("dashboard"); // Estado para controlar la sección activa
 
   // Contenido dinámico que se mostrará en el main content
@@ -22,8 +24,6 @@ const MainPage_usuario=() => {
         return <Presupuesto/>;
       case "configuracion":
         return <Configuracion/>;
-      case "salir":
-        return <h1>Salir</h1>;
       
     }
   };
@@ -97,10 +97,8 @@ const MainPage_usuario=() => {
           </li>
           <li>
             <button
-              className={`btn w-100 text-start mt-4 ${
-                activeSection === "salir" ? "btn-white text-primary bg-primary bg-opacity-25" : ""
-              }`}
-              onClick={() => setActiveSection("salir")}
+              className={`btn w-100 text-start mt-4 `}
+              onClick={() => {navigate("/")}}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-box-arrow-right col-4" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>

@@ -1,19 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 
 const LoginPage = () => {
-    const navigate = useNavigate();
+    let navigate = useNavigate();
     const [usuario, setUsuario] = useState<string>("");
     const [password, setPassword] = useState<string>("");
 
-    const handleForgotPassword = () => {
-      
-        navigate("/nueva-contraseña");
-    };
-
-    const handleRegister = () => {
-        navigate("/registrar-nuevo");
-    };
 
     const loginHandler = (usuario : string, password:string) => {
        
@@ -68,7 +60,7 @@ const LoginPage = () => {
                     </div>
                     <div className="row mb-3">
                         <div className="col-12 text-center">
-                            <a href="" onClick={handleForgotPassword} className="text-decoration-underline">
+                            <a href="" onClick={()=>{navigate("/nueva-contraseña")}} className="text-decoration-underline">
                                 ¿Olvidaste tu contraseña?
                             </a>
                         </div>
@@ -93,7 +85,7 @@ const LoginPage = () => {
                         <div className="col-12">
                             <div className="d-grid gap-2">
 
-                                <button className="btn btn-secondary" onClick={handleRegister} type="button">
+                                <button className="btn btn-secondary" onClick={()=>{navigate("/registrar-nuevo")}} type="button">
 
                                     Registrarse
                                 </button>
