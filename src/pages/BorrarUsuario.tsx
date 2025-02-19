@@ -1,6 +1,10 @@
+import { Usuarios } from "./Tabla_usuarios_admin";
+
 interface BorrarUsuarioProps {
     showModal : boolean;
     closeModal : () => void
+    Eliminar : (id : number) => void
+    UsuarioBorrar : number
 }
 
 const BorrarUsuario = (props : BorrarUsuarioProps) => {
@@ -23,7 +27,7 @@ const BorrarUsuario = (props : BorrarUsuarioProps) => {
           </div>
           <div className="col-6">  
             <button type="button" className="btn btn-primary col-10" onClick={ () =>  {
-                            props.closeModal()
+                        props.Eliminar(props.UsuarioBorrar)    
                         } }>SI</button>
           </div>
         </div>

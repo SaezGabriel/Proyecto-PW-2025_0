@@ -1,11 +1,35 @@
+import { useState } from "react";
+
 interface FormularioUsuarioProps {
     closeModal : () => void
     showModal : boolean;
+    GuardarUsuario : (nombreUsuario : string, correo : string, contraseña : string, rol : number) => void
 }
 
 
 
 const RegistroUsuario = (props : FormularioUsuarioProps) => {
+
+    const [nombreUsuario, setNombreUsuario] = useState<string>("")
+    const [correo, setCorreo] = useState<string>("")
+    const [contraseña, setContraseña] = useState<string>("")
+    const [rol, setRol] = useState<number>(0)
+
+    const nombreUsuarioChangeHandler = (e : React.ChangeEvent<HTMLInputElement>) => {
+        setNombreUsuario(e.target.value)
+    }
+
+    const correoChangeHandler = (e : React.ChangeEvent<HTMLInputElement>) => {
+        setCorreo(e.target.value)
+    }
+
+    const contraseñaChangeHandler = (e : React.ChangeEvent<HTMLInputElement>) => {
+        setContraseña(e.target.value)
+    }
+
+    const rolChangeHandler = (e : React.ChangeEvent<HTMLSelectElement>) => {
+        setRol(parseInt(e.target.value))
+    }
     return (
         <div className={props.showModal == true ? "modal fade show d-block bg-dark bg-opacity-50" : "modal fade"}>
             <div className="modal-dialog modal-dialog-centered">
@@ -21,7 +45,8 @@ const RegistroUsuario = (props : FormularioUsuarioProps) => {
                             className="form-control" 
                             id="inputNombre" 
                             placeholder="Ingresar nombre" 
-                            value="" 
+                            value={nombreUsuario} 
+                            onChange={nombreUsuarioChangeHandler}
                             required/>
                 </div>
             </div>
@@ -32,7 +57,8 @@ const RegistroUsuario = (props : FormularioUsuarioProps) => {
                             className="form-control" 
                             id="inputCorreo" 
                             placeholder="Ingresar correo" 
-                            value="" 
+                            value={correo} 
+                            onChange={correoChangeHandler}
                             required/>
                 </div>
             </div>
@@ -43,7 +69,8 @@ const RegistroUsuario = (props : FormularioUsuarioProps) => {
                             className="form-control" 
                             id="inputPassword" 
                             placeholder="Ingresar contraseña" 
-                            value="" 
+                            value={contraseña}
+                            onChange={contraseñaChangeHandler} 
                             required/>
                 </div>
             </div>
@@ -51,11 +78,12 @@ const RegistroUsuario = (props : FormularioUsuarioProps) => {
                 <label className="col-sm-3 col-form-label ps-3">Rol usuario</label>
                 <div className="col-7 mb-3">
                     <select className="form-select" 
-                            id="inputGroupSelect01"
-                            value=""
+                            id="rol"
+                            value={rol}
+                            onChange={rolChangeHandler}
                             >
-                    <option selected>User</option>
-                    <option value="Admin">Admin</option>
+                    <option selected value={0}>User</option>
+                    <option value={1}>Admin</option>
                     </select>
                 </div>
             </div>
@@ -69,7 +97,7 @@ const RegistroUsuario = (props : FormularioUsuarioProps) => {
                     <button type="button" 
                             className="btn btn-primary w-75"
                             onClick={ () =>  {
-                                props.closeModal()
+                                props.GuardarUsuario(nombreUsuario, correo, contraseña,rol)
                             } }
                             >Aceptar</button>
                 </div>
