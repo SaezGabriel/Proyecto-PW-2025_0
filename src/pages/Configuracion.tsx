@@ -1,9 +1,57 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import EditarInfoUsuario from "./EditarInfoUsuario"
+import { Usuarios } from "./Tabla_usuarios_admin"
 
-const Configuracion = () =>
-{
+
+const Configuracion = () =>{
+
+    const[usuarioSession,setUsuarioSession]=useState<string>("")
+    const[usuarioLogin,setUsuarioLogin]=useState<Usuarios>()
     const [showModal, setShowModal] = useState<boolean>(false)
+
+    useEffect(()=>{
+        const usuarioNombre = sessionStorage.getItem("nombre")
+        if(usuarioNombre != null){
+            setUsuarioSession(usuarioNombre)
+            httpObtenerUsuario(usuarioSession)
+        }
+        
+    })
+
+    const httpObtenerUsuario = async (nombre:string) => {
+        const url = "http://localhost:5000/usuarios?nombre="+nombre
+        const resp = await fetch(url)
+        const data = await resp.json()
+          if ( data.msg == "") {
+            const Usuario = data.usuarios
+            setUsuarioLogin(Usuario)
+            
+          }else {
+              console.error(`Error al obtener usuario: ${data.msg}`)
+          }
+        }
+    
+    const httpEditarUsuario = async (id : number, nombreUsuario: string, correo: string, contraseña: string) => {
+        const url = "http://localhost:5000/usuarios?id="+id
+        const resp = await fetch(url, {
+            method: "PUT",
+            body: JSON.stringify({
+                id : id,
+                nombre: nombreUsuario,
+                correo: correo,
+                contraseña: contraseña,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+        const data = await resp.json()
+        if (data.msg === "") {
+            setShowModal(false)
+        } else {
+            console.error(`Error al editar usuario: ${data.msg}`)
+        }
+    }
 
     return (
         <div className="container mt-5 bg-light">
@@ -30,7 +78,7 @@ const Configuracion = () =>
                             Nombre
                         </div>
                         <div className="col-4 p-3">
-                            Jessica Straus
+                            {usuarioLogin?.nombre}
                         </div>
                     </div>
                     <div className="col-6">
@@ -38,7 +86,7 @@ const Configuracion = () =>
                             Correo electronico
                         </div>
                         <div className="col-3 p-3 pb-1">
-                            jess@taxes.com
+                            {usuarioLogin?.correo}
                         </div>
                     </div>
                 </div>
@@ -47,14 +95,18 @@ const Configuracion = () =>
                         Contraseña
                     </div>
                     <div className="col-3 p-3 pb-1">
-                        12345
+                        {usuarioLogin?.contraseña}
                     </div>
                 </div>
             </div>
             <EditarInfoUsuario showModal={ showModal } 
             closeModal={ () => {
             setShowModal(false)
-            } }/>
+            } }
+            Usuario={usuarioLogin}
+            EditarUsuario={ async (id:number,nombreUsuario : string, correo : string, contraseña : string) => {
+                await httpEditarUsuario(id, nombreUsuario, correo, contraseña)
+                await httpObtenerUsuario(nombreUsuario)}}/>
         </div>
         
 
