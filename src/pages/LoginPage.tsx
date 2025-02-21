@@ -1,27 +1,79 @@
 import { useState } from "react";
 import { useNavigate} from "react-router-dom";
+import { useEffect } from "react"
 
+
+//const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
 const LoginPage = () => {
     let navigate = useNavigate();
-    const [usuario, setUsuario] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
+    const [correo, setCorreo] = useState<string>("");
+    const [contraseña, setContraseña] = useState<string>("");
 
-
-    const loginHandler = (usuario : string, password:string) => {
-       
-        if (usuario === "usuario@gmail.com" && password === "123") {
-            navigate("/MainPage_usuario");
-        } else if (usuario === "admin@gmail.com" && password === "123") {
-            navigate("/MainPage_admin");
-        } else {
-            //Incorrecto Login
+    useEffect(() => {
+        const usuario = sessionStorage.getItem("usuario");
+    
+        if (usuario !== null) {
+            const userData = JSON.parse(usuario); // Parseamos los datos almacenados
+    
+            if (userData.rol === "User") {
+                // Si el rol es "usuario", redirigir a la página de usuario
+                navigate("/MainPage_usuario");
+            } else if (userData.rol === "Admin") {
+                // Si el rol es "admin", redirigir a la página de admin
+                navigate("/MainPage_admin");
+            }
         }
-    };
-    const handleUsuarioChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-            setUsuario(e.currentTarget.value)
+    })
+    
+    const loginHandler = async (correo: string, contraseña: string) => {
+        const userData = {
+            correo: correo,
+            contraseña: contraseña,
+        };
+        
+        try {
+            //const resp = await fetch(URL_BACKEND + "/usuarios/login", {
+            const resp = await fetch("http://localhost:5000", {
+                method: "POST",
+                body: JSON.stringify(userData),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+    
+            const data = await resp.json();
+    
+            if (data.msg === "") {
+                // Login correcto
+                const userJSON = JSON.stringify(userData);
+                console.log(userJSON);
+                sessionStorage.setItem("usuario", userJSON);
+    
+                // Redirigir según el tipo de usuario
+                if (data.role === "User ") {
+                    // Si es un usuario normal, redirigir a la página de usuario
+                    navigate("/MainPage_usuario");
+                    
+                } else if (data.role === "Admin") {
+                    // Si es un admin, redirigir a la página de admin
+                    navigate("/MainPage_admin");
+                }
+            } else {
+                console.log("Error de autenticación:", data.msg);
+        }
+    } catch (error) {
+        console.error("Error en la solicitud:", error);
     }
-    const handlePasswordChange = (e : React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.currentTarget.value)
+       
+    };
+    
+
+
+    const handleCorreoChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        setCorreo(e.currentTarget.value)
+    }
+    const handleConstraseñaChange = (e : React.ChangeEvent<HTMLInputElement>) => {
+        setContraseña(e.currentTarget.value)
     }
  return     <div
             className="d-flex justify-content-center align-items-center bg-body-secondary"
@@ -40,8 +92,8 @@ const LoginPage = () => {
                                 className="form-control"
                                 type="email"
                                 placeholder="Ingresar correo"
-                                value={usuario}
-                                onChange={handleUsuarioChange}
+                                value={correo}
+                                onChange={handleCorreoChange}
                                 required
                             />
                         </div>
@@ -52,8 +104,8 @@ const LoginPage = () => {
                                 className="form-control"
                                 type="password"
                                 placeholder="Ingresar contraseña"
-                                value={password}
-                                onChange={handlePasswordChange}
+                                value={contraseña}
+                                onChange={handleConstraseñaChange}
                                 required
                             />
                         </div>
@@ -69,13 +121,13 @@ const LoginPage = () => {
                         <div className="col-12">
                             <div className="d-grid gap-2">
                                 <button  onClick={ () =>{
-                                    loginHandler(usuario,password)
+                                    loginHandler(correo,contraseña)
                                 }} className="btn btn-primary" type="submit">
                                     Ingresar
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div >
                     <div className="row mb-2">
                         <div className="col-12 text-center">
                             <span className="text-muted">O</span>
@@ -99,3 +151,4 @@ const LoginPage = () => {
 }
 
 export default LoginPage
+

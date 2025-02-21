@@ -7,7 +7,7 @@ import BorrarUsuario from "./BorrarUsuario";
 interface Usuarios {
     nombre : string;
     correo : string;
-    rol : 'Admin' | 'User'; // El rol puede ser 'Admin' o 'User'
+    rol : string; // El rol puede ser 'Admin' o 'User'
   }
   
   interface usuarioProps {
