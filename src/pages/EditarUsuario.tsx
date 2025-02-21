@@ -13,10 +13,10 @@ interface EditarioUsuarioProps {
 const EditarUsuario = (props : EditarioUsuarioProps) => {
     
     
-    const [nombreUsuario, setNombreUsuario] = useState<string>("")
-    const [correo, setCorreo] = useState<string>("")
-    const [contraseña, setContraseña] = useState<string>("")
-    const [rol, setRol] = useState<number>(0)
+    const [nombreUsuario, setNombreUsuario] = useState<string>(props.UsuarioSeleccionadoEditar.nombre)
+    const [correo, setCorreo] = useState<string>(props.UsuarioSeleccionadoEditar.correo)
+    const [contraseña, setContraseña] = useState<string>(props.UsuarioSeleccionadoEditar.contraseña)
+    const [rol, setRol] = useState<number>(props.UsuarioSeleccionadoEditar.rol)
     
     const nombreUsuarioChangeHandler = (e : React.ChangeEvent<HTMLInputElement>) => {
         setNombreUsuario(e.target.value)
@@ -43,31 +43,31 @@ const EditarUsuario = (props : EditarioUsuarioProps) => {
                 
                 <div className="modal-body">
             <div className="mb-3 row ps-1 ms-1">
-                <label className="col-sm-2 col-form-label ps-3">Nombre</label>
+                <label className="col-sm-3 col-form-label ps-3">Nombre</label>
                 <div className="col-8 ps-5">
                     <input type="text" 
                             className="form-control" 
                             id="inputNombre" 
-                            placeholder="Ingresar nombre" 
+                            placeholder="Ingresar nombre"
                             value={nombreUsuario} 
                             onChange={nombreUsuarioChangeHandler}
-                            required/>{props.UsuarioSeleccionadoEditar.nombre}
+                            required/>
                 </div>
             </div>
-            <div className="mb-3 row ps-1 ms-2">
-                <label className="col-sm-2 col-form-label">Correo</label>
-                <div className="col-8 ps-5">
+            <div className="mb-3 row ms-1">
+                <label className="col-sm-3 col-form-label">Correo</label>
+                <div className="col-8 ps-5 ms-1">
                     <input type="text" 
                             className="form-control" 
                             id="inputCorreo" 
                             placeholder="Ingresar correo" 
                             value={correo}
                             onChange={correoChangeHandler} 
-                            required/>{props.UsuarioSeleccionadoEditar.correo}
+                            required/>
                 </div>
             </div>
-            <div className="mb-3 row ms-2">
-                <label className="col-sm-3 col-form-label ps-3">Contraseña</label>
+            <div className="mb-3 row ms-1">
+                <label className="col-sm-4 col-form-label ps-1">Contraseña</label>
                 <div className="col-7">
                     <input type="password" 
                             className="form-control" 
@@ -75,11 +75,11 @@ const EditarUsuario = (props : EditarioUsuarioProps) => {
                             placeholder="Ingresar contraseña" 
                             onChange={contraseñaChangeHandler} 
                             value={contraseña} 
-                            required/>{props.UsuarioSeleccionadoEditar.contraseña}
+                            required/>
                 </div>
             </div>
-            <div className="mb-3 row ms-2">
-                <label className="col-sm-3 col-form-label ps-3">Rol usuario</label>
+            <div className="mb-3 row ps-3">
+                <label className="col-sm-4 col-form-label">Rol usuario</label>
                 <div className="col-7 mb-3">
                     <select className="form-select" 
                             id="rol"

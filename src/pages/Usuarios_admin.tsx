@@ -6,26 +6,26 @@ import RegistroUsuario from "./RegistroUsuario";
 
 
 const UsuariosAdmin = () => {
+
   const [showModal, setShowModal] = useState<boolean>(false)
   const[showAgregar, setAgregar]=useState<boolean>(false)
   const [usuarios, setUsuarios] = useState<Usuarios[]>([])
 
   
   const httpObtenerUsuarios = async () => {
-  const url = "http://localhost:5000/usuarios"
+  const url = "http://localhost:3000/usuarios"
   const resp = await fetch(url)
   const data = await resp.json()
     if (data.msg == "") {
         const listaUsuarios = data.usuarios
         setUsuarios(listaUsuarios)
-        console.log(listaUsuarios)
     }else {
         console.error(`Error al obtener usuarios: ${data.msg}`)
     }
   }
 
   const httpAgregarUsuario = async (nombreUsuario : string, correo : string, contraseña : string, rol : number) => {
-    const url = "http://localhost:5000/usuarios"
+    const url = "http://localhost:3000/usuarios/agregar"
     const resp = await fetch(url, {
         method : "POST",
         body : JSON.stringify({
@@ -55,6 +55,7 @@ const UsuariosAdmin = () => {
 const closeModalAgregar = () => {
   setAgregar(false)
 } 
+
   ///const agregarElementoTabla = (elem : Usuarios) => {
   ///    tabla.push(elem)
   ///}

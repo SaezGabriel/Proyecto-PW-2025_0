@@ -5,21 +5,20 @@ import { Usuarios } from "./Tabla_usuarios_admin"
 
 const Configuracion = () =>{
 
-    const[usuarioSession,setUsuarioSession]=useState<string>("")
     const[usuarioLogin,setUsuarioLogin]=useState<Usuarios>()
     const [showModal, setShowModal] = useState<boolean>(false)
 
     useEffect(()=>{
-        const usuarioNombre = sessionStorage.getItem("nombre")
-        if(usuarioNombre != null){
-            setUsuarioSession(usuarioNombre)
-            httpObtenerUsuario(usuarioSession)
-        }
+        const usuarioCorreo: string = "pepe@example.com"
+        if(usuarioCorreo != null){
+            httpObtenerUsuario(usuarioCorreo)}
         
-    })
+    },[])
 
-    const httpObtenerUsuario = async (nombre:string) => {
-        const url = "http://localhost:5000/usuarios?nombre="+nombre
+    
+
+    const httpObtenerUsuario = async (correo:string) => {
+        const url = "http://localhost:3000/usuarios?correo="+correo
         const resp = await fetch(url)
         const data = await resp.json()
           if ( data.msg == "") {
@@ -32,7 +31,7 @@ const Configuracion = () =>{
         }
     
     const httpEditarUsuario = async (id : number, nombreUsuario: string, correo: string, contraseña: string) => {
-        const url = "http://localhost:5000/usuarios?id="+id
+        const url = "http://localhost:3000/usuarios?id="+id
         const resp = await fetch(url, {
             method: "PUT",
             body: JSON.stringify({
