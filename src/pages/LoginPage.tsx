@@ -15,10 +15,10 @@ const LoginPage = () => {
         if (usuario !== null) {
             const userData = JSON.parse(usuario); // Parseamos los datos almacenados
     
-            if (userData.rol === "User") {
+            if (userData.rol_id === 0) {
                 // Si el rol es "usuario", redirigir a la página de usuario
                 navigate("/MainPage_usuario");
-            } else if (userData.rol === "Admin") {
+            } else if (userData.rol_id === 1) {
                 // Si el rol es "admin", redirigir a la página de admin
                 navigate("/MainPage_admin");
             }
@@ -26,14 +26,15 @@ const LoginPage = () => {
     })
     
     const loginHandler = async (correo: string, contraseña: string) => {
+        console.log("funciona")
         const userData = {
             correo: correo,
-            contraseña: contraseña,
+            contraseña: contraseña       
         };
         
         try {
             //const resp = await fetch(URL_BACKEND + "/usuarios/login", {
-            const resp = await fetch("http://localhost:5000", {
+            const resp = await fetch("http://localhost:5000/usuarios/login", {
                 method: "POST",
                 body: JSON.stringify(userData),
                 headers: {
@@ -50,11 +51,11 @@ const LoginPage = () => {
                 sessionStorage.setItem("usuario", userJSON);
     
                 // Redirigir según el tipo de usuario
-                if (data.role === "User ") {
+                if (data.rol_id === 0) {
                     // Si es un usuario normal, redirigir a la página de usuario
                     navigate("/MainPage_usuario");
                     
-                } else if (data.role === "Admin") {
+                } else if (data.rol_id === 1) {
                     // Si es un admin, redirigir a la página de admin
                     navigate("/MainPage_admin");
                 }
