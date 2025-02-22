@@ -15,7 +15,7 @@ const RegistroUsuario = (props : FormularioUsuarioProps) => {
     const [nombreUsuario, setNombreUsuario] = useState<string>("")
     const [correo, setCorreo] = useState<string>("")
     const [contraseña, setContraseña] = useState<string>("")
-    const [rol, setRol] = useState<number>(0)
+    const [rol, setRol] = useState<number>(1)
 
     const nombreUsuarioChangeHandler = (e : React.ChangeEvent<HTMLInputElement>) => {
         setNombreUsuario(e.target.value)
@@ -73,7 +73,8 @@ const RegistroUsuario = (props : FormularioUsuarioProps) => {
                             placeholder="Ingresar contraseña" 
                             value={contraseña}
                             onChange={contraseñaChangeHandler} 
-                            required/>
+                            required
+                            />
                 </div>
             </div>
             <div className="mb-3 row ms-2">

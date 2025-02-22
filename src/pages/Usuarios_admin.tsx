@@ -30,7 +30,7 @@ const UsuariosAdmin = () => {
     const resp = await fetch(url)
     const data = await resp.json()
     if (data.msg == "") {
-        const listaRol = data.categorias
+        const listaRol = data.roles
         setRoles(listaRol)
     }else {
         console.error(`Error al obtener categorias: ${data.msg}`)
@@ -38,14 +38,13 @@ const UsuariosAdmin = () => {
 }
 
   const httpAgregarUsuario = async (nombreUsuario : string, correo : string, contraseña : string, rol : number) => {
-    const url = "http://localhost:3000/usuarios/agregar"
+    const url = "http://localhost:3000/usuarios"
     const resp = await fetch(url, {
         method : "POST",
         body : JSON.stringify({
-            id : null,
             nombre : nombreUsuario,
             correo : correo,
-            contraseña : contraseña,
+            contrasena : contraseña,
             rol : rol
         }),
         headers : {
@@ -54,7 +53,7 @@ const UsuariosAdmin = () => {
     })
     const data = await resp.json()
     if (data.msg == "") {
-      closeModalAgregar
+      closeModalAgregar()
     }
 }
 

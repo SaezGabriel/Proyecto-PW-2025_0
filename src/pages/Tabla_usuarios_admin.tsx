@@ -46,7 +46,7 @@ const TablaUsuario = (props : usuarioProps) => {
   const[showBorrar, setBorrar]=useState<boolean>(false)
 
   const httpEditarUsuario = async (id : number, nombreUsuario: string, correo: string, contraseña: string, rol: number) => {
-    const url = "http://localhost:5000/usuarios?id="+id
+    const url = "http://localhost:3000/usuarios?id="+id
     const resp = await fetch(url, {
       method: "PUT",
       body: JSON.stringify({
@@ -69,13 +69,14 @@ const TablaUsuario = (props : usuarioProps) => {
   }
   
   const httpEliminarUsuario = async (id : number) => {
-    const url = "http://localhost:5000/usuarios?id=" + id
+    const url = "http://localhost:3000/usuarios?id=" + id
     const resp = await fetch(url, {
         method : "DELETE"
     })
     const data = await resp.json()
     if (data.msg == "") {
         props.ObtenerUsuario()
+        setBorrar(false)
     }else {
         console.error(`Error al eliminar un usuario: ${data.msg}`)
     }
@@ -83,6 +84,7 @@ const TablaUsuario = (props : usuarioProps) => {
 
   useEffect( ()=> {
     props.ObtenerUsuario()
+    
   },[])
 
   return (
@@ -116,8 +118,8 @@ const TablaUsuario = (props : usuarioProps) => {
             </thead>
             <tbody id="TBODY" className="text-center">
               { props.listaElementos.map((usuario : Usuarios) => {
-                return <tr>
-                <td scope="row" key={usuario.id}>{usuario.id}</td>
+                return <tr key={usuario.id}>
+                <td scope="row">{usuario.id}</td>
                 <td>{usuario.nombre}</td>
                 <td>{usuario.correo}</td>
                 <td>{usuario.contraseña}</td>
@@ -135,6 +137,7 @@ const TablaUsuario = (props : usuarioProps) => {
                 await props.ObtenerUsuario()
             }}/>
               <button className="btn btn-outline-secondary btn-sm" onClick={()=>{
+                                setUsuarioSeleccionado(usuario);
                                 setBorrar(true);
                             }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
@@ -143,6 +146,7 @@ const TablaUsuario = (props : usuarioProps) => {
               </button>
               <BorrarUsuario showModal={showBorrar} closeModal={()=>{setBorrar(false)}} UsuarioBorrar={usuarioSeleccionado.id} Eliminar={  async (id : number) => {
                         await httpEliminarUsuario(id)
+                        await props.ObtenerUsuario()
                     }}/>
                 </td>
               </tr>
