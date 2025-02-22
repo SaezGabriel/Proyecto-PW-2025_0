@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Usuarios } from "./Tabla_usuarios_admin";
 
 interface EditarioUsuarioProps {
@@ -12,7 +12,7 @@ interface EditarioUsuarioProps {
 
 const EditarUsuario = (props : EditarioUsuarioProps) => {
     
-    
+    const [id, setId] = useState<number>(props.UsuarioSeleccionadoEditar.id)
     const [nombreUsuario, setNombreUsuario] = useState<string>(props.UsuarioSeleccionadoEditar.nombre)
     const [correo, setCorreo] = useState<string>(props.UsuarioSeleccionadoEditar.correo)
     const [contraseña, setContraseña] = useState<string>(props.UsuarioSeleccionadoEditar.contraseña)
@@ -33,6 +33,14 @@ const EditarUsuario = (props : EditarioUsuarioProps) => {
     const rolChangeHandler = (e : React.ChangeEvent<HTMLSelectElement>) => {
         setRol(parseInt(e.target.value))
     }
+
+    useEffect(() => {
+          setId(props.UsuarioSeleccionadoEditar.id)
+          setNombreUsuario(props.UsuarioSeleccionadoEditar.nombre);
+          setCorreo(props.UsuarioSeleccionadoEditar.correo);
+          setContraseña(props.UsuarioSeleccionadoEditar.contraseña);
+          setRol(props.UsuarioSeleccionadoEditar.rol)
+      }, [props.UsuarioSeleccionadoEditar]);
 
     return (
         <div className={props.showModal == true ? "modal fade show d-block bg-dark bg-opacity-50" : "modal fade"}>
@@ -86,8 +94,8 @@ const EditarUsuario = (props : EditarioUsuarioProps) => {
                             value={rol}
                             onChange={rolChangeHandler}
                             >
-                    <option selected value={0}>User</option>
-                    <option value={1}>Admin</option>
+                    <option selected value={1}>User</option>
+                    <option value={2}>Admin</option>
                     </select>
                 </div>
             </div>
@@ -101,7 +109,7 @@ const EditarUsuario = (props : EditarioUsuarioProps) => {
                     <button type="button" 
                             className="btn btn-primary w-75"
                             onClick={ () =>  {
-                                props.EditarUsuario(props.UsuarioSeleccionadoEditar.id,nombreUsuario, correo, contraseña,rol)
+                                props.EditarUsuario(id,nombreUsuario, correo, contraseña,rol)
                             } }
                             >Aceptar</button>
                 </div>

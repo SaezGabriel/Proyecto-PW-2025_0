@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { Rol } from "./Tabla_usuarios_admin";
 
 interface FormularioUsuarioProps {
     closeModal : () => void
     showModal : boolean;
+    roles : Rol[]
     GuardarUsuario : (nombreUsuario : string, correo : string, contraseña : string, rol : number) => void
 }
 
@@ -82,8 +84,13 @@ const RegistroUsuario = (props : FormularioUsuarioProps) => {
                             value={rol}
                             onChange={rolChangeHandler}
                             >
-                    <option selected value={0}>User</option>
-                    <option value={1}>Admin</option>
+                    {
+                                        props.roles.map((cat : Rol) => {
+                                            return <option value={cat.id}>
+                                                {cat.nombre}
+                                            </option>
+                                        })
+                                    }
                     </select>
                 </div>
             </div>

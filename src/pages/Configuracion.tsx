@@ -1,15 +1,30 @@
 import { useEffect, useState } from "react"
 import EditarInfoUsuario from "./EditarInfoUsuario"
 import { Usuarios } from "./Tabla_usuarios_admin"
+import { Rol } from "./Tabla_usuarios_admin"
 
 
 const Configuracion = () =>{
 
-    const[usuarioLogin,setUsuarioLogin]=useState<Usuarios>()
+    const rolvacio : Rol = {
+        id : 0,
+        nombre : ""
+      }
+
+    const Vacio : Usuarios = {
+        id : 0,
+        nombre : "dfsdf",
+        contraseña : "dfdsf",
+        correo : "dsfsdf",
+        rol : 0,
+        Rol : rolvacio
+    }
+    const[usuarioLogin,setUsuarioLogin]=useState<Usuarios>(Vacio)
     const [showModal, setShowModal] = useState<boolean>(false)
 
     useEffect(()=>{
-        const usuarioCorreo: string = "pepe@example.com"
+        const usuarioCorreo: string = "maria@example.com"
+        
         if(usuarioCorreo != null){
             httpObtenerUsuario(usuarioCorreo)}
         
@@ -22,8 +37,9 @@ const Configuracion = () =>{
         const resp = await fetch(url)
         const data = await resp.json()
           if ( data.msg == "") {
-            const Usuario = data.usuarios
-            setUsuarioLogin(Usuario)
+            const Usuario = data.usuarios[0]
+            if(Usuario!=null){
+                setUsuarioLogin(Usuario)}
             
           }else {
               console.error(`Error al obtener usuario: ${data.msg}`)
@@ -77,7 +93,7 @@ const Configuracion = () =>{
                             Nombre
                         </div>
                         <div className="col-4 p-3">
-                            {usuarioLogin?.nombre}
+                            {usuarioLogin.nombre}
                         </div>
                     </div>
                     <div className="col-6">
@@ -85,7 +101,7 @@ const Configuracion = () =>{
                             Correo electronico
                         </div>
                         <div className="col-3 p-3 pb-1">
-                            {usuarioLogin?.correo}
+                            {usuarioLogin.correo}
                         </div>
                     </div>
                 </div>
@@ -94,7 +110,7 @@ const Configuracion = () =>{
                         Contraseña
                     </div>
                     <div className="col-3 p-3 pb-1">
-                        {usuarioLogin?.contraseña}
+                        {usuarioLogin.contraseña}
                     </div>
                 </div>
             </div>
@@ -105,7 +121,7 @@ const Configuracion = () =>{
             Usuario={usuarioLogin}
             EditarUsuario={ async (id:number,nombreUsuario : string, correo : string, contraseña : string) => {
                 await httpEditarUsuario(id, nombreUsuario, correo, contraseña)
-                await httpObtenerUsuario(nombreUsuario)}}/>
+                await httpObtenerUsuario(correo)}}/>
         </div>
         
 

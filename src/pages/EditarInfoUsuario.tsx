@@ -1,19 +1,20 @@
 import { Usuarios } from "./Tabla_usuarios_admin";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface EditarInfoUsuarioProps {
     showModal : boolean;
     closeModal : () => void
-    Usuario : Usuarios | undefined
+    Usuario : Usuarios
     EditarUsuario : (id:number,nombreUsuario : string, correo : string, contraseña : string) => void
   }
 
 
 const EditarInfoUsuario = (props : EditarInfoUsuarioProps) => {
     
-    const [nombreUsuario, setNombreUsuario] = useState<string>("")
-    const [correo, setCorreo] = useState<string>("")
-    const [contraseña, setContraseña] = useState<string>("")
+    const [id, setId] = useState<number>(props.Usuario.id)
+    const [nombreUsuario, setNombreUsuario] = useState<string>(props.Usuario.nombre)
+    const [correo, setCorreo] = useState<string>(props.Usuario.correo)
+    const [contraseña, setContraseña] = useState<string>(props.Usuario.contraseña)
        
     const nombreUsuarioChangeHandler = (e : React.ChangeEvent<HTMLInputElement>) => {
         setNombreUsuario(e.target.value)
@@ -26,6 +27,14 @@ const EditarInfoUsuario = (props : EditarInfoUsuarioProps) => {
     const contraseñaChangeHandler = (e : React.ChangeEvent<HTMLInputElement>) => {
         setContraseña(e.target.value)
     } 
+ 
+    useEffect(() => {
+      setId(props.Usuario.id)
+      setNombreUsuario(props.Usuario.nombre);
+      setCorreo(props.Usuario.correo);
+      setContraseña(props.Usuario.contraseña);
+  }, [props.Usuario]);
+
 
     return (
         <div className={ props.showModal == true ? "modal fade show d-block bg-dark bg-opacity-50" : "modal fade" } >
@@ -38,19 +47,19 @@ const EditarInfoUsuario = (props : EditarInfoUsuarioProps) => {
                 <div className="mb-3 row ps-1">
             <label className="col-sm-2 col-form-label ps-3">Nombre</label>
             <div className="col-8 ps-5">
-              <input type="text" className="form-control ms-1" id="inputNombre" placeholder={props.Usuario?.nombre} value={nombreUsuario} onChange={nombreUsuarioChangeHandler} required/>
+              <input type="text" className="form-control ms-1" id="inputNombre" placeholder="" value={nombreUsuario} onChange={nombreUsuarioChangeHandler} required/>
             </div>
         </div>
         <div className="mb-3 row ps-1">
             <label className="col-sm-2 col-form-label ps-3">Correo</label>
             <div className="col-8 ps-5">
-              <input type="text" className="form-control ms-1" id="inputCorreo" placeholder={props.Usuario?.correo} value={correo} onChange={correoChangeHandler} required/>
+              <input type="text" className="form-control ms-1" id="inputCorreo" placeholder="" value={correo} onChange={correoChangeHandler} required/>
             </div>
         </div>
         <div className="mb-3 row">
           <label className="col-sm-3 col-form-label ps-3 ms-1">Contraseña</label>
           <div className="col-7">
-            <input type="password" className="form-control " id="inputPassword" placeholder={props.Usuario?.contraseña} value={contraseña} onChange={contraseñaChangeHandler} required/>
+            <input type="password" className="form-control " id="inputPassword" placeholder="" value={contraseña} onChange={contraseñaChangeHandler} required/>
           </div>
         </div>
         <div className="row p-4">
@@ -62,7 +71,7 @@ const EditarInfoUsuario = (props : EditarInfoUsuarioProps) => {
           <div className="col-6">  
             <button type="button" className="btn btn-primary w-75" onClick={ () =>  {
                           if(props.Usuario != null){
-                            props.EditarUsuario(props.Usuario.id, nombreUsuario, correo, contraseña)
+                            props.EditarUsuario(id, nombreUsuario, correo, contraseña)
                           }
                         } }>Aceptar</button>
           </div>

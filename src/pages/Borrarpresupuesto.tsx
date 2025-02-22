@@ -1,6 +1,8 @@
 interface BorrarPresupuestoProps {
     showModal : boolean;
     closeModal : () => void
+    PresupuestoBorrar : number
+    Eliminar : (id : number) => void
 }
 
 const BorrarPresupuesto = (props : BorrarPresupuestoProps) => {
