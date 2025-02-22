@@ -50,7 +50,6 @@ const TablaUsuario = (props : usuarioProps) => {
     const resp = await fetch(url, {
       method: "PUT",
       body: JSON.stringify({
-        id : id,
         nombre: nombreUsuario,
         correo: correo,
         contraseña: contraseña,
