@@ -10,31 +10,26 @@ const LoginPage = () => {
     const [contraseña, setContraseña] = useState<string>("");
 
     useEffect(() => {
-        const usuario = sessionStorage.getItem("usuario");
+        const usuario = sessionStorage.getItem("Usuario");
     
         if (usuario !== null) {
             const userData = JSON.parse(usuario); // Parseamos los datos almacenados
     
-            if (userData.rol_id === 0) {
-                // Si el rol es "usuario", redirigir a la página de usuario
+            if (userData.rol === 1) {
                 navigate("/MainPage_usuario");
-            } else if (userData.rol_id === 1) {
-                // Si el rol es "admin", redirigir a la página de admin
+            } else if (userData.rol === 2) {
                 navigate("/MainPage_admin");
             }
         }
-    })
+    }, []); // Agrega un array vacío para que se ejecute solo al montar el componente
+    
     
     const loginHandler = async (correo: string, contraseña: string) => {
-        console.log("funciona")
-        const userData = {
-            correo: correo,
-            contraseña: contraseña       
-        };
-        
+        console.log("Intentando iniciar sesión...");
+        const userData = { correo, contraseña };
+    
         try {
-            //const resp = await fetch(URL_BACKEND + "/usuarios/login", {
-            const resp = await fetch("http://localhost:5000/usuarios/login", {
+            const resp = await fetch("http://localhost:3000/usuarios/login", {
                 method: "POST",
                 body: JSON.stringify(userData),
                 headers: {
@@ -43,30 +38,29 @@ const LoginPage = () => {
             });
     
             const data = await resp.json();
+            console.log("Respuesta del servidor:", data);
     
-            if (data.msg === "") {
-                // Login correcto
-                const userJSON = JSON.stringify(userData);
-                console.log(userJSON);
-                sessionStorage.setItem("usuario", userJSON);
+            if (resp.ok) { 
+                sessionStorage.setItem("Usuario", JSON.stringify(data)); // Guarda usuario y rol
+                console.log("Redirigiendo según rol...");
     
-                // Redirigir según el tipo de usuario
-                if (data.rol_id === 0) {
-                    // Si es un usuario normal, redirigir a la página de usuario
+                if (Number(data.rol) === 1) {
                     navigate("/MainPage_usuario");
-                    
-                } else if (data.rol_id === 1) {
-                    // Si es un admin, redirigir a la página de admin
+                } else if (Number(data.rol) === 2) {
                     navigate("/MainPage_admin");
+                }
+                 else {
+                    console.error("Rol no reconocido:", data.rol);
                 }
             } else {
                 console.log("Error de autenticación:", data.msg);
+            }
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
         }
-    } catch (error) {
-        console.error("Error en la solicitud:", error);
-    }
-       
     };
+    
+    
     
 
 
