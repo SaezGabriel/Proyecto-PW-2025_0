@@ -44,7 +44,7 @@ const UsuariosAdmin = () => {
         body : JSON.stringify({
             nombre : nombreUsuario,
             correo : correo,
-            contrasena : contraseña,
+            contraseña : contraseña,
             rol : rol
         }),
         headers : {
@@ -53,6 +53,7 @@ const UsuariosAdmin = () => {
     })
     const data = await resp.json()
     if (data.msg == "") {
+      console.log(data.usuario)
       closeModalAgregar()
     }
 }
