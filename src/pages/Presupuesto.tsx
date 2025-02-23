@@ -36,7 +36,7 @@ const Presupuesto = () => {
     const [presupuestoSeleccionado, setPresupuestoSeleccionado]=useState<Presupuesto>(vacio)
     const [presupuestos,setPresupuestos] = useState<Presupuesto[]>([])
     const [usuarioId, setUsuarioId] =useState<number>(0)
-    const [showModalA, setShowModalA] = useState<boolean>(false)
+    const [showAgregar, setAgregar] = useState<boolean>(false)
     const [showEditarPresupuesto, setEditarPresupuesto] = useState<boolean>(false)
     const [showBorrarPresupuesto, setBorrarPresupuesto] = useState<boolean>(false)
     
@@ -81,6 +81,26 @@ const Presupuesto = () => {
       }
     }
     
+    const httpAgregarPresupuesto = async (UsuarioId : number, monto_Mensual : number, categoriaId : number) => {
+      const url = "http://localhost:3000/usuarios"
+      const resp = await fetch(url, {
+          method : "POST",
+          body : JSON.stringify({
+            UsuarioId : UsuarioId,
+            monto_Mensual : monto_Mensual,
+            categoriaId : categoriaId,
+          }),
+          headers : {
+              "Content-Type": "application/json",
+          }
+      })
+      const data = await resp.json()
+      if (data.msg == "") {
+        console.log(data.usuario)
+        setAgregar(false)
+      }
+  } 
+
     useEffect( ()=> {
       
       if (usuarioId !== 0) {
@@ -90,8 +110,8 @@ const Presupuesto = () => {
     
       },[usuarioId])
 
-    const httpEditarPresupuesto = async (UsuarioId : number, categoriaId: number, monto_Mensual: number, PresupuestoSeleccionado : Presupuesto) => {
-      const url = "http://localhost:3000/presupuestos?UsuarioId="+UsuarioId
+    const httpEditarPresupuesto = async ( monto_Mensual: number,categoriaId: number, PresupuestoSeleccionado : Presupuesto) => {
+      const url = "http://localhost:3000/presupuestos?id="+PresupuestoSeleccionado.id
       const resp = await fetch(url, {
         method: "PUT",
         body: JSON.stringify({
@@ -112,7 +132,7 @@ const Presupuesto = () => {
     }
       
     const httpEliminarPresupuesto = async (PresupuestoEliminar : Presupuesto) => {
-      const url = "http://localhost:3000/presupuestos?id="+PresupuestoEliminar.id+"&UsuarioId=" + PresupuestoEliminar.UsuarioId+"&monto_Mensual="+PresupuestoEliminar.monto_Mensual+"&categoriaId="+PresupuestoEliminar.categoriaId
+      const url = "http://localhost:3000/presupuestos?id="+PresupuestoEliminar.id
       const resp = await fetch(url, {
           method : "DELETE"
       })
@@ -128,13 +148,17 @@ const Presupuesto = () => {
     <div className="d-flex justify-content-between align-items-center mb-3">
       <h2 className="fw-bold">Mis presupuestos</h2>
       <button className="btn btn-primary" onClick={()=>{
-                                setShowModalA(true)
+                                setAgregar(true)
                             }}>Agregar</button>
     </div>
-    <AgregarPresupuesto showModal={ showModalA } 
+    <AgregarPresupuesto showModal={ showAgregar } 
             closeModal={ () => {
-            setShowModalA(false)
-            } }/>
+              setAgregar(false)
+            } }
+            UsuarioId = {usuarioId}
+            AgregarPresupuesto={ async ( UsuarioId : number, monto_Mensual : number, categoriaId : number) => {
+              await httpAgregarPresupuesto(UsuarioId,monto_Mensual, categoriaId)
+              await httpObtenerPresupuestos(UsuarioId)}}/>
     <div className="card">
       <table className="table table-hover mb-0">
         <thead className="table-primary text-center">
@@ -159,9 +183,9 @@ const Presupuesto = () => {
 </svg>
                 
               </button>
-              <EditarPresupuesto showModal={showEditarPresupuesto} closeModal={()=>{setEditarPresupuesto(false)}} Categorias={categorias} PresupuestoEditar={presupuestoSeleccionado} EditarPresupuesto={ async (UsuarioId : number, monto_Mensual: number, categoriaId: number, PresupuestoSeleccionado : Presupuesto) => {
-                await httpEditarPresupuesto(UsuarioId,monto_Mensual,categoriaId, PresupuestoSeleccionado)
-                await httpObtenerPresupuestos(UsuarioId)
+              <EditarPresupuesto showModal={showEditarPresupuesto} closeModal={()=>{setEditarPresupuesto(false)}} Categorias={categorias} PresupuestoEditar={presupuestoSeleccionado} EditarPresupuesto={ async ( monto_Mensual: number, categoriaId: number, PresupuestoSeleccionado : Presupuesto) => {
+                await httpEditarPresupuesto(monto_Mensual,categoriaId, PresupuestoSeleccionado)
+                await httpObtenerPresupuestos(PresupuestoSeleccionado.UsuarioId)
             }}/>
               <button className="btn btn-outline-secondary btn-sm" onClick={()=>{
                                 setPresupuestoSeleccionado(presupuesto)

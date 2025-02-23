@@ -63,6 +63,12 @@ const Configuracion = () =>{
             }
         })
         const data = await resp.json()
+        const usuarioActual = JSON.parse(sessionStorage.getItem("Usuario") || "{}");
+        usuarioActual.nombre = nombreUsuario
+        usuarioActual.correo = correo
+        usuarioActual.contraseña = contraseña
+        sessionStorage.setItem("Usuario", JSON.stringify(usuarioActual));
+        console.log(usuarioActual)
         if (data.msg === "") {
             setShowModal(false)
         } else {

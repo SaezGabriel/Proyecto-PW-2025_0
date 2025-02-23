@@ -1,6 +1,6 @@
 import Presupuesto from "./Presupuesto";
 import { useEffect, useState } from "react"
-import { Usuarios } from "./Tabla_usuarios_admin";
+
 
 
 export interface Categoria{
@@ -14,13 +14,11 @@ interface EditarPresupuestoProps {
     Categorias : Categoria[]
     closeModal : () => void
     PresupuestoEditar : Presupuesto
-    EditarPresupuesto : (UsuarioId:number, monto_Mensual: number, categoriaId: number, PresupuestoSeleccionado : Presupuesto) => void
+    EditarPresupuesto : (monto_Mensual: number, categoriaId: number,  PresupuestoSeleccionado : Presupuesto) => void
 }
 
 const EditarPresupuesto = (props : EditarPresupuestoProps) => {
   
-  
-  const [UsuarioId, setUsuarioId] = useState<number>(props.PresupuestoEditar.UsuarioId)
   const [CategoriaId, setCategoriaId] = useState<number>(props.PresupuestoEditar.categoriaId) 
   const [monto, setMonto] = useState<number>(props.PresupuestoEditar.monto_Mensual)
   
@@ -33,7 +31,6 @@ const EditarPresupuesto = (props : EditarPresupuestoProps) => {
   }
   
   useEffect(() => {
-    setUsuarioId(props.PresupuestoEditar.UsuarioId)
     setCategoriaId(props.PresupuestoEditar.categoriaId);
     setMonto(props.PresupuestoEditar.monto_Mensual);
 }, [props.PresupuestoEditar]);
@@ -74,7 +71,7 @@ const EditarPresupuesto = (props : EditarPresupuestoProps) => {
           </div>
           <div className="col-6">  
             <button type="button" className="btn btn-primary w-75" onClick={ () =>  {
-                            props.EditarPresupuesto(UsuarioId,CategoriaId,monto,props.PresupuestoEditar)
+                            props.EditarPresupuesto(monto,CategoriaId,props.PresupuestoEditar)
                         } }>Aceptar</button>
           </div>
         </div>
