@@ -11,9 +11,11 @@ const UsuariosAdmin = () => {
   const[showAgregar, setAgregar]=useState<boolean>(false)
   const [usuarios, setUsuarios] = useState<Usuarios[]>([])
   const [Roles,setRoles] = useState<Rol[]>([])
+  const [filtroActivo, setFiltroActivo] = useState<boolean>(false)
 
   
   const httpObtenerUsuarios = async () => {
+  if(filtroActivo) return;
   const url = "http://localhost:3000/usuarios"
   const resp = await fetch(url)
   const data = await resp.json()
@@ -22,8 +24,8 @@ const UsuariosAdmin = () => {
         setUsuarios(listaUsuarios)
     }else {
         console.error(`Error al obtener usuarios: ${data.msg}`)
-    }
-  }
+    }}
+  
 
   const httpObtenerRol = async () => {
     const url = "http://localhost:3000/rol"
@@ -36,6 +38,22 @@ const UsuariosAdmin = () => {
         console.error(`Error al obtener categorias: ${data.msg}`)
     }
 }
+
+const httpObtenerxFiltro = async (rol : number) => {
+  const url = "http://localhost:3000/usuarios?rol="+rol
+  console.log(rol)
+  const resp = await fetch(url)
+  const data = await resp.json()
+    if (data.msg == "") {
+        const listaUsuarios = data.usuarios
+        setUsuarios(listaUsuarios)
+        console.log(listaUsuarios)
+        setFiltroActivo(true)
+        setShowModal(false)
+    }else {
+        console.error(`Error al obtener usuarios: ${data.msg}`)
+    }
+  }
 
   const httpAgregarUsuario = async (nombreUsuario : string, correo : string, contraseña : string, rol : number) => {
     const url = "http://localhost:3000/usuarios"
@@ -60,10 +78,14 @@ const UsuariosAdmin = () => {
 
 
   useEffect( ()=> {
-    httpObtenerUsuarios()
+    
+    httpObtenerUsuarios();
+
+  },[!filtroActivo])
+
+  useEffect(()=>{
     httpObtenerRol()
   },[])
-
   
 
 const closeModalAgregar = () => {
@@ -80,7 +102,8 @@ const closeModalAgregar = () => {
                 await httpAgregarUsuario(nombreUsuario, correo, contraseña, rol)
                 await httpObtenerUsuarios()
             }}/>
-        <FiltrarRol showModal={showModal} closeModal={() => {setShowModal(false)}} />
+        <FiltrarRol showModal={showModal} Roles={Roles} closeModal={() => {setShowModal(false)}} FiltrarUsuario={ async (rol : number) => {
+                await httpObtenerxFiltro(rol)}}/>
         
     </>
 };
