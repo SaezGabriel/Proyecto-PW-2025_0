@@ -90,13 +90,12 @@ const Presupuesto = () => {
     
       },[usuarioId])
 
-    const httpEditarPresupuesto = async (id : number, UsuarioId:number, monto_Mensual: number, categoriaId: number) => {
-      const url = "http://localhost:3000/presupuestos?id="+id
+    const httpEditarPresupuesto = async (UsuarioId : number, categoriaId: number, monto_Mensual: number, PresupuestoSeleccionado : Presupuesto) => {
+      const url = "http://localhost:3000/presupuestos?UsuarioId="+UsuarioId
       const resp = await fetch(url, {
         method: "PUT",
         body: JSON.stringify({
-          id : id,
-          UsuarioId : UsuarioId,
+          PresupuestoSeleccionado : PresupuestoSeleccionado,
           monto_Mensual: monto_Mensual,
           categoriaId : categoriaId
         }),
@@ -112,14 +111,14 @@ const Presupuesto = () => {
       }
     }
       
-    const httpEliminarPresupuesto = async (id : number) => {
-      const url = "http://localhost:3000/presupuestos?id=" + id
+    const httpEliminarPresupuesto = async (PresupuestoEliminar : Presupuesto) => {
+      const url = "http://localhost:3000/presupuestos?id="+PresupuestoEliminar.id+"&UsuarioId=" + PresupuestoEliminar.UsuarioId+"&monto_Mensual="+PresupuestoEliminar.monto_Mensual+"&categoriaId="+PresupuestoEliminar.categoriaId
       const resp = await fetch(url, {
           method : "DELETE"
       })
       const data = await resp.json()
       if (data.msg == "") {
-        httpObtenerPresupuestos(usuarioId)
+        setBorrarPresupuesto(false)
       }else {
           console.error(`Error al eliminar un usuario: ${data.msg}`)
       }
@@ -160,8 +159,8 @@ const Presupuesto = () => {
 </svg>
                 
               </button>
-              <EditarPresupuesto showModal={showEditarPresupuesto} closeModal={()=>{setEditarPresupuesto(false)}} Categorias={categorias} PresupuestoEditar={presupuestoSeleccionado} EditarPresupuesto={ async (id : number, UsuarioId:number, monto_Mensual: number, categoriaId: number) => {
-                await httpEditarPresupuesto(id, UsuarioId, monto_Mensual, categoriaId)
+              <EditarPresupuesto showModal={showEditarPresupuesto} closeModal={()=>{setEditarPresupuesto(false)}} Categorias={categorias} PresupuestoEditar={presupuestoSeleccionado} EditarPresupuesto={ async (UsuarioId : number, monto_Mensual: number, categoriaId: number, PresupuestoSeleccionado : Presupuesto) => {
+                await httpEditarPresupuesto(UsuarioId,monto_Mensual,categoriaId, PresupuestoSeleccionado)
                 await httpObtenerPresupuestos(UsuarioId)
             }}/>
               <button className="btn btn-outline-secondary btn-sm" onClick={()=>{
@@ -172,8 +171,9 @@ const Presupuesto = () => {
   <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
 </svg>
               </button>
-              <BorrarPresupuesto showModal={showBorrarPresupuesto} closeModal={()=>{setBorrarPresupuesto(false)}} PresupuestoBorrar={presupuestoSeleccionado.id} Eliminar={  async (id : number) => {
-                        await httpEliminarPresupuesto(id)
+              <BorrarPresupuesto showModal={showBorrarPresupuesto} closeModal={()=>{setBorrarPresupuesto(false)}} PresupuestoBorrar={presupuestoSeleccionado} Eliminar={  async (presupuestoSeleccionado : Presupuesto) => {
+                        await httpEliminarPresupuesto(presupuestoSeleccionado)
+                        await httpObtenerPresupuestos(presupuestoSeleccionado.UsuarioId)
                     }}/>
                 </td>
               </tr>
