@@ -4,48 +4,73 @@ import EditarPresupuesto from "./EditarPresupuesto"
 import BorrarPresupuesto from "./Borrarpresupuesto"
 import { Categoria } from "./EditarPresupuesto"
 
+
 interface Presupuesto{
   id : number;
-  CategoriaId : number;
+  UsuarioId : number,
+  monto_Mensual : number
+  categoriaId : number;
   Categoria : Categoria
-  Monto : number
+  
 }
 
 const Presupuesto = () => {
 
+  
+
     const catvacio : Categoria={
       id : 0,
+      UsuarioId : 0,
       nombre : ""
     }
 
     const vacio : Presupuesto = {
       id:0,
-      CategoriaId : 0,
-      Categoria : catvacio,
-      Monto:0
+      UsuarioId : 0,
+      monto_Mensual : 0,
+      categoriaId:0,
+      Categoria : catvacio
     }
 
     const [categorias, setCategorias] = useState<Categoria[]>([])
     const [presupuestoSeleccionado, setPresupuestoSeleccionado]=useState<Presupuesto>(vacio)
     const [presupuestos,setPresupuestos] = useState<Presupuesto[]>([])
+    const [usuarioId, setUsuarioId] =useState<number>(0)
     const [showModalA, setShowModalA] = useState<boolean>(false)
     const [showEditarPresupuesto, setEditarPresupuesto] = useState<boolean>(false)
     const [showBorrarPresupuesto, setBorrarPresupuesto] = useState<boolean>(false)
     
-    const httpObtenerPresupuestos = async () => {
-      const url = "http://localhost:3000/presupuestos"
+    useEffect( ()=> {
+      const usuario = sessionStorage.getItem("Usuario");
+        console.log("Usuario en sessionStorage:", usuario);
+        if (usuario != null) {
+            const userData = JSON.parse(usuario);
+            console.log("Datos parseados:", userData);
+            if(userData != null && userData.correo){
+              setUsuarioId(userData.id)
+              console.log(userData.id)}
+              
+        }
+  
+      },[])
+
+    
+
+    const httpObtenerPresupuestos = async (UsuarioId:number) => {
+      const url = "http://localhost:3000/presupuestos?UsuarioId="+UsuarioId
       const resp = await fetch(url)
       const data = await resp.json()
         if (data.msg == "") {
             const listaPresupuestos = data.presupuestos
             setPresupuestos(listaPresupuestos)
+            console.log(listaPresupuestos)
         }else {
             console.error(`Error al obtener usuarios: ${data.msg}`)
         }
       }
     
-    const httpObtenerCategorias = async () => {
-      const url = "http://localhost:3000/categorias"
+    const httpObtenerCategorias = async (UsuarioId:number) => {
+      const url = "http://localhost:3000/categorias?UsuarioId="+UsuarioId
       const resp = await fetch(url)
       const data = await resp.json()
       if (data.msg == "") {
@@ -55,19 +80,25 @@ const Presupuesto = () => {
           console.error(`Error al obtener categorias: ${data.msg}`)
       }
     }
+    
     useEffect( ()=> {
-      httpObtenerPresupuestos()
-      httpObtenerCategorias()
-      },[])
+      
+      if (usuarioId !== 0) {
+        httpObtenerPresupuestos(usuarioId);
+        httpObtenerCategorias(usuarioId);
+      }
+    
+      },[usuarioId])
 
-    const httpEditarPresupuesto = async (id : number, CategoriaId: number, monto: number) => {
-      const url = "http://localhost:5000/presupuestos?id="+id
+    const httpEditarPresupuesto = async (id : number, UsuarioId:number, monto_Mensual: number, categoriaId: number) => {
+      const url = "http://localhost:3000/presupuestos?id="+id
       const resp = await fetch(url, {
         method: "PUT",
         body: JSON.stringify({
           id : id,
-          CategoriaId: CategoriaId,
-          monto : monto
+          UsuarioId : UsuarioId,
+          monto_Mensual: monto_Mensual,
+          categoriaId : categoriaId
         }),
         headers: {
           "Content-Type": "application/json",
@@ -82,13 +113,13 @@ const Presupuesto = () => {
     }
       
     const httpEliminarPresupuesto = async (id : number) => {
-      const url = "http://localhost:5000/usuarios?id=" + id
+      const url = "http://localhost:3000/presupuestos?id=" + id
       const resp = await fetch(url, {
           method : "DELETE"
       })
       const data = await resp.json()
       if (data.msg == "") {
-        httpObtenerPresupuestos()
+        httpObtenerPresupuestos(usuarioId)
       }else {
           console.error(`Error al eliminar un usuario: ${data.msg}`)
       }
@@ -120,7 +151,7 @@ const Presupuesto = () => {
                 <td scope="row">{presupuesto.Categoria != null 
                                         ? presupuesto.Categoria.nombre 
                                         : "-"}</td>
-                <td>{presupuesto.Monto}</td>
+                <td>{presupuesto.monto_Mensual}</td>
                 <td>
                 <button className="btn btn-outline-secondary btn-sm me-2" onClick={()=>{setPresupuestoSeleccionado(presupuesto); setEditarPresupuesto(true)}
                             }>
@@ -129,11 +160,12 @@ const Presupuesto = () => {
 </svg>
                 
               </button>
-              <EditarPresupuesto showModal={showEditarPresupuesto} closeModal={()=>{setEditarPresupuesto(false)}} Categorias={categorias} PresupuestoEditar={presupuestoSeleccionado} EditarPresupuesto={ async (id:number,CategoriaId : number, monto : number) => {
-                await httpEditarPresupuesto(id, CategoriaId, monto)
-                await httpObtenerPresupuestos()
+              <EditarPresupuesto showModal={showEditarPresupuesto} closeModal={()=>{setEditarPresupuesto(false)}} Categorias={categorias} PresupuestoEditar={presupuestoSeleccionado} EditarPresupuesto={ async (id : number, UsuarioId:number, monto_Mensual: number, categoriaId: number) => {
+                await httpEditarPresupuesto(id, UsuarioId, monto_Mensual, categoriaId)
+                await httpObtenerPresupuestos(UsuarioId)
             }}/>
               <button className="btn btn-outline-secondary btn-sm" onClick={()=>{
+                                setPresupuestoSeleccionado(presupuesto)
                                 setBorrarPresupuesto(true);
                             }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">

@@ -13,9 +13,9 @@ const Configuracion = () =>{
 
     const Vacio : Usuarios = {
         id : 0,
-        nombre : "dfsdf",
-        contraseña : "dfdsf",
-        correo : "dsfsdf",
+        nombre : "-",
+        contraseña : "-",
+        correo : "-",
         rol : 0,
         Rol : rolvacio
     }
@@ -23,11 +23,14 @@ const Configuracion = () =>{
     const [showModal, setShowModal] = useState<boolean>(false)
 
     useEffect(()=>{
-        const usuarioCorreo: string = "maria@example.com"
-        
-        if(usuarioCorreo != null){
-            httpObtenerUsuario(usuarioCorreo)}
-        
+        const usuario = sessionStorage.getItem("Usuario");
+        console.log("Usuario en sessionStorage:", usuario);
+        if (usuario != null) {
+            const userData = JSON.parse(usuario);
+            console.log("Datos parseados:", userData);
+            if(userData != null && userData.correo){
+                httpObtenerUsuario(userData.correo)}
+        }
     },[])
 
     
@@ -51,7 +54,6 @@ const Configuracion = () =>{
         const resp = await fetch(url, {
             method: "PUT",
             body: JSON.stringify({
-                id : id,
                 nombre: nombreUsuario,
                 correo: correo,
                 contraseña: contraseña,

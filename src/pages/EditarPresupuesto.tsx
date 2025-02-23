@@ -1,9 +1,11 @@
 import Presupuesto from "./Presupuesto";
 import { useEffect, useState } from "react"
+import { Usuarios } from "./Tabla_usuarios_admin";
 
 
 export interface Categoria{
   id : number
+  UsuarioId : number
   nombre : string
 }
 
@@ -12,15 +14,16 @@ interface EditarPresupuestoProps {
     Categorias : Categoria[]
     closeModal : () => void
     PresupuestoEditar : Presupuesto
-    EditarPresupuesto : (id:number, CategoriaId : number, monto : number) => void
+    EditarPresupuesto : (id : number, UsuarioId:number, monto_Mensual: number, categoriaId: number) => void
 }
 
 const EditarPresupuesto = (props : EditarPresupuestoProps) => {
   
   
   const [id, setId] = useState<number>(props.PresupuestoEditar.id)
-  const [CategoriaId, setCategoriaId] = useState<number>(props.PresupuestoEditar.CategoriaId) 
-  const [monto, setMonto] = useState<number>(props.PresupuestoEditar.Monto)
+  const [UsuarioId, setUsuarioId] = useState<number>(props.PresupuestoEditar.UsuarioId)
+  const [CategoriaId, setCategoriaId] = useState<number>(props.PresupuestoEditar.categoriaId) 
+  const [monto, setMonto] = useState<number>(props.PresupuestoEditar.monto_Mensual)
   
   const nombrePresupuestoChangeHandler = (e : React.ChangeEvent<HTMLSelectElement>) => {
     setCategoriaId(parseInt(e.target.value))
@@ -32,8 +35,9 @@ const EditarPresupuesto = (props : EditarPresupuestoProps) => {
   
   useEffect(() => {
     setId(props.PresupuestoEditar.id)
-    setCategoriaId(props.PresupuestoEditar.CategoriaId);
-    setMonto(props.PresupuestoEditar.Monto);
+    setUsuarioId(props.PresupuestoEditar.UsuarioId)
+    setCategoriaId(props.PresupuestoEditar.categoriaId);
+    setMonto(props.PresupuestoEditar.monto_Mensual);
 }, [props.PresupuestoEditar]);
 
   return (
@@ -72,7 +76,7 @@ const EditarPresupuesto = (props : EditarPresupuestoProps) => {
           </div>
           <div className="col-6">  
             <button type="button" className="btn btn-primary w-75" onClick={ () =>  {
-                            props.EditarPresupuesto(id,CategoriaId,monto)
+                            props.EditarPresupuesto(id,UsuarioId,monto,CategoriaId)
                         } }>Aceptar</button>
           </div>
         </div>

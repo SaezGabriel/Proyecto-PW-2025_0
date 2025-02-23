@@ -35,9 +35,9 @@ const TablaUsuario = (props : usuarioProps) => {
 
   const Vacio : Usuarios = {
     id : 0,
-    nombre : "dfsdf",
-    contraseña : "dfdsf",
-    correo : "dsfsdf",
+    nombre : "-",
+    contraseña : "-",
+    correo : "-",
     rol : 1,
     Rol : rolvacio
 }

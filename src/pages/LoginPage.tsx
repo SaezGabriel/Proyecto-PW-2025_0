@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate} from "react-router-dom";
 
 const LoginPage = () => {
@@ -7,16 +7,57 @@ const LoginPage = () => {
     const [password, setPassword] = useState<string>("");
 
 
-    const loginHandler = (usuario : string, password:string) => {
-       
-        if (usuario === "usuario@gmail.com" && password === "123") {
-            navigate("/MainPage_usuario");
-        } else if (usuario === "admin@gmail.com" && password === "123") {
-            navigate("/MainPage_admin");
-        } else {
-            //Incorrecto Login
+    useEffect(() => {
+        const usuario = sessionStorage.getItem("Usuario");
+    
+        if (usuario !== null) {
+            const userData = JSON.parse(usuario); // Parseamos los datos almacenados
+    
+            if (userData.rol === 1) {
+                navigate("/MainPage_usuario");
+            } else if (userData.rol === 2) {
+                navigate("/MainPage_admin");
+            }
+        }
+    }, []); // Agrega un array vacío para que se ejecute solo al montar el componente
+    
+    
+    const loginHandler = async (correo: string, contraseña: string) => {
+        console.log("Intentando iniciar sesión...");
+        const userData = { correo, contraseña };
+    
+        try {
+            const resp = await fetch("http://localhost:3000/usuarios/login", {
+                method: "POST",
+                body: JSON.stringify(userData),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+    
+            const data = await resp.json();
+            console.log("Respuesta del servidor:", data);
+    
+            if (resp.ok) { 
+                sessionStorage.setItem("Usuario", JSON.stringify(data)); // Guarda usuario y rol
+                console.log("Redirigiendo según rol...");
+    
+                if (Number(data.rol) === 1) {
+                    navigate("/MainPage_usuario");
+                } else if (Number(data.rol) === 2) {
+                    navigate("/MainPage_admin");
+                }
+                 else {
+                    console.error("Rol no reconocido:", data.rol);
+                }
+            } else {
+                console.log("Error de autenticación:", data.msg);
+            }
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
         }
     };
+
     const handleUsuarioChange = (e : React.ChangeEvent<HTMLInputElement>) => {
             setUsuario(e.currentTarget.value)
     }
