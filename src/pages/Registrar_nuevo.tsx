@@ -20,7 +20,7 @@ const Registrar_nuevo = () => {
         }
     
         // Aquí podrías enviar los datos al servidor o hacer algo más
-        console.log('Registro exitoso', { usuario, password });
+        console.log('Registro exitoso', { usuario, correo, password });
         navigate("/confirmacion-correo")
       };
 
@@ -103,7 +103,7 @@ const Registrar_nuevo = () => {
             <div className="row mb-2">
                 <div className="col-12">
                     <div className="d-grid gap-2">
-                        <button  onClick={ () =>{
+                        <button  onClick={ () =>{ 
                         }} className="btn btn-primary" type="submit">
                             Registrar
                         </button>

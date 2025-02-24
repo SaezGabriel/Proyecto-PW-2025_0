@@ -1,7 +1,9 @@
-import { useNavigate } from "react-router-dom";
-const Confirmacion_correo = () => {
+import { useLocation, useNavigate } from "react-router-dom";
 
+const Confirmacion_correo = () => {
+    const location = useLocation();
     const navigate = useNavigate();
+    const { usuario, correo, password } = location.state || {};
      
     return        <div className="bg-body-secondary">
             <div className="container vh-100 d-flex justify-content-center align-items-center">

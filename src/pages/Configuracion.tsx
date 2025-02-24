@@ -56,7 +56,7 @@ const Configuracion = () =>{
             body: JSON.stringify({
                 nombre: nombreUsuario,
                 correo: correo,
-                contraseña: contraseña,
+                contraseña: contraseña
             }),
             headers: {
                 "Content-Type": "application/json",
@@ -64,11 +64,10 @@ const Configuracion = () =>{
         })
         const data = await resp.json()
         const usuarioActual = JSON.parse(sessionStorage.getItem("Usuario") || "{}");
-        usuarioActual.nombre = nombreUsuario
-        usuarioActual.correo = correo
-        usuarioActual.contraseña = contraseña
+        usuarioActual.nombre = data.usuario.nombre
+        usuarioActual.correo = data.usuario.correo
+        usuarioActual.contraseña = data.usuario.contraseña
         sessionStorage.setItem("Usuario", JSON.stringify(usuarioActual));
-        console.log(usuarioActual)
         if (data.msg === "") {
             setShowModal(false)
         } else {
