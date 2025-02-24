@@ -36,7 +36,7 @@ const PaginaEgresos = () => {
     const [showModalEditar, setShowModalEditar] = useState<boolean>(false)
     const [egresos, setEgresos] = useState<elementosTabla[]>([])
     const [categorias, setCategorias] = useState<Categoria[]>([])
-
+    let elemCambiado = false
 
     const [elementoEditar, setElementoEditar] = useState<elementosTabla>({id:0, UsuarioId: 1, monto:29.99, fecha:"", descripcion: "",  recursivo: false, categoriaId: 1,Categoria: {nombre : ""}})
     /*const tabla : elementosTabla[] = [
@@ -64,8 +64,31 @@ const PaginaEgresos = () => {
         httpObtenerEgresos()
     },[])
 
-    const editarElementoTabla = (index : number) => {
-        setShowModalEditar(true)
+    const httpBuscarEgreso = async (id: number) => {
+        try {
+            const url = URL_BACKEND + "/egresos/" + id
+            const resp = await fetch(url)
+            const data = await resp.json();
+    
+            if (data.msg == "") { 
+                console.log("Egreso encontrado: ", data.egreso)
+                setElementoEditar(data.egreso)
+                elemCambiado = true
+            } else {
+                console.error(`No se encontró el egreso con ID: ${id}`)
+            }
+        } catch (error) {
+            console.error(`Error al obtener el egreso`)
+        }
+    };
+
+    const editarElementoTabla = async (index : number) => {
+        await httpBuscarEgreso(index)
+        console.log(elementoEditar)
+        if(elemCambiado){
+            setShowModalEditar(true)
+            elemCambiado = false
+        }
     }
 
     const agregarElementoTabla = (elem : elementosTabla) => {

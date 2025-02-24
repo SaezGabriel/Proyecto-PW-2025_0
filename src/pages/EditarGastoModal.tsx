@@ -10,7 +10,6 @@ interface EditarEgresoModalProps {
 const EditarEgresoModal = (props : EditarEgresoModalProps) => {
     const elemAct = props.elemento
     let nuevaFecha = elemAct.fecha
-    nuevaFecha = nuevaFecha.substring(6) + "-" + nuevaFecha.substring(3,5) + "-" + nuevaFecha.substring(0,2)
     let nuevoMonto = elemAct.monto
     const recu = elemAct.recursivo
     
