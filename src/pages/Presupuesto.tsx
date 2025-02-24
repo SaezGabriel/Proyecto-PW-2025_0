@@ -69,8 +69,8 @@ const Presupuesto = () => {
         }
       }
     
-    const httpObtenerCategorias = async (UsuarioId:number) => {
-      const url = "http://localhost:3000/categorias?UsuarioId="+UsuarioId
+    const httpObtenerCategorias = async () => {
+      const url = "http://localhost:3000/categorias"
       const resp = await fetch(url)
       const data = await resp.json()
       if (data.msg == "") {
@@ -82,7 +82,7 @@ const Presupuesto = () => {
     }
     
     const httpAgregarPresupuesto = async (UsuarioId : number, monto_Mensual : number, categoriaId : number) => {
-      const url = "http://localhost:3000/usuarios"
+      const url = "http://localhost:3000/presupuestos"
       const resp = await fetch(url, {
           method : "POST",
           body : JSON.stringify({
@@ -105,7 +105,7 @@ const Presupuesto = () => {
       
       if (usuarioId !== 0) {
         httpObtenerPresupuestos(usuarioId);
-        httpObtenerCategorias(usuarioId);
+        httpObtenerCategorias();
       }
     
       },[usuarioId])
@@ -155,6 +155,7 @@ const Presupuesto = () => {
             closeModal={ () => {
               setAgregar(false)
             } }
+            Categorias={categorias}
             UsuarioId = {usuarioId}
             AgregarPresupuesto={ async ( UsuarioId : number, monto_Mensual : number, categoriaId : number) => {
               await httpAgregarPresupuesto(UsuarioId,monto_Mensual, categoriaId)

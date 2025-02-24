@@ -1,12 +1,12 @@
 import { Categoria } from "./EditarPresupuesto";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface AgregarPresupuestoProps {
     showModal : boolean;
     closeModal : () => void
     AgregarPresupuesto : (UsuarioId : number, monto_Mensual : number, categoriaId : number) => void
     UsuarioId : number
-
+    Categorias : Categoria[]
 }
 
 const AgregarPresupuesto = (props : AgregarPresupuestoProps) => {
@@ -18,9 +18,16 @@ const AgregarPresupuesto = (props : AgregarPresupuestoProps) => {
       setcategoriaId(parseInt(e.target.value))
   }
     const montoChangeHandler = (e : React.ChangeEvent<HTMLInputElement>) => {
-      setmonto_Mensual(parseInt(e.target.value))
+      const value = e.target.value;
+      setmonto_Mensual(value === "" ? 0 : parseInt(value));
   }
 
+  useEffect(() => {
+    if (props.showModal) {
+        setmonto_Mensual(0);  // Restablece el monto
+        setcategoriaId(0);      // Restablece la categoría
+    }
+  }, [props.showModal]);
   
 
     return (
@@ -35,9 +42,13 @@ const AgregarPresupuesto = (props : AgregarPresupuestoProps) => {
             <label className="col-sm-3 col-form-label">Categoria</label>
             <div className="col-7 mb-3">
                 <select className="form-select" id="inputGroupSelect01" value={categoriaId} onChange={categoriaIdChangeHandler}>
-                  <option value={1}>Servicios</option>
-                  <option value={2}>Alimentacion</option>
-                  <option value={3}>Ocio</option>
+                {
+                  props.Categorias.map((cat : Categoria) => {
+                    return <option value={cat.id}>
+                            {cat.nombre}
+                          </option>
+                    })
+                }
                 </select>
               </div>
         </div>

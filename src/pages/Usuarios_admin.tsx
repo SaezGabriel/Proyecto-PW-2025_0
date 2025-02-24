@@ -12,7 +12,7 @@ const UsuariosAdmin = () => {
   const [usuarios, setUsuarios] = useState<Usuarios[]>([])
   const [Roles,setRoles] = useState<Rol[]>([])
   const [filtroActivo, setFiltroActivo] = useState<boolean>(false)
-
+  const [rolFiltrado, setRolFiltrado] = useState<number>(0);
   
   const httpObtenerUsuarios = async () => {
   if(filtroActivo) return;
@@ -49,6 +49,7 @@ const httpObtenerxFiltro = async (rol : number) => {
         setUsuarios(listaUsuarios)
         console.log(listaUsuarios)
         setFiltroActivo(true)
+        setRolFiltrado(rol)
         setShowModal(false)
     }else {
         console.error(`Error al obtener usuarios: ${data.msg}`)
@@ -72,6 +73,11 @@ const httpObtenerxFiltro = async (rol : number) => {
     const data = await resp.json()
     if (data.msg == "") {
       console.log(data.usuario)
+      if (filtroActivo && rolFiltrado !== null) {
+        await httpObtenerxFiltro(rolFiltrado);
+      } else {
+          await httpObtenerUsuarios();
+      }
       closeModalAgregar()
     }
 }
@@ -97,10 +103,9 @@ const closeModalAgregar = () => {
   ///}
   
   return <>
-        <TablaUsuario listaElementos={usuarios} openModalAgregar={() => {setAgregar(true)}} openModal={() => {setShowModal(true)}} ObtenerUsuario={httpObtenerUsuarios}/>
+        <TablaUsuario listaElementos={usuarios} FiltroActivo={filtroActivo} openModalAgregar={() => {setAgregar(true)}} openModal={() => {setShowModal(true)}} ObtenerUsuario={httpObtenerUsuarios} ObtenerxFiltro={httpObtenerxFiltro} rol={rolFiltrado}/>
         <RegistroUsuario showModal={ showAgregar } roles={Roles} closeModal={closeModalAgregar} GuardarUsuario={ async (nombreUsuario : string, correo : string, contraseña : string, rol : number) => {
                 await httpAgregarUsuario(nombreUsuario, correo, contraseña, rol)
-                await httpObtenerUsuarios()
             }}/>
         <FiltrarRol showModal={showModal} Roles={Roles} closeModal={() => {setShowModal(false)}} FiltrarUsuario={ async (rol : number) => {
                 await httpObtenerxFiltro(rol)}}/>
