@@ -20,6 +20,15 @@ export interface elementosTabla {
     };
 }
 
+export interface elementoAgregar {
+    UsuarioId : number;
+    monto : number;
+    fecha : Date;
+    descripcion : string;
+    recursivo : boolean;
+    categoriaId : number;
+}
+
 export interface Categoria {
     id : number
     nombre : string
@@ -35,7 +44,7 @@ const PaginaEgresos = () => {
     const [showModalAlarma, setShowModalAlarma] = useState<boolean>(false)
     const [showModalEditar, setShowModalEditar] = useState<boolean>(false)
     const [egresos, setEgresos] = useState<elementosTabla[]>([])
-    const [categorias, setCategorias] = useState<Categoria[]>([])
+    
     let elemCambiado = false
 
     const [elementoEditar, setElementoEditar] = useState<elementosTabla>({id:0, UsuarioId: 1, monto:29.99, fecha:"", descripcion: "",  recursivo: false, categoriaId: 1,Categoria: {nombre : ""}})
@@ -80,7 +89,30 @@ const PaginaEgresos = () => {
         } catch (error) {
             console.error(`Error al obtener el egreso`)
         }
-    };
+    }
+
+    const httpGuardarEgreso = async (nuevoEgreso : elementoAgregar) => {
+        console.log(nuevoEgreso)
+        const url = URL_BACKEND + "/egresos"
+        const resp = await fetch(url, {
+            method : "POST",
+            body : JSON.stringify({
+                UsuarioId : nuevoEgreso.UsuarioId,
+                monto : nuevoEgreso.monto,
+                fecha : nuevoEgreso.fecha,
+                descripcion : nuevoEgreso.descripcion,
+                recurrente : nuevoEgreso.recursivo,
+                categoriaId : nuevoEgreso.categoriaId
+            }),
+            headers : {
+                "Content-Type": "application/json",
+            }
+        })
+        const data = await resp.json()
+        if (data.msg == "") {
+            setShowModalAgregar(false)
+        }
+    }
 
     const editarElementoTabla = async (index : number) => {
         await httpBuscarEgreso(index)
@@ -91,13 +123,9 @@ const PaginaEgresos = () => {
         }
     }
 
-    const agregarElementoTabla = (elem : elementosTabla) => {
-        
-    }
-
     return <>
         <TablaEgresos listaElementos={egresos} openModalFiltrar={() => {setShowModalFiltrar(true)}} openModalAgregar={() => { setShowModalAgregar(true); } } openModalEditar={(index: number) => { editarElementoTabla(index); } } openModalEliminar={(index : number) => {setShowModalEliminar(true)}} openModalExportar={() => { setShowModalExportar(true); } } />
-        <AgregarEgresoModal showModal={showModalAgregar} closeModal={() => {setShowModalAgregar(false)}} />
+        <AgregarEgresoModal showModal={showModalAgregar} closeModal={() => {setShowModalAgregar(false)}} handleAgregarEgreso={(elem) => {httpGuardarEgreso(elem)}} />
         <EditarGastoModal showModal={showModalEditar} closeModal={() => {setShowModalEditar(false)}} elemento={elementoEditar} />
         <EliminarEgresoModal showModal={showModalEliminar} closeModal={() => {setShowModalEliminar(false)}} />
         <FiltrarEgresoModal showModal={showModalFiltrar} closeModal={() => {setShowModalFiltrar(false)}}/>

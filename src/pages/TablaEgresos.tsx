@@ -41,7 +41,7 @@ const TablaEgresos = (props : egresosProps) => {
             </thead>
             <tbody id="TBody">
                 {
-                  props.listaElementos.map((egreso : elementosTabla, index : number) => {
+                  props.listaElementos.map((egreso : elementosTabla) => {
 
                     let textoRec : string
 
@@ -51,7 +51,7 @@ const TablaEgresos = (props : egresosProps) => {
                       textoRec = "No"
                     }
 
-                    return <tr>
+                    return <tr key={egreso.id}>
                         <td>{egreso.fecha}</td>
                         <td>{egreso.Categoria.nombre}</td>
                         <td>{egreso.descripcion}</td>
