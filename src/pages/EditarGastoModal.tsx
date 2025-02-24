@@ -1,10 +1,4 @@
-interface elementosTabla {
-    fecha : string;
-    categoria : string;
-    descripcion : string;
-    monto : string;
-    recursivo : boolean;
-}
+import { elementosTabla } from "./PaginaEgresos";
 
 interface EditarEgresoModalProps {
     showModal : boolean;
@@ -17,9 +11,9 @@ const EditarEgresoModal = (props : EditarEgresoModalProps) => {
     const elemAct = props.elemento
     let nuevaFecha = elemAct.fecha
     nuevaFecha = nuevaFecha.substring(6) + "-" + nuevaFecha.substring(3,5) + "-" + nuevaFecha.substring(0,2)
-    let nuevoMonto = parseFloat(elemAct.monto.substring(4))
-    const recu = elemAct.recursivo ? true : false
-    console.log(elemAct.categoria)
+    let nuevoMonto = elemAct.monto
+    const recu = elemAct.recursivo
+    
     return <>{props.showModal && <div className="modal-backdrop fade show"></div>}
             <div className={ props.showModal == true ? "modal fade show d-block" : "modal fade"} tabIndex={-1}>
                 <div className="modal-dialog modal-dialog-centered">
@@ -41,9 +35,9 @@ const EditarEgresoModal = (props : EditarEgresoModalProps) => {
                                     <label className="col-sm-3 col-form-label position-absolute start-0">Categoría</label>
                                     <div className="col-sm-9 offset-sm-3">
                                         <select className="form-select" required>
-                                            {elemAct.categoria == "Ocio" ? <option value="1" selected >Ocio</option> : <option value="1" >Ocio</option>}
-                                            {elemAct.categoria == "Servicios" ? <option value="2" selected >Servicios</option> : <option value="2" >Servicios</option>}
-                                            {elemAct.categoria == "Alimentación" ? <option value="3" selected >Alimentación</option> : <option value="3" >Alimentación</option>}
+                                            {elemAct.Categoria.nombre == "Ocio" ? <option value="1" selected >Ocio</option> : <option value="1" >Ocio</option>}
+                                            {elemAct.Categoria.nombre == "Servicios" ? <option value="2" selected >Servicios</option> : <option value="2" >Servicios</option>}
+                                            {elemAct.Categoria.nombre == "Alimentación" ? <option value="3" selected >Alimentación</option> : <option value="3" >Alimentación</option>}
                                         </select>
                                     </div>
                                 </div>

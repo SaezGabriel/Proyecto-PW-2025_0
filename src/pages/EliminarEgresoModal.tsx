@@ -17,7 +17,9 @@ const EliminarEgresoModal = (props : EliminarEgresoModalProps) => {
                             </div>
                             <div className="modal-footer d-flex justify-content-center gap-2">
                                 <button type="button" className="btn btn-secondary w-25" onClick={props.closeModal}>No</button>
-                                <button type="button" className="btn btn-primary w-25" id="but_eliminar" onClick={props.closeModal}>Sí</button>
+                                <button type="button" className="btn btn-primary w-25" id="but_eliminar" onClick={() => {
+                                    props.closeModal()
+                                }}>Sí</button>
                             </div>
                         </div>
                     </div>
