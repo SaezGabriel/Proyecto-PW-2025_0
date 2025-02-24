@@ -4,7 +4,7 @@ import { elementoAgregar } from "./PaginaEgresos";
 interface AgregarEgresoModalProps {
     showModal : boolean;
     closeModal : () => void;
-    handleAgregarEgreso : (elem : elementoAgregar) => void
+    handleAgregarEgreso : (elem : elementoAgregar) => void;
 }
 
 const AgregarEgresoModal = (props : AgregarEgresoModalProps) => {
@@ -17,7 +17,7 @@ const AgregarEgresoModal = (props : AgregarEgresoModalProps) => {
     const [fechaString, setFechaString] = useState<string>("")
     const [descripcion, setDescripcion] = useState<string>("")
     const [recursivo, setRecursivo] = useState<boolean>(false)
-    const [categoriaId, setCategoriaId] = useState<number>(1)
+    const [categoriaId, setCategoriaId] = useState<number>(0)
 
     return <>{props.showModal && <div className="modal-backdrop fade show"></div>}
             <div className={ props.showModal == true ? "modal fade show d-block" : "modal fade"} tabIndex={-1}>
@@ -68,7 +68,7 @@ const AgregarEgresoModal = (props : AgregarEgresoModalProps) => {
                                 <div className="form-group row position-relative">
                                     <label className="col-sm-3 col-form-label position-absolute start-0">Monto</label>
                                     <div className="col-sm-9 offset-sm-3">
-                                        <input type="number" className="form-control" id="monto" step="0.01" min="0" placeholder="0.00" value={monto} onChange={(e : React.ChangeEvent<HTMLInputElement>) => {
+                                        <input type="number" className="form-control" id="monto" step="0.01" min="0.00" placeholder="0.00" value={monto} onChange={(e : React.ChangeEvent<HTMLInputElement>) => {
                                             setMonto(parseFloat(e.target.value))
                                         }} required />
                                     </div>
@@ -87,7 +87,11 @@ const AgregarEgresoModal = (props : AgregarEgresoModalProps) => {
                                 <div className="modal-footer d-flex justify-content-center gap-2">
                                     <button type="button" className="btn btn-secondary w-25" data-bs-dismiss="modal" onClick={() => {props.closeModal()}}>Cancelar</button>
                                     <button type="button" className="btn btn-primary w-25" data-bs-dismiss="modal" id="but_agregar" onClick={async () => {
-                                        props.handleAgregarEgreso({UsuarioId: UsuarioId, monto : monto, fecha : fecha, descripcion : descripcion,  recursivo : recursivo, categoriaId : categoriaId})
+                                        if(monto == 0.00 || fechaString == "" || descripcion == "" || categoriaId == 0){
+                                            return //Falta llenar algun dato, no procesar.
+                                        }else{
+                                            props.handleAgregarEgreso({UsuarioId: UsuarioId, monto : monto, fecha : fecha, descripcion : descripcion,  recursivo : recursivo, categoriaId : categoriaId})
+                                        }
                                     }}>Aceptar</button>
                                 </div>
                             </form>
