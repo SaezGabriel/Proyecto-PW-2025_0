@@ -11,9 +11,11 @@ const UsuariosAdmin = () => {
   const[showAgregar, setAgregar]=useState<boolean>(false)
   const [usuarios, setUsuarios] = useState<Usuarios[]>([])
   const [Roles,setRoles] = useState<Rol[]>([])
-
+  const [filtroActivo, setFiltroActivo] = useState<boolean>(false)
+  const [rolFiltrado, setRolFiltrado] = useState<number>(0);
   
   const httpObtenerUsuarios = async () => {
+  if(filtroActivo) return;
   const url = "http://localhost:3000/usuarios"
   const resp = await fetch(url)
   const data = await resp.json()
@@ -22,8 +24,8 @@ const UsuariosAdmin = () => {
         setUsuarios(listaUsuarios)
     }else {
         console.error(`Error al obtener usuarios: ${data.msg}`)
-    }
-  }
+    }}
+  
 
   const httpObtenerRol = async () => {
     const url = "http://localhost:3000/rol"
@@ -36,6 +38,23 @@ const UsuariosAdmin = () => {
         console.error(`Error al obtener categorias: ${data.msg}`)
     }
 }
+
+const httpObtenerxFiltro = async (rol : number) => {
+  const url = "http://localhost:3000/usuarios?rol="+rol
+  console.log(rol)
+  const resp = await fetch(url)
+  const data = await resp.json()
+    if (data.msg == "") {
+        const listaUsuarios = data.usuarios
+        setUsuarios(listaUsuarios)
+        console.log(listaUsuarios)
+        setFiltroActivo(true)
+        setRolFiltrado(rol)
+        setShowModal(false)
+    }else {
+        console.error(`Error al obtener usuarios: ${data.msg}`)
+    }
+  }
 
   const httpAgregarUsuario = async (nombreUsuario : string, correo : string, contraseña : string, rol : number) => {
     const url = "http://localhost:3000/usuarios"
@@ -54,16 +73,25 @@ const UsuariosAdmin = () => {
     const data = await resp.json()
     if (data.msg == "") {
       console.log(data.usuario)
+      if (filtroActivo && rolFiltrado !== null) {
+        await httpObtenerxFiltro(rolFiltrado);
+      } else {
+          await httpObtenerUsuarios();
+      }
       closeModalAgregar()
     }
 }
 
 
   useEffect( ()=> {
-    httpObtenerUsuarios()
+    
+    httpObtenerUsuarios();
+
+  },[!filtroActivo])
+
+  useEffect(()=>{
     httpObtenerRol()
   },[])
-
   
 
 const closeModalAgregar = () => {
@@ -75,12 +103,12 @@ const closeModalAgregar = () => {
   ///}
   
   return <>
-        <TablaUsuario listaElementos={usuarios} openModalAgregar={() => {setAgregar(true)}} openModal={() => {setShowModal(true)}} ObtenerUsuario={httpObtenerUsuarios}/>
+        <TablaUsuario listaElementos={usuarios} FiltroActivo={filtroActivo} openModalAgregar={() => {setAgregar(true)}} openModal={() => {setShowModal(true)}} ObtenerUsuario={httpObtenerUsuarios} ObtenerxFiltro={httpObtenerxFiltro} rol={rolFiltrado}/>
         <RegistroUsuario showModal={ showAgregar } roles={Roles} closeModal={closeModalAgregar} GuardarUsuario={ async (nombreUsuario : string, correo : string, contraseña : string, rol : number) => {
                 await httpAgregarUsuario(nombreUsuario, correo, contraseña, rol)
-                await httpObtenerUsuarios()
             }}/>
-        <FiltrarRol showModal={showModal} closeModal={() => {setShowModal(false)}} />
+        <FiltrarRol showModal={showModal} Roles={Roles} closeModal={() => {setShowModal(false)}} FiltrarUsuario={ async (rol : number) => {
+                await httpObtenerxFiltro(rol)}}/>
         
     </>
 };

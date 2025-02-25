@@ -7,8 +7,6 @@ interface EliminarEgresoModalProps {
 
 const EliminarEgresoModal = (props : EliminarEgresoModalProps) => {
 
-    console.log("Id a eliminar: ",props.idEliminar)
-
     return <>{props.showModal && <div className="modal-backdrop fade show"></div>}
                 <div className={props.showModal ? "modal fade show d-block" : "modal fade"} tabIndex={-1}>
                     <div className="modal-dialog modal-dialog-centered">

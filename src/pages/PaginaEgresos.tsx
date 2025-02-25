@@ -34,9 +34,13 @@ export interface Categoria {
     nombre : string
 }
 
-const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:5000"
+interface egresosModal {
+    UsuarioId : number;
+}
 
-const PaginaEgresos = () => {
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:3000"
+
+const PaginaEgresos = (props : egresosModal) => {
     const [showModalAgregar, setShowModalAgregar] = useState<boolean>(false)
     const [showModalEliminar, setShowModalEliminar] = useState<boolean>(false)
     const [showModalFiltrar, setShowModalFiltrar] = useState<boolean>(false)
@@ -44,13 +48,13 @@ const PaginaEgresos = () => {
     const [showModalAlarma, setShowModalAlarma] = useState<boolean>(false)
     const [showModalEditar, setShowModalEditar] = useState<boolean>(false)
     const [egresos, setEgresos] = useState<elementosTabla[]>([])
-
+    const usuarioId = props.UsuarioId
     const [elementoEditar, setElementoEditar] = useState<elementosTabla>({id:0, UsuarioId: 1, monto:29.99, fecha:"", descripcion: "",  recursivo: false, categoriaId: 1,Categoria: {nombre : ""}})
     
     const [idEliminar, setIdEliminar] = useState<number>(0)
 
-    const httpObtenerEgresos = async () => {
-        const url = URL_BACKEND + "/egresos"
+    const httpObtenerEgresos = async (UsuarioId : number) => {
+        const url = URL_BACKEND + "/egresos/todo/" + UsuarioId
         const resp = await fetch(url)
         const data = await resp.json()
         if (data.msg == "") {
@@ -63,7 +67,8 @@ const PaginaEgresos = () => {
     }
 
     useEffect( ()=> {
-        httpObtenerEgresos()
+        console.log("UsuarioId: ",usuarioId)
+        httpObtenerEgresos(usuarioId)
     },[])
 
     const httpBuscarEgreso = async (id: number) => {
@@ -93,7 +98,7 @@ const PaginaEgresos = () => {
         const resp = await fetch(url, {
             method : "POST",
             body : JSON.stringify({
-                UsuarioId : nuevoEgreso.UsuarioId,
+                UsuarioId : usuarioId,
                 monto : nuevoEgreso.monto,
                 fecha : nuevoEgreso.fecha,
                 descripcion : nuevoEgreso.descripcion,
@@ -106,7 +111,7 @@ const PaginaEgresos = () => {
         })
         const data = await resp.json()
         if (data.msg == "") {
-            await httpObtenerEgresos()
+            await httpObtenerEgresos(usuarioId)
             setShowModalAgregar(false)
         }
     }
@@ -130,7 +135,7 @@ const PaginaEgresos = () => {
         })
         const data = await resp.json()
         if (data.msg == "") {
-            await httpObtenerEgresos()
+            await httpObtenerEgresos(usuarioId)
             setShowModalEditar(false)
         }
     }
@@ -142,7 +147,7 @@ const PaginaEgresos = () => {
         })
         const data = await resp.json()
         if (data.msg == "") {
-            httpObtenerEgresos()
+            httpObtenerEgresos(usuarioId)
             setShowModalEliminar(false)
         }else {
             console.error(`Error al eliminar un egreso: ${data.msg}`)

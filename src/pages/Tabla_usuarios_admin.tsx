@@ -23,7 +23,9 @@ export interface Rol {
     openModal : () => void
     openModalAgregar : () => void  
     ObtenerUsuario : () => void
-    
+    ObtenerxFiltro : (rol : number) => void
+    rol : number
+    FiltroActivo : boolean
   }
 
 const TablaUsuario = (props : usuarioProps) => {
@@ -35,9 +37,9 @@ const TablaUsuario = (props : usuarioProps) => {
 
   const Vacio : Usuarios = {
     id : 0,
-    nombre : "dfsdf",
-    contraseña : "dfdsf",
-    correo : "dsfsdf",
+    nombre : "-",
+    contraseña : "-",
+    correo : "-",
     rol : 1,
     Rol : rolvacio
 }
@@ -61,6 +63,11 @@ const TablaUsuario = (props : usuarioProps) => {
     })
     const data = await resp.json()
     if (data.msg === "") {
+      if (props.FiltroActivo && props.rol !== null) {
+        await props.ObtenerxFiltro(props.rol);
+      } else {
+          await props.ObtenerUsuario()
+      }
       setEditar(false)
     } else {
       console.error(`Error al editar usuario: ${data.msg}`)
@@ -74,7 +81,11 @@ const TablaUsuario = (props : usuarioProps) => {
     })
     const data = await resp.json()
     if (data.msg == "") {
-        props.ObtenerUsuario()
+      if (props.FiltroActivo && props.rol !== null) {
+        await props.ObtenerxFiltro(props.rol);
+      } else {
+          await props.ObtenerUsuario()
+      }
         setBorrar(false)
     }else {
         console.error(`Error al eliminar un usuario: ${data.msg}`)
@@ -84,7 +95,7 @@ const TablaUsuario = (props : usuarioProps) => {
   useEffect( ()=> {
     props.ObtenerUsuario()
     
-  },[])
+  },[!props.FiltroActivo])
 
   return (
       <div className="container mt-5 bg-light">
@@ -133,7 +144,6 @@ const TablaUsuario = (props : usuarioProps) => {
               </button>
               <EditarUsuario showModal={showEditar} closeModal={()=>{setEditar(false)}} UsuarioSeleccionadoEditar={usuarioSeleccionado} EditarUsuario={ async (id:number,nombreUsuario : string, correo : string, contraseña : string, rol : number) => {
                 await httpEditarUsuario(id, nombreUsuario, correo, contraseña, rol)
-                await props.ObtenerUsuario()
             }}/>
               <button className="btn btn-outline-secondary btn-sm" onClick={()=>{
                                 setUsuarioSeleccionado(usuario);
@@ -145,7 +155,6 @@ const TablaUsuario = (props : usuarioProps) => {
               </button>
               <BorrarUsuario showModal={showBorrar} closeModal={()=>{setBorrar(false)}} UsuarioBorrar={usuarioSeleccionado.id} Eliminar={  async (id : number) => {
                         await httpEliminarUsuario(id)
-                        await props.ObtenerUsuario()
                     }}/>
                 </td>
               </tr>

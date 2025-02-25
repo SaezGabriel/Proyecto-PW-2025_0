@@ -8,11 +8,8 @@ interface EditarEgresoModalProps {
     handleEditarEgreso : (elem : elementoAgregar , id : number) => void;
 }
 
-
 const EditarEgresoModal = (props : EditarEgresoModalProps) => {
     //const [elemAct, setElemAct] = useState<elementosTabla>(props.elemento)
-
-    console.log(props)
     const UsuarioId = 1
 
     const [id, setId] = useState<number>(props.elemento.id)
@@ -34,8 +31,6 @@ const EditarEgresoModal = (props : EditarEgresoModalProps) => {
         setRecursivo(props.elemento.recursivo)
         setCategoriaId(props.elemento.categoriaId)
      },[props.elemento])
-
-    console.log("elemAct: ", props.elemento)
 
     return <>{props.showModal && <div className="modal-backdrop fade show"></div>}
             <div className={ props.showModal == true ? "modal fade show d-block" : "modal fade"} tabIndex={-1}>

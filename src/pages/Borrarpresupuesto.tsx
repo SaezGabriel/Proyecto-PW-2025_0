@@ -1,8 +1,10 @@
+import Presupuesto from "./Presupuesto";
+
 interface BorrarPresupuestoProps {
     showModal : boolean;
     closeModal : () => void
-    PresupuestoBorrar : number
-    Eliminar : (id : number) => void
+    PresupuestoBorrar : Presupuesto
+    Eliminar : (PresupuestoBorrar : Presupuesto) => void
 }
 
 const BorrarPresupuesto = (props : BorrarPresupuestoProps) => {
@@ -25,7 +27,7 @@ const BorrarPresupuesto = (props : BorrarPresupuestoProps) => {
           </div>
           <div className="col-6">  
             <button type="button" className="btn btn-primary col-10" onClick={ () =>  {
-                            props.closeModal()
+                            props.Eliminar(props.PresupuestoBorrar)
                         } }>SI</button>
           </div>
         </div>
