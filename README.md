@@ -50,3 +50,5 @@ export default tseslint.config({
 ```
 ------ Para exportar a CSV:
 npm i --save export-from-json
+------ Para exportar a PDF:
+npm install jspdf --save

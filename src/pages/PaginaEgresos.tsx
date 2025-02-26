@@ -7,6 +7,8 @@ import FiltrarEgresoModal from "./FiltrarEgresoModal";
 import ExportarEgresoModal from "./ExportarEgresoModal";
 import AlarmaPresupuesto from "./AlarmaExcesoPresupuesto_usuario";
 import exportFromJSON from 'export-from-json'
+import { jsPDF } from "jspdf";
+
 
 export interface elementosTabla {
     id : number;
@@ -162,6 +164,19 @@ const PaginaEgresos = (props : egresosModal) => {
         const exportType =  exportFromJSON.types.csv
         exportFromJSON({ data, fileName, exportType })
     }
+    const exportarLista_pdf = () =>{
+        
+        var doc = new jsPDF();
+        egresos.forEach(function(egreso, i){
+            doc.text(20, 10 + (i * 10),
+                "Categoria: " + egreso.descripcion +
+                "Descripcion: " + egreso.monto +
+                "Fecha: "+ egreso.fecha +
+                "¿Recurrente?: " + egreso.recursivo);
+        });
+        doc.save('Test.pdf');
+
+    }
 
 
     return <>
@@ -185,7 +200,8 @@ const PaginaEgresos = (props : egresosModal) => {
             closeModal={() => {setShowModalEliminar(false)}} />
         <FiltrarEgresoModal showModal={showModalFiltrar} closeModal={() => {setShowModalFiltrar(false)}}/>
         <ExportarEgresoModal showModal ={showModalExportar} closeModal={()=>{setShowModalExportar(false)}}
-        exportarLista_csv={exportarLista_csv}/>
+        exportarLista_csv={exportarLista_csv}
+        exportarLista_pdf={exportarLista_pdf}/>
     
         
 
