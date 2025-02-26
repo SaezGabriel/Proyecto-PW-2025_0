@@ -47,8 +47,10 @@ const TablaUsuario = (props : usuarioProps) => {
   const[showEditar, setEditar]=useState<boolean>(false)
   const[showBorrar, setBorrar]=useState<boolean>(false)
 
+  const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:3000"
+
   const httpEditarUsuario = async (id : number, nombreUsuario: string, correo: string, contraseña: string, rol: number) => {
-    const url = "http://localhost:3000/usuarios?id="+id
+    const url = URL_BACKEND+"/usuarios?id="+id
     const resp = await fetch(url, {
       method: "PUT",
       body: JSON.stringify({
@@ -75,7 +77,7 @@ const TablaUsuario = (props : usuarioProps) => {
   }
   
   const httpEliminarUsuario = async (id : number) => {
-    const url = "http://localhost:3000/usuarios?id=" + id
+    const url = URL_BACKEND+"/usuarios?id=" + id
     const resp = await fetch(url, {
         method : "DELETE"
     })
