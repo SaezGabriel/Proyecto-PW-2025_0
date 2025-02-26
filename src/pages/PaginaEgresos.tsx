@@ -111,6 +111,10 @@ const PaginaEgresos = (props : egresosModal) => {
         })
         const data = await resp.json()
         if (data.msg == "") {
+            console.log("Egreso agregado: "+data.egreso)
+            if(nuevoEgreso.recursivo){
+                console.log("Egresos recursivo si disponible: "+data.egresosRecur)
+            }
             await httpObtenerEgresos(usuarioId)
             setShowModalAgregar(false)
         }
