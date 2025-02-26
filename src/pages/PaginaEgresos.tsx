@@ -5,7 +5,8 @@ import EditarGastoModal from "./EditarGastoModal";
 import EliminarEgresoModal from "./EliminarEgresoModal";
 import FiltrarEgresoModal from "./FiltrarEgresoModal";
 import ExportarEgresoModal from "./ExportarEgresoModal";
-import AlarmaPresupuesto from "./AlarmaExcesoPresupuesto_usuario"
+import AlarmaPresupuesto from "./AlarmaExcesoPresupuesto_usuario";
+import exportFromJSON from 'export-from-json'
 
 export interface elementosTabla {
     id : number;
@@ -52,6 +53,7 @@ const PaginaEgresos = (props : egresosModal) => {
     const [elementoEditar, setElementoEditar] = useState<elementosTabla>({id:0, UsuarioId: 1, monto:29.99, fecha:"", descripcion: "",  recursivo: false, categoriaId: 1,Categoria: {nombre : ""}})
     
     const [idEliminar, setIdEliminar] = useState<number>(0)
+
 
     const httpObtenerEgresos = async (UsuarioId : number) => {
         const url = URL_BACKEND + "/egresos/todo/" + UsuarioId
@@ -153,6 +155,14 @@ const PaginaEgresos = (props : egresosModal) => {
             console.error(`Error al eliminar un egreso: ${data.msg}`)
         }
     }
+    const exportarLista_csv = () =>{
+
+        const data = egresos
+        const fileName = 'Egresos'
+        const exportType =  exportFromJSON.types.csv
+        exportFromJSON({ data, fileName, exportType })
+    }
+
 
     return <>
         <TablaEgresos listaElementos={egresos} openModalFiltrar={() => {setShowModalFiltrar(true)}} openModalAgregar={() => { setShowModalAgregar(true); } } 
@@ -174,7 +184,11 @@ const PaginaEgresos = (props : egresosModal) => {
             eliminarElem={(id : number) => {httpEliminarEgreso(id)}} 
             closeModal={() => {setShowModalEliminar(false)}} />
         <FiltrarEgresoModal showModal={showModalFiltrar} closeModal={() => {setShowModalFiltrar(false)}}/>
-        <ExportarEgresoModal showModal ={showModalExportar} closeModal={()=>{setShowModalExportar(false)}}/> 
+        <ExportarEgresoModal showModal ={showModalExportar} closeModal={()=>{setShowModalExportar(false)}}
+        exportarLista_csv={exportarLista_csv}/>
+    
+        
+
         
         <button className="btn btn-primary m-4" onClick={()=>{
                                 setShowModalAlarma(true)
