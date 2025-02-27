@@ -49,7 +49,7 @@ const TablaUsuario = (props : usuarioProps) => {
   const[showBorrar, setBorrar]=useState<boolean>(false)
   
   const httpEditarUsuario = async (id : number, nombreUsuario: string, correo: string, contraseña: string, rol: number) => {
-    const url = URL_BACKEND+"/usuarios?id="+id
+    const url = URL_BACKEND + "/usuarios?id="+id
     const resp = await fetch(url, {
       method: "PUT",
       body: JSON.stringify({
@@ -76,7 +76,7 @@ const TablaUsuario = (props : usuarioProps) => {
   }
   
   const httpEliminarUsuario = async (id : number) => {
-    const url = URL_BACKEND+"/usuarios?id=" + id
+    const url = URL_BACKEND + "/usuarios?id=" + id
     const resp = await fetch(url, {
         method : "DELETE"
     })

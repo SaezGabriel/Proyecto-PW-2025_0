@@ -18,13 +18,14 @@ const AgregarPresupuesto = (props : AgregarPresupuestoProps) => {
       setcategoriaId(parseInt(e.target.value))
   }
     const montoChangeHandler = (e : React.ChangeEvent<HTMLInputElement>) => {
-      setmonto_Mensual(parseInt(e.target.value));
+      const value = e.target.value;
+      setmonto_Mensual(value === "" ? 0 : parseInt(value));
   }
 
   useEffect(() => {
     if (props.showModal) {
         setmonto_Mensual(0);  // Restablece el monto
-        setcategoriaId(1);      // Restablece la categoría
+        setcategoriaId(0);      // Restablece la categoría
     }
   }, [props.showModal]);
   
@@ -65,8 +66,6 @@ const AgregarPresupuesto = (props : AgregarPresupuestoProps) => {
           </div>
           <div className="col-6">  
             <button type="button" className="btn btn-primary w-75" onClick={ () =>  {
-                            console.log(monto_Mensual)
-                            console.log(categoriaId)
                             props.AgregarPresupuesto(props.UsuarioId,monto_Mensual,categoriaId)
                         } }>Aceptar</button>
           </div>

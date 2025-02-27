@@ -3,13 +3,9 @@ import EditarInfoUsuario from "./EditarInfoUsuario"
 import { Usuarios } from "./Tabla_usuarios_admin"
 import { Rol } from "./Tabla_usuarios_admin"
 
-interface ConfiguracionProps {
-    ActualizarNombre : () => void
-}
-
 const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:3000"
 
-const Configuracion = (props:ConfiguracionProps) =>{
+const Configuracion = () =>{
 
     const rolvacio : Rol = {
         id : 0,
@@ -41,7 +37,7 @@ const Configuracion = (props:ConfiguracionProps) =>{
     
 
     const httpObtenerUsuario = async (correo:string) => {
-        const url = URL_BACKEND+"/usuarios?correo="+correo
+        const url = URL_BACKEND + "/usuarios?correo="+correo
         const resp = await fetch(url)
         const data = await resp.json()
           if ( data.msg == "") {
@@ -55,7 +51,7 @@ const Configuracion = (props:ConfiguracionProps) =>{
         }
     
     const httpEditarUsuario = async (id : number, nombreUsuario: string, correo: string, contraseña: string) => {
-        const url = URL_BACKEND+"/usuarios?id="+id
+        const url = URL_BACKEND + "/usuarios?id="+id
         const resp = await fetch(url, {
             method: "PUT",
             body: JSON.stringify({
@@ -75,7 +71,6 @@ const Configuracion = (props:ConfiguracionProps) =>{
         sessionStorage.setItem("Usuario", JSON.stringify(usuarioActual));
         if (data.msg === "") {
             setShowModal(false)
-            props.ActualizarNombre()
         } else {
             console.error(`Error al editar usuario: ${data.msg}`)
         }
