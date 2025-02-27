@@ -24,7 +24,7 @@ const ConfirmacionCorreo = () => {
 
     const handleVerificarCodigo = async () => {
         try {
-            const response = await fetch(URL_BACKEND + "/usuarios/verificar-codigo", {
+            const response = await fetch(URL_BACKEND+"/usuarios/verificar-codigo", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ codigo }),
@@ -35,7 +35,7 @@ const ConfirmacionCorreo = () => {
                 setMensajeError("");
 
        
-                const usuarioResponse = await fetch(URL_BACKEND + "/usuarios/", {
+                const usuarioResponse = await fetch(URL_BACKEND+"/usuarios/", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
