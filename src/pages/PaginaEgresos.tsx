@@ -165,15 +165,24 @@ const PaginaEgresos = (props : egresosModal) => {
         exportFromJSON({ data, fileName, exportType })
     }
     const exportarLista_pdf = () =>{
-        
+        let texto = ""
+    
         var doc = new jsPDF();
         egresos.forEach(function(egreso, i){
-            doc.text(20, 10 + (i * 10),
+            if (egreso.recursivo){
+                texto =  "Si"
+            } else{
+                texto = "No"
+            }
+            doc.text(
                 "Categoria: " + egreso.Categoria.nombre +
-                "Monto: " + egreso.monto +
+                "Monto: " + String(egreso.monto) +
                 "Descripcion: " + egreso.descripcion +
                 "Fecha: "+ egreso.fecha +
-                "¿Recurrente?: " + egreso.recursivo);
+                "¿Recurrente?: " + texto,
+                20, 10 + (i * 10),
+                );
+        
         });
         doc.save('Gastos.pdf');
 
