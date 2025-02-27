@@ -18,7 +18,7 @@ const Nueva_contraseña = () => {
                   </div>
               </div>
               <div className="mt-5 mb-5 m-4">
-                <button onClick={handleLogIn} type="button" className="btn btn-primary w-100">Aceptar</button>
+                <button onClick={()=>{handleLogIn()}} type="button" className="btn btn-primary w-100">Aceptar</button>
               </div>
             </form>
         </div>

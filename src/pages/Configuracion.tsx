@@ -3,6 +3,7 @@ import EditarInfoUsuario from "./EditarInfoUsuario"
 import { Usuarios } from "./Tabla_usuarios_admin"
 import { Rol } from "./Tabla_usuarios_admin"
 
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:3000"
 
 const Configuracion = () =>{
 
@@ -13,9 +14,9 @@ const Configuracion = () =>{
 
     const Vacio : Usuarios = {
         id : 0,
-        nombre : "dfsdf",
-        contraseña : "dfdsf",
-        correo : "dsfsdf",
+        nombre : "-",
+        contraseña : "-",
+        correo : "-",
         rol : 0,
         Rol : rolvacio
     }
@@ -23,17 +24,20 @@ const Configuracion = () =>{
     const [showModal, setShowModal] = useState<boolean>(false)
 
     useEffect(()=>{
-        const usuarioCorreo: string = "maria@example.com"
-        
-        if(usuarioCorreo != null){
-            httpObtenerUsuario(usuarioCorreo)}
-        
+        const usuario = sessionStorage.getItem("Usuario");
+        console.log("Usuario en sessionStorage:", usuario);
+        if (usuario != null) {
+            const userData = JSON.parse(usuario);
+            console.log("Datos parseados:", userData);
+            if(userData != null && userData.correo){
+                httpObtenerUsuario(userData.correo)}
+        }
     },[])
 
     
 
     const httpObtenerUsuario = async (correo:string) => {
-        const url = "http://localhost:3000/usuarios?correo="+correo
+        const url = URL_BACKEND + "/usuarios?correo="+correo
         const resp = await fetch(url)
         const data = await resp.json()
           if ( data.msg == "") {
@@ -47,20 +51,24 @@ const Configuracion = () =>{
         }
     
     const httpEditarUsuario = async (id : number, nombreUsuario: string, correo: string, contraseña: string) => {
-        const url = "http://localhost:3000/usuarios?id="+id
+        const url = URL_BACKEND + "/usuarios?id="+id
         const resp = await fetch(url, {
             method: "PUT",
             body: JSON.stringify({
-                id : id,
                 nombre: nombreUsuario,
                 correo: correo,
-                contraseña: contraseña,
+                contraseña: contraseña
             }),
             headers: {
                 "Content-Type": "application/json",
             }
         })
         const data = await resp.json()
+        const usuarioActual = JSON.parse(sessionStorage.getItem("Usuario") || "{}");
+        usuarioActual.nombre = data.usuario.nombre
+        usuarioActual.correo = data.usuario.correo
+        usuarioActual.contraseña = data.usuario.contraseña
+        sessionStorage.setItem("Usuario", JSON.stringify(usuarioActual));
         if (data.msg === "") {
             setShowModal(false)
         } else {

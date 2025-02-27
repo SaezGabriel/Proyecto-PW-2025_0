@@ -1,9 +1,12 @@
 interface EliminarEgresoModalProps {
     showModal : boolean;
-    closeModal : () => void
+    closeModal : () => void;
+    idEliminar : number;
+    eliminarElem : (id : number) => void;
 }
 
 const EliminarEgresoModal = (props : EliminarEgresoModalProps) => {
+
     return <>{props.showModal && <div className="modal-backdrop fade show"></div>}
                 <div className={props.showModal ? "modal fade show d-block" : "modal fade"} tabIndex={-1}>
                     <div className="modal-dialog modal-dialog-centered">
@@ -16,8 +19,10 @@ const EliminarEgresoModal = (props : EliminarEgresoModalProps) => {
                                 <p className="text-center">¿Está seguro que desea eliminar este registro?</p>
                             </div>
                             <div className="modal-footer d-flex justify-content-center gap-2">
-                                <button type="button" className="btn btn-secondary w-25" onClick={props.closeModal}>No</button>
-                                <button type="button" className="btn btn-primary w-25" id="but_eliminar" onClick={props.closeModal}>Sí</button>
+                                <button type="button" className="btn btn-secondary w-25" onClick={() => {props.eliminarElem(props.idEliminar)}}>Sí</button>
+                                <button type="button" className="btn btn-primary w-25" id="but_eliminar" onClick={() => {
+                                    props.closeModal()
+                                }}>No</button>
                             </div>
                         </div>
                     </div>

@@ -11,6 +11,6 @@ table th:last-child{
     border-radius:0 10px 10px 0;
 }
 
-.accion{
+.accion:hover {
     cursor: pointer;
 }
