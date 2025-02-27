@@ -14,8 +14,6 @@ interface Presupuesto{
   
 }
 
-const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:3000"
-
 const Presupuesto = () => {
 
   
@@ -59,7 +57,7 @@ const Presupuesto = () => {
     
 
     const httpObtenerPresupuestos = async (UsuarioId:number) => {
-      const url = URL_BACKEND+"/presupuestos?UsuarioId="+UsuarioId
+      const url = "http://localhost:3000/presupuestos?UsuarioId="+UsuarioId
       const resp = await fetch(url)
       const data = await resp.json()
         if (data.msg == "") {
@@ -72,7 +70,7 @@ const Presupuesto = () => {
       }
     
     const httpObtenerCategorias = async () => {
-      const url = URL_BACKEND+"/categorias"
+      const url = "http://localhost:3000/categorias"
       const resp = await fetch(url)
       const data = await resp.json()
       if (data.msg == "") {
@@ -84,7 +82,7 @@ const Presupuesto = () => {
     }
     
     const httpAgregarPresupuesto = async (UsuarioId : number, monto_Mensual : number, categoriaId : number) => {
-      const url = URL_BACKEND+"/presupuestos"
+      const url = "http://localhost:3000/presupuestos"
       const resp = await fetch(url, {
           method : "POST",
           body : JSON.stringify({
@@ -113,7 +111,7 @@ const Presupuesto = () => {
       },[usuarioId])
 
     const httpEditarPresupuesto = async ( monto_Mensual: number,categoriaId: number, PresupuestoSeleccionado : Presupuesto) => {
-      const url = URL_BACKEND+"/presupuestos?id="+PresupuestoSeleccionado.id
+      const url = "http://localhost:3000/presupuestos?id="+PresupuestoSeleccionado.id
       const resp = await fetch(url, {
         method: "PUT",
         body: JSON.stringify({
@@ -134,7 +132,7 @@ const Presupuesto = () => {
     }
       
     const httpEliminarPresupuesto = async (PresupuestoEliminar : Presupuesto) => {
-      const url = URL_BACKEND+"/presupuestos?id="+PresupuestoEliminar.id
+      const url = "http://localhost:3000/presupuestos?id="+PresupuestoEliminar.id
       const resp = await fetch(url, {
           method : "DELETE"
       })

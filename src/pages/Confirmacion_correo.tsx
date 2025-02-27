@@ -9,8 +9,6 @@ interface LocationState {
     password: string;
 }
 
-const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:3000"
-
 const ConfirmacionCorreo = () => {
     const location = useLocation();
     const navigate = useNavigate();
@@ -25,7 +23,7 @@ const ConfirmacionCorreo = () => {
 
     const handleVerificarCodigo = async () => {
         try {
-            const response = await fetch(URL_BACKEND+"/usuarios/verificar-codigo", {
+            const response = await fetch("http://localhost:3000/usuarios/verificar-codigo", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ codigo }),
@@ -36,7 +34,7 @@ const ConfirmacionCorreo = () => {
                 setMensajeError("");
 
        
-                const usuarioResponse = await fetch(URL_BACKEND+"/usuarios/", {
+                const usuarioResponse = await fetch("http://localhost:3000/usuarios/", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
