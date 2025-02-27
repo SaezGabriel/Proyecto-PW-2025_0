@@ -3,8 +3,6 @@ import FiltrarRol from "./FiltrarRol"
 import { useEffect, useState } from "react"
 import RegistroUsuario from "./RegistroUsuario";
 
-const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:3000"
-
 const UsuariosAdmin = () => {
 
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -16,7 +14,7 @@ const UsuariosAdmin = () => {
   
   const httpObtenerUsuarios = async () => {
   if(filtroActivo) return;
-  const url = URL_BACKEND+"/usuarios"
+  const url = "http://localhost:3000/usuarios"
   const resp = await fetch(url)
   const data = await resp.json()
     if (data.msg == "") {
@@ -28,7 +26,7 @@ const UsuariosAdmin = () => {
   
 
   const httpObtenerRol = async () => {
-    const url = URL_BACKEND+"/rol"
+    const url = "http://localhost:3000/rol"
     const resp = await fetch(url)
     const data = await resp.json()
     if (data.msg == "") {
@@ -40,7 +38,7 @@ const UsuariosAdmin = () => {
 }
 
 const httpObtenerxFiltro = async (rol : number) => {
-  const url = URL_BACKEND+"/usuarios?rol="+rol
+  const url = "http://localhost:3000/usuarios?rol="+rol
   console.log(rol)
   const resp = await fetch(url)
   const data = await resp.json()
@@ -57,7 +55,7 @@ const httpObtenerxFiltro = async (rol : number) => {
   }
 
   const httpAgregarUsuario = async (nombreUsuario : string, correo : string, contraseña : string, rol : number) => {
-    const url = URL_BACKEND+"/usuarios"
+    const url = "http://localhost:3000/usuarios"
     const resp = await fetch(url, {
         method : "POST",
         body : JSON.stringify({
@@ -103,7 +101,7 @@ const closeModalAgregar = () => {
   ///}
   
   return <>
-        <TablaUsuario listaElementos={usuarios} FiltroActivo={filtroActivo} openModalAgregar={() => {setAgregar(true)}} openModal={() => {setShowModal(true)}} ObtenerUsuario={httpObtenerUsuarios} ObtenerxFiltro={httpObtenerxFiltro} rol={rolFiltrado}/>
+        <TablaUsuario listaElementos={usuarios} FiltroActivo={filtroActivo} openModalAgregar={() => {setAgregar(true)}} openModal={() => {setShowModal(true)}} ObtenerUsuarios={httpObtenerUsuarios} ObtenerxFiltro={httpObtenerxFiltro} rol={rolFiltrado}/>
         <RegistroUsuario showModal={ showAgregar } roles={Roles} closeModal={closeModalAgregar} GuardarUsuario={ async (nombreUsuario : string, correo : string, contraseña : string, rol : number) => {
                 await httpAgregarUsuario(nombreUsuario, correo, contraseña, rol)
             }}/>
