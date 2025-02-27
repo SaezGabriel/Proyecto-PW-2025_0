@@ -14,11 +14,7 @@ const LoginPage = () => {
 
         if (usuarioData) {
             const userData = JSON.parse(usuarioData);
-            if (userData.rol === 1) {
-                navigate("/MainPage_usuario");
-            } else if (userData.rol === 2) {
-                navigate("/MainPage_admin");
-            }
+            loginHandler(userData.correo, userData.contraseña)
         }
     }, [navigate]); 
 
@@ -35,10 +31,12 @@ const LoginPage = () => {
             });
 
             const data = await resp.json();
-            console.log("Respuesta del servidor:", data);
+            console.log("Respuesta del servidor: ", data);
+            const dataString = JSON.stringify(data)
+            console.log("Respuesta del servido JSON.stringify: ", dataString)
 
             if (resp.ok) { 
-                sessionStorage.setItem("Usuario", JSON.stringify(data));
+                sessionStorage.setItem("Usuario", dataString);
                 console.log("✅ Datos guardados en sessionStorage:", sessionStorage.getItem("Usuario"));
                 
                 if (data.rol === 1) {
