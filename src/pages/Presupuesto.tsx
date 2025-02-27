@@ -58,11 +58,7 @@ const Presupuesto = () => {
     
 
     const httpObtenerPresupuestos = async (UsuarioId:number) => {
-<<<<<<< HEAD
-      const url = URL_BACKEND + "/presupuestos?UsuarioId="+UsuarioId
-=======
       const url = URL_BACKEND+"/presupuestos?UsuarioId="+UsuarioId
->>>>>>> Kevin-Final
       const resp = await fetch(url)
       const data = await resp.json()
         if (data.msg == "") {
