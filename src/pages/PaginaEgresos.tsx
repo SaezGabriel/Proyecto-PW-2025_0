@@ -169,8 +169,9 @@ const PaginaEgresos = (props : egresosModal) => {
         var doc = new jsPDF();
         egresos.forEach(function(egreso, i){
             doc.text(20, 10 + (i * 10),
-                "Categoria: " + egreso.descripcion +
-                "Descripcion: " + egreso.monto +
+                "Categoria: " + egreso.Categoria.nombre +
+                "Monto: " + egreso.monto +
+                "Descripcion: " + egreso.descripcion +
                 "Fecha: "+ egreso.fecha +
                 "¿Recurrente?: " + egreso.recursivo);
         });
