@@ -174,7 +174,7 @@ const PaginaEgresos = (props : egresosModal) => {
                 "Fecha: "+ egreso.fecha +
                 "¿Recurrente?: " + egreso.recursivo);
         });
-        doc.save('Test.pdf');
+        doc.save('Gastos.pdf');
 
     }
 
