@@ -3,8 +3,13 @@ import EditarInfoUsuario from "./EditarInfoUsuario"
 import { Usuarios } from "./Tabla_usuarios_admin"
 import { Rol } from "./Tabla_usuarios_admin"
 
+interface ConfiguracionProps {
+    ActualizarNombre : () => void
+}
 
-const Configuracion = () =>{
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:3000"
+
+const Configuracion = (props:ConfiguracionProps) =>{
 
     const rolvacio : Rol = {
         id : 0,
@@ -29,20 +34,34 @@ const Configuracion = () =>{
             const userData = JSON.parse(usuario);
             console.log("Datos parseados:", userData);
             if(userData != null && userData.correo){
-                httpObtenerUsuario(userData.correo)}
+                httpObtenerUsuario(userData.correo, userData.contraseña)
+            }
         }
     },[])
 
     
 
-    const httpObtenerUsuario = async (correo:string) => {
-        const url = "http://localhost:3000/usuarios?correo="+correo
+    const httpObtenerUsuario = async (correo:string, contraseña:string) => {
+        const url = URL_BACKEND+"/usuarios?correo="+correo
         const resp = await fetch(url)
         const data = await resp.json()
           if ( data.msg == "") {
             const Usuario = data.usuarios[0]
             if(Usuario!=null){
-                setUsuarioLogin(Usuario)}
+                setUsuarioLogin({
+                    id: Usuario.id,
+                    nombre: Usuario.nombre,
+                    contraseña: contraseña,
+                    correo: correo,
+                    rol: Usuario.rol,
+                    Rol: Usuario.Rol
+                })
+                const usuarioData = sessionStorage.getItem("Usuario");
+                let userData = JSON.parse(usuarioData!);
+                userData.contraseña = contraseña
+                sessionStorage.setItem("Usuario", JSON.stringify(userData));
+                console.log("✅ Datos reguardados en sessionStorage:", sessionStorage.getItem("Usuario"));
+            }
             
           }else {
               console.error(`Error al obtener usuario: ${data.msg}`)
@@ -50,7 +69,7 @@ const Configuracion = () =>{
         }
     
     const httpEditarUsuario = async (id : number, nombreUsuario: string, correo: string, contraseña: string) => {
-        const url = "http://localhost:3000/usuarios?id="+id
+        const url = URL_BACKEND+"/usuarios?id="+id
         const resp = await fetch(url, {
             method: "PUT",
             body: JSON.stringify({
@@ -70,6 +89,7 @@ const Configuracion = () =>{
         sessionStorage.setItem("Usuario", JSON.stringify(usuarioActual));
         if (data.msg === "") {
             setShowModal(false)
+            props.ActualizarNombre()
         } else {
             console.error(`Error al editar usuario: ${data.msg}`)
         }
@@ -126,9 +146,9 @@ const Configuracion = () =>{
             setShowModal(false)
             } }
             Usuario={usuarioLogin}
-            EditarUsuario={ async (id:number,nombreUsuario : string, correo : string, contraseña : string) => {
+            EditarUsuario={ async (id : number,nombreUsuario : string, correo : string, contraseña : string) => {
                 await httpEditarUsuario(id, nombreUsuario, correo, contraseña)
-                await httpObtenerUsuario(correo)}}/>
+                await httpObtenerUsuario(correo, contraseña)}}/>
         </div>
         
 

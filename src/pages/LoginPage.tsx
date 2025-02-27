@@ -1,23 +1,20 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:3000"
+
 const LoginPage = () => {
     const navigate = useNavigate();
     const [usuario, setUsuario] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<string>("");
-
    
     useEffect(() => {
         const usuarioData = sessionStorage.getItem("Usuario");
 
         if (usuarioData) {
             const userData = JSON.parse(usuarioData);
-            if (userData.rol === 1) {
-                navigate("/MainPage_usuario");
-            } else if (userData.rol === 2) {
-                navigate("/MainPage_admin");
-            }
+            loginHandler(userData.correo, userData.contraseña)
         }
     }, [navigate]); 
 
@@ -27,17 +24,19 @@ const LoginPage = () => {
         const userData = { correo, contraseña };
 
         try {
-            const resp = await fetch("http://localhost:3000/usuarios/login", {
+            const resp = await fetch(URL_BACKEND + "/usuarios/login", {
                 method: "POST",
                 body: JSON.stringify(userData),
                 headers: { "Content-Type": "application/json" },
             });
 
             const data = await resp.json();
-            console.log("Respuesta del servidor:", data);
+            console.log("Respuesta del servidor: ", data);
+            const dataString = JSON.stringify(data)
+            console.log("Respuesta del servido JSON.stringify: ", dataString)
 
             if (resp.ok) { 
-                sessionStorage.setItem("Usuario", JSON.stringify(data));
+                sessionStorage.setItem("Usuario", dataString);
                 console.log("✅ Datos guardados en sessionStorage:", sessionStorage.getItem("Usuario"));
                 
                 if (data.rol === 1) {

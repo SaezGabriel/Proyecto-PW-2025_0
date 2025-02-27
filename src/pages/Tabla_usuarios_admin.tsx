@@ -22,7 +22,7 @@ export interface Rol {
     listaElementos : Usuarios[];
     openModal : () => void
     openModalAgregar : () => void  
-    ObtenerUsuario : () => void
+    ObtenerUsuarios : () => void
     ObtenerxFiltro : (rol : number) => void
     rol : number
     FiltroActivo : boolean
@@ -47,8 +47,10 @@ const TablaUsuario = (props : usuarioProps) => {
   const[showEditar, setEditar]=useState<boolean>(false)
   const[showBorrar, setBorrar]=useState<boolean>(false)
 
+  const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:3000"
+
   const httpEditarUsuario = async (id : number, nombreUsuario: string, correo: string, contraseña: string, rol: number) => {
-    const url = "http://localhost:3000/usuarios?id="+id
+    const url = URL_BACKEND+"/usuarios?id="+id
     const resp = await fetch(url, {
       method: "PUT",
       body: JSON.stringify({
@@ -66,7 +68,7 @@ const TablaUsuario = (props : usuarioProps) => {
       if (props.FiltroActivo && props.rol !== null) {
         await props.ObtenerxFiltro(props.rol);
       } else {
-          await props.ObtenerUsuario()
+          await props.ObtenerUsuarios()
       }
       setEditar(false)
     } else {
@@ -75,7 +77,7 @@ const TablaUsuario = (props : usuarioProps) => {
   }
   
   const httpEliminarUsuario = async (id : number) => {
-    const url = "http://localhost:3000/usuarios?id=" + id
+    const url = URL_BACKEND+"/usuarios?id=" + id
     const resp = await fetch(url, {
         method : "DELETE"
     })
@@ -84,7 +86,7 @@ const TablaUsuario = (props : usuarioProps) => {
       if (props.FiltroActivo && props.rol !== null) {
         await props.ObtenerxFiltro(props.rol);
       } else {
-          await props.ObtenerUsuario()
+          await props.ObtenerUsuarios()
       }
         setBorrar(false)
     }else {
@@ -93,7 +95,7 @@ const TablaUsuario = (props : usuarioProps) => {
   }
 
   useEffect( ()=> {
-    props.ObtenerUsuario()
+    props.ObtenerUsuarios()
     
   },[!props.FiltroActivo])
 

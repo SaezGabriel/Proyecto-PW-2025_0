@@ -6,6 +6,8 @@ import Configuracion from "./Configuracion";
 import Presupuesto from "./Presupuesto";
 import { useNavigate} from "react-router-dom";
 
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:3000"
+
 // Registrar los componentes necesarios de Chart.js
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
@@ -14,6 +16,8 @@ const MainPage_usuario=() => {
   const [activeSection, setActiveSection] = useState("dashboard"); // Estado para controlar la sección activa
   const [nombreUsuario, setNombreUsuario] = useState<string>("");
   const [UsuarioId, setUsuarioId] = useState<number>(0)
+  const [actualizarnombre,setActualizarNombre] = useState<boolean>(false)
+
   useEffect(() => {
       const usuarioData = sessionStorage.getItem("Usuario");
   
@@ -23,7 +27,40 @@ const MainPage_usuario=() => {
           setNombreUsuario(userData.nombre); 
       }
   }, []);
+
+  const ActualizarNombre =(()=>{
+    setActualizarNombre(true)
+})
+
+const httpLogOut = async (id:number) => {
+
+    const url = URL_BACKEND + "/access-logs/logOut" 
+    const resp = await fetch(url , {
+      method: "POST",
+      body: JSON.stringify({
+        id : id
+      }),
+      headers : {
+        "Content-Type": "application/json",
+      }
+    })
+    const data = await resp.json()
+        if (data.msg == "") {
+            console.log("LogOut registrado")
+        }
   
+}
+
+useEffect(() => {
+  const usuarioData = sessionStorage.getItem("Usuario");
+
+  if (usuarioData) {
+      const userData = JSON.parse(usuarioData);
+      setNombreUsuario(userData.nombre); 
+  }
+  setActualizarNombre(false)
+}, [actualizarnombre]);
+
   // Contenido dinámico que se mostrará en el main content
   const Opciones = () => {
     switch (activeSection) {
@@ -34,7 +71,7 @@ const MainPage_usuario=() => {
       case "presupuestos":
         return <Presupuesto/>;
       case "configuracion":
-        return <Configuracion/>;
+        return <Configuracion ActualizarNombre = {ActualizarNombre} />;
       
     }
   };
@@ -110,6 +147,7 @@ const MainPage_usuario=() => {
             <button
               className="btn w-100 text-start mt-4"
               onClick={() => {
+                httpLogOut(UsuarioId)
                 sessionStorage.removeItem("Usuario"); 
                 navigate("/"); 
               }}
