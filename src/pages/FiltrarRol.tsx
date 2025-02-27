@@ -1,13 +1,25 @@
+import { useState } from "react";
+import { Rol } from "./Tabla_usuarios_admin";
+
+
+
 interface FiltrarRolProps {
   showModal : boolean;
   closeModal : () => void
+  Roles : Rol[]
+  FiltrarUsuario : (rol : number) => void
 }
 
 
 const FiltrarRol = (props : FiltrarRolProps) => {
-   
 
-  
+            const [rol, setRol] = useState<number>(1)
+
+            const rolChangeHandler = (e : React.ChangeEvent<HTMLSelectElement>) => {
+              setRol(parseInt(e.target.value))
+          }
+
+        
              return <div className={props.showModal === true ? "modal fade show d-block bg-dark bg-opacity-50" : "modal fade"}>
              <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: '400px' }}> 
                <div className="modal-content" style={{ borderRadius: '20px' }}>
@@ -24,15 +36,20 @@ const FiltrarRol = (props : FiltrarRolProps) => {
                          <label className="fw-bold fs-5">Rol</label>
                        </div>
                        <div className="col-md-6">
-                         <select id="rol" name="rol" className="form-select">
-                           <option value="admin">Admin</option>
-                           <option value="user">User</option>
+                         <select id="rol" name="rol" className="form-select" value={rol} onChange={rolChangeHandler}>
+                         {
+                                        props.Roles.map((cat : Rol) => {
+                                            return <option value={cat.id}>
+                                                {cat.nombre}
+                                            </option>
+                                        })
+                                    }
                          </select>
                        </div>
                      </div>
                      <div className="modal-footer justify-content-center">
                        <button type="button" className="btn btn-primary me-4" data-bs-dismiss="modal" id="but_agregar" onClick={() => {props.closeModal()}}>Cancelar</button>
-                       <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => {props.closeModal()}}>Aceptar</button>
+                       <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => {props.FiltrarUsuario(rol)}}>Aceptar</button>
                      </div>
                    </form>
                  </div>

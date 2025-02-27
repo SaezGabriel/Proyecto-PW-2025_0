@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Dashboard from "./Dashboard_user";
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import PaginaEgresos from "./PaginaEgresos";
@@ -12,6 +12,32 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const MainPage_usuario=() => {
   let navigate = useNavigate()
   const [activeSection, setActiveSection] = useState("dashboard"); // Estado para controlar la sección activa
+  const [nombreUsuario, setNombreUsuario] = useState<string>("");
+  const [UsuarioId, setUsuarioId] = useState<number>(0)
+  const [actualizarnombre,setActualizarNombre] = useState<boolean>(false)
+  useEffect(() => {
+      const usuarioData = sessionStorage.getItem("Usuario");
+  
+      if (usuarioData) {
+          const userData = JSON.parse(usuarioData);
+          setUsuarioId(userData.id)
+          setNombreUsuario(userData.nombre); 
+      }
+  }, []);
+
+  const ActualizarNombre =(()=>{
+    setActualizarNombre(true)
+})
+
+useEffect(() => {
+  const usuarioData = sessionStorage.getItem("Usuario");
+
+  if (usuarioData) {
+      const userData = JSON.parse(usuarioData);
+      setNombreUsuario(userData.nombre); 
+  }
+  setActualizarNombre(false)
+}, [actualizarnombre]);
 
   // Contenido dinámico que se mostrará en el main content
   const Opciones = () => {
@@ -19,11 +45,11 @@ const MainPage_usuario=() => {
       case "dashboard":
         return <Dashboard/>;
       case "gastos":
-        return <PaginaEgresos/>;
+        return <PaginaEgresos UsuarioId={UsuarioId}/>;
       case "presupuestos":
         return <Presupuesto/>;
       case "configuracion":
-        return <Configuracion/>;
+        return <Configuracion ActualizarNombre = {ActualizarNombre} />;
       
     }
   };
@@ -36,7 +62,7 @@ const MainPage_usuario=() => {
           <img
             src="https://www.usmagazine.com/wp-content/uploads/2019/10/Will-Smith-Fresh-Prince-Bel-Air-Promo.jpg?quality=78&strip=all" className="rounded-circle usuario-foto" alt="foto-del-usuario"
             style={{ width: "125px", height: "125px" }}/>
-          <h5>Príncipe Fresco</h5>
+            <h5>{nombreUsuario || "Usuario"}</h5> 
         </div>
         <ul className="list-unstyled ps-0">
           <li>
@@ -97,15 +123,18 @@ const MainPage_usuario=() => {
           </li>
           <li>
             <button
-              className={`btn w-100 text-start mt-4 `}
-              onClick={() => {navigate("/")}}
+              className="btn w-100 text-start mt-4"
+              onClick={() => {
+                sessionStorage.removeItem("Usuario"); 
+                navigate("/"); 
+              }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-box-arrow-right col-4" viewBox="0 0 16 16">
-                <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
-                <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
+                <path fillRule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"/>
+                <path fillRule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z"/>
               </svg>
               Salir
-            </button>
+           </button>
           </li>
         </ul>
       </div>

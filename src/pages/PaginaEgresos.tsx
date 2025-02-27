@@ -1,51 +1,178 @@
 import TablaEgresos from "./TablaEgresos"
 import AgregarEgresoModal from "./AgregarEgresoModal"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import EditarGastoModal from "./EditarGastoModal";
 import EliminarEgresoModal from "./EliminarEgresoModal";
 import FiltrarEgresoModal from "./FiltrarEgresoModal";
 import ExportarEgresoModal from "./ExportarEgresoModal";
 import AlarmaPresupuesto from "./AlarmaExcesoPresupuesto_usuario"
 
-interface elementosTabla {
-  fecha : string;
-  categoria : string;
-  descripcion : string;
-  monto : string;
-  recursivo : boolean;
+export interface elementosTabla {
+    id : number;
+    UsuarioId : number;
+    monto : number;
+    fecha : string;
+    descripcion : string;
+    recursivo : boolean;
+    categoriaId : number;
+    Categoria : {
+        nombre : string
+    };
 }
 
-const PaginaEgresos = () => {
+export interface elementoAgregar {
+    UsuarioId : number;
+    monto : number;
+    fecha : Date;
+    descripcion : string;
+    recursivo : boolean;
+    categoriaId : number;
+}
+
+export interface Categoria {
+    id : number
+    nombre : string
+}
+
+interface egresosModal {
+    UsuarioId : number;
+}
+
+const URL_BACKEND = import.meta.env.VITE_URL_BACKEND || "http://localhost:3000"
+
+const PaginaEgresos = (props : egresosModal) => {
     const [showModalAgregar, setShowModalAgregar] = useState<boolean>(false)
     const [showModalEliminar, setShowModalEliminar] = useState<boolean>(false)
     const [showModalFiltrar, setShowModalFiltrar] = useState<boolean>(false)
     const [showModalExportar, setShowModalExportar] = useState<boolean>(false)
     const [showModalAlarma, setShowModalAlarma] = useState<boolean>(false)
     const [showModalEditar, setShowModalEditar] = useState<boolean>(false)
-    const [elementoEditar, setElementoEditar] = useState<elementosTabla>({fecha : "", categoria : "", descripcion : "", monto : "", recursivo : false})
+    const [egresos, setEgresos] = useState<elementosTabla[]>([])
+    const usuarioId = props.UsuarioId
+    const [elementoEditar, setElementoEditar] = useState<elementosTabla>({id:0, UsuarioId: 1, monto:29.99, fecha:"", descripcion: "",  recursivo: false, categoriaId: 1,Categoria: {nombre : ""}})
+    
+    const [idEliminar, setIdEliminar] = useState<number>(0)
 
-    const tabla : elementosTabla[] = [
-        { fecha : "12/12/2024", categoria : "Ocio", descripcion : "La Niebla, libro de Steven King", monto : "S/. 29.99", recursivo : false },
-        { fecha : "02/12/2024", categoria : "Servicios", descripcion : "Servicio de Luz", monto : "S/. 229.99", recursivo : true },
-        { fecha : "02/12/2024", categoria : "Servicios", descripcion : "Servicio del agua", monto : "S/. 129.99", recursivo : true },
-        { fecha : "05/12/2024", categoria : "Servicios", descripcion : "Movistar", monto : "S/. 169.99", recursivo : true },
-        { fecha : "05/12/2024", categoria : "Alimentación", descripcion : "Compras del mes", monto : "S/. 369.99", recursivo : true }
-    ]
-
-    const editarElementoTabla = (index : number) => {
-        setElementoEditar(tabla[index])
-        setShowModalEditar(true)
+    const httpObtenerEgresos = async (UsuarioId : number) => {
+        const url = URL_BACKEND + "/egresos/todo/" + UsuarioId
+        const resp = await fetch(url)
+        const data = await resp.json()
+        if (data.msg == "") {
+            const listaEgresos = data.egresos
+            setEgresos(listaEgresos)
+            console.log(listaEgresos)
+        }else {
+            console.error(`Error al obtener Egresos: ${data.msg}`)
+        }
     }
 
-    const agregarElementoTabla = (elem : elementosTabla) => {
-        tabla.push(elem)
+    useEffect( ()=> {
+        console.log("UsuarioId: ",usuarioId)
+        httpObtenerEgresos(usuarioId)
+    },[])
+
+    const httpBuscarEgreso = async (id: number) => {
+        try {
+            const url = URL_BACKEND + "/egresos/" + id
+            const resp = await fetch(url)
+            const data = await resp.json();
+    
+            if (data.msg == "") { 
+                console.log("Egreso encontrado: ", data.egreso)
+                const nuevoElemento = {
+                    ...data.egreso
+                }
+                setElementoEditar(nuevoElemento)
+                setShowModalEditar(true)
+            } else {
+                console.error(`No se encontró el egreso con ID: ${id}`)
+            }
+        } catch (error) {
+            console.error(`Error al obtener el egreso`)
+        }
+    }
+
+    const httpAgregarEgreso = async (nuevoEgreso : elementoAgregar) => {
+        console.log(nuevoEgreso)
+        const url = URL_BACKEND + "/egresos"
+        const resp = await fetch(url, {
+            method : "POST",
+            body : JSON.stringify({
+                UsuarioId : usuarioId,
+                monto : nuevoEgreso.monto,
+                fecha : nuevoEgreso.fecha,
+                descripcion : nuevoEgreso.descripcion,
+                recurrente : nuevoEgreso.recursivo,
+                categoriaId : nuevoEgreso.categoriaId
+            }),
+            headers : {
+                "Content-Type": "application/json",
+            }
+        })
+        const data = await resp.json()
+        if (data.msg == "") {
+            await httpObtenerEgresos(usuarioId)
+            setShowModalAgregar(false)
+        }
+    }
+
+    const httpEditarEgreso = async (nuevoEgreso : elementoAgregar, id : number) => {
+        console.log(nuevoEgreso)
+        const url = URL_BACKEND + "/egresos/editar"
+        const resp = await fetch(url, {
+            method : "POST",
+            body : JSON.stringify({
+                id : id,
+                monto : nuevoEgreso.monto,
+                fecha : nuevoEgreso.fecha,
+                descripcion : nuevoEgreso.descripcion,
+                recurrente : nuevoEgreso.recursivo,
+                categoriaId : nuevoEgreso.categoriaId
+            }),
+            headers : {
+                "Content-Type": "application/json",
+            }
+        })
+        const data = await resp.json()
+        if (data.msg == "") {
+            await httpObtenerEgresos(usuarioId)
+            setShowModalEditar(false)
+        }
+    }
+
+    const httpEliminarEgreso = async (id : number) => {
+        const url = URL_BACKEND + "/egresos?id=" + id
+        const resp = await fetch(url, {
+            method : "DELETE"
+        })
+        const data = await resp.json()
+        if (data.msg == "") {
+            httpObtenerEgresos(usuarioId)
+            setShowModalEliminar(false)
+        }else {
+            console.error(`Error al eliminar un egreso: ${data.msg}`)
+        }
     }
 
     return <>
-        <TablaEgresos listaElementos={tabla} openModalFiltrar={() => {setShowModalFiltrar(true)}} openModalAgregar={() => { setShowModalAgregar(true); } } openModalEditar={(index: number) => { editarElementoTabla(index); } } openModalEliminar={(index : number) => {setShowModalEliminar(true)}} openModalExportar={() => { setShowModalExportar(true); } } />
-        <AgregarEgresoModal showModal={showModalAgregar} closeModal={() => {setShowModalAgregar(false)}} />
-        <EditarGastoModal showModal={showModalEditar} closeModal={() => {setShowModalEditar(false)}} elemento={elementoEditar} />
-        <EliminarEgresoModal showModal={showModalEliminar} closeModal={() => {setShowModalEliminar(false)}} />
+        <TablaEgresos listaElementos={egresos} openModalFiltrar={() => {setShowModalFiltrar(true)}} openModalAgregar={() => { setShowModalAgregar(true); } } 
+            openModalEditar={(index: number) => { httpBuscarEgreso(index); }} 
+            openModalEliminar={(index : number) => { 
+                setIdEliminar(index)
+                setShowModalEliminar(true) 
+            }} 
+            openModalExportar={() => { setShowModalExportar(true); }} />
+        <AgregarEgresoModal showModal={showModalAgregar} closeModal={() => {setShowModalAgregar(false)}} 
+            handleAgregarEgreso={(elem : elementoAgregar) => {
+                httpAgregarEgreso(elem)
+            }} />
+        <EditarGastoModal showModal={showModalEditar} closeModal={() => {setShowModalEditar(false)}} elemento={elementoEditar} 
+            handleEditarEgreso={(elem : elementoAgregar , id : number) => {
+                httpEditarEgreso(elem, id)
+            }} />
+        <EliminarEgresoModal showModal={showModalEliminar} idEliminar={idEliminar} 
+            eliminarElem={(id : number) => {httpEliminarEgreso(id)}} 
+            closeModal={() => {setShowModalEliminar(false)}} />
         <FiltrarEgresoModal showModal={showModalFiltrar} closeModal={() => {setShowModalFiltrar(false)}}/>
         <ExportarEgresoModal showModal ={showModalExportar} closeModal={()=>{setShowModalExportar(false)}}/> 
         
@@ -54,8 +181,8 @@ const PaginaEgresos = () => {
                             }}>Alarma</button>
         <AlarmaPresupuesto showModal={ showModalAlarma } 
             closeModal={ () => {
-            setShowModalAlarma(false)
-            } }/>
+                setShowModalAlarma(false)
+            }}/>
     </>
 }
 

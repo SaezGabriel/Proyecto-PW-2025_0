@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Rol } from "./Tabla_usuarios_admin";
 
 interface FormularioUsuarioProps {
@@ -7,8 +7,6 @@ interface FormularioUsuarioProps {
     roles : Rol[]
     GuardarUsuario : (nombreUsuario : string, correo : string, contraseña : string, rol : number) => void
 }
-
-
 
 const RegistroUsuario = (props : FormularioUsuarioProps) => {
 
@@ -32,6 +30,15 @@ const RegistroUsuario = (props : FormularioUsuarioProps) => {
     const rolChangeHandler = (e : React.ChangeEvent<HTMLSelectElement>) => {
         setRol(parseInt(e.target.value))
     }
+
+    useEffect(()=>{
+        if(props.showModal)
+            setNombreUsuario("")
+            setCorreo("")
+            setContraseña("")
+            setRol(1)
+    },[props.showModal])
+
     return (
         <div className={props.showModal == true ? "modal fade show d-block bg-dark bg-opacity-50" : "modal fade"}>
             <div className="modal-dialog modal-dialog-centered">
