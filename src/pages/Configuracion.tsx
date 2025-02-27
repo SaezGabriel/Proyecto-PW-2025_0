@@ -41,7 +41,7 @@ const Configuracion = (props:ConfiguracionProps) =>{
     
 
     const httpObtenerUsuario = async (correo:string) => {
-        const url = URL_BACKEND+"/usuarios?correo="+correo
+        const url = "http://localhost:3000/usuarios?correo="+correo
         const resp = await fetch(url)
         const data = await resp.json()
           if ( data.msg == "") {
