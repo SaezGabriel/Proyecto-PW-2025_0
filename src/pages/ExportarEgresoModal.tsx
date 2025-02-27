@@ -1,6 +1,8 @@
 interface ExportarEgresoModalProps {
     showModal : boolean;
-    closeModal : () => void
+    closeModal : () => void;
+    exportarLista_csv : () => void;
+    exportarLista_pdf : () => void;
 }
 
 const ExportarEgresoModal = (props : ExportarEgresoModalProps) => {
@@ -13,8 +15,8 @@ const ExportarEgresoModal = (props : ExportarEgresoModalProps) => {
                         </div>
                         <div className="modal-body">
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => {props.closeModal()}} >CSV</button>
-                                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => {props.closeModal()}} >PDF</button>
+                                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => {props.exportarLista_csv()}} >CSV</button>
+                                    <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => {props.exportarLista_pdf()}} >PDF</button>
                                 </div>
                         </div>
                     </div>
